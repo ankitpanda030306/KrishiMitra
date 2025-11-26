@@ -3,6 +3,7 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/lib/i18n';
 import { UserProvider } from '@/lib/user';
+import { ThemeProvider } from '@/components/providers/theme-provider';
 
 export const metadata: Metadata = {
   title: 'Krishi Mitra',
@@ -25,12 +26,19 @@ export default function RootLayout({
         />
       </head>
       <body className="font-body antialiased">
-        <LanguageProvider>
-          <UserProvider>
-            {children}
-            <Toaster />
-          </UserProvider>
-        </LanguageProvider>
+        <ThemeProvider
+            attribute="class"
+            defaultTheme="system"
+            enableSystem
+            disableTransitionOnChange
+        >
+            <LanguageProvider>
+              <UserProvider>
+                {children}
+                <Toaster />
+              </UserProvider>
+            </LanguageProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -622,6 +622,57 @@ export const translations = {
     hi: 'आपकी प्रोफ़ाइल जानकारी सफलतापूर्वक अपडेट कर दी गई है।',
     or: 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ସୂଚନା ସଫଳତାର ସହିତ ଅପଡେଟ୍ ହୋଇଛି |',
   },
+  // Settings Page
+  settingsDescription: {
+    en: 'Manage your application settings.',
+    hi: 'अपनी एप्लिकेशन सेटिंग्स प्रबंधित करें।',
+    or: 'ଆପଣଙ୍କ ଆପ୍ଲିକେସନ୍ ସେଟିଂସମୂହ ପରିଚାଳନା କରନ୍ତୁ |',
+  },
+  appearance: {
+    en: 'Appearance',
+    hi: 'दिखावट',
+    or: 'ଦୃଶ୍ୟ',
+  },
+  appearanceDescription: {
+    en: 'Customize the look and feel of the app.',
+    hi: 'ऐप के रंगरूप को अनुकूलित करें।',
+    or: 'ଆପର ଲୁକ୍ ଏବଂ ଅନୁଭବକୁ କଷ୍ଟୋମାଇଜ୍ କରନ୍ତୁ |',
+  },
+  theme: {
+    en: 'Theme',
+    hi: 'थीम',
+    or: 'ଥିମ୍',
+  },
+  themeDescription: {
+    en: 'Select the theme for the application.',
+    hi: 'एप्लिकेशन के लिए थीम चुनें।',
+    or: 'ଆପ୍ଲିକେସନ୍ ପାଇଁ ଥିମ୍ ଚୟନ କରନ୍ତୁ |',
+  },
+  light: {
+    en: 'Light',
+    hi: 'लाइट',
+    or: 'ଆଲୋକ',
+  },
+  dark: {
+    en: 'Dark',
+    hi: 'डार्क',
+    or: 'ଅନ୍ଧାର',
+  },
+  system: {
+    en: 'System',
+    hi: 'सिस्टम',
+    or: 'ସିଷ୍ଟମ୍',
+  },
+  language: {
+    en: 'Language',
+    hi: 'भाषा',
+    or: 'ଭାଷା',
+  },
+  languageDescription: {
+    en: 'Choose the language for the application.',
+    hi: 'एप्लिकेशन के लिए भाषा चुनें।',
+    or: 'ଆପ୍ଲିକେସନ୍ ପାଇଁ ଭାଷା ଚୟନ କରନ୍ତୁ |',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;
