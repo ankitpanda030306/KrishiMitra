@@ -1,3 +1,4 @@
+
 export type Language = 'en' | 'hi' | 'or';
 
 export const translations = {
@@ -198,6 +199,127 @@ export const translations = {
     hi: 'भंडारण निर्देश',
     or: 'ସଂରକ୍ଷଣ ନିର୍ଦ୍ଦେଶାବଳୀ',
   },
+  uploadFile: {
+    en: 'Upload File',
+    hi: 'फ़ाइल अपलोड करें',
+    or: 'ଫାଇଲ୍ ଅପଲୋଡ୍ କରନ୍ତୁ',
+  },
+  useCamera: {
+    en: 'Use Camera',
+    hi: 'कैमरे का उपयोग करें',
+    or: 'କ୍ୟାମେରା ବ୍ୟବହାର କରନ୍ତୁ',
+  },
+  cropToBeAnalyzed: {
+    en: 'Crop to be analyzed',
+    hi: 'विश्लेषण की जाने वाली फसल',
+    or: 'ବିଶ୍ଳେଷଣ କରାଯିବାକୁ ଥିବା ଫସଲ',
+  },
+  imageFile: {
+    en: 'Image File',
+    hi: 'छवि फ़ाइल',
+    or: 'ପ୍ରତିଛବି ଫାଇଲ୍',
+  },
+  cameraAccessRequired: {
+    en: 'Camera Access Required',
+    hi: 'कैमरा एक्सेस आवश्यक है',
+    or: 'କ୍ୟାମେରା ପ୍ରବେଶ ଆବଶ୍ୟକ',
+  },
+  cameraAccessDescription: {
+    en: 'Please allow camera access to use this feature. Check your browser settings.',
+    hi: 'कृपया इस सुविधा का उपयोग करने के लिए कैमरा एक्सेस की अनुमति दें। अपनी ब्राउज़र सेटिंग्स जांचें।',
+    or: 'ଏହି ବୈଶିଷ୍ଟ୍ୟ ବ୍ୟବହାର କରିବାକୁ ଦୟାକରି କ୍ୟାମେରା ପ୍ରବେଶ ଅନୁମତି ଦିଅନ୍ତୁ | ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହ ଯାଞ୍ଚ କରନ୍ତୁ |',
+  },
+  capturePhoto: {
+    en: 'Capture Photo',
+    hi: 'तस्वीर खींचो',
+    or: 'ଫଟୋ କ୍ୟାପଚର୍ କରନ୍ତୁ',
+  },
+  selectedImage: {
+    en: 'Selected Image',
+    hi: 'चयनित छवि',
+    or: 'ଚୟନିତ ପ୍ରତିଛବି',
+  },
+  capturedCrop: {
+    en: 'Captured crop',
+    hi: 'कैप्चर की गई फसल',
+    or: 'କ୍ୟାପଚର୍ ହୋଇଥିବା ଫସଲ',
+  },
+  analysis: {
+    en: 'Analysis',
+    hi: 'विश्लेषण',
+    or: 'ବିଶ୍ଳେଷଣ',
+  },
+  identifiedCrop: {
+    en: 'Identified Crop',
+    hi: 'पहचानी गई फसल',
+    or: 'ଚିହ୍ନଟ ହୋଇଥିବା ଫସଲ',
+  },
+  noDefectsFound: {
+    en: 'No defects found.',
+    hi: 'कोई दोष नहीं मिला।',
+    or: 'କୌଣସି ତ୍ରୁଟି ମିଳିଲା ନାହିଁ |',
+  },
+  sorting: {
+    en: 'Sorting',
+    hi: 'छंटाई',
+    or: 'କ୍ରମବଦ୍ଧ',
+  },
+  storage: {
+    en: 'Storage',
+    hi: 'भंडारण',
+    or: 'ସଂରକ୍ଷଣ',
+  },
+  cameraNotSupported: {
+    en: 'Camera Not Supported',
+    hi: 'कैमरा समर्थित नहीं है',
+    or: 'କ୍ୟାମେରା ସମର୍ଥିତ ନୁହେଁ',
+  },
+  cameraNotSupportedDescription: {
+    en: 'Your browser does not support camera access.',
+    hi: 'आपका ब्राउज़र कैमरा एक्सेस का समर्थन नहीं करता है।',
+    or: 'ଆପଣଙ୍କ ବ୍ରାଉଜର୍ କ୍ୟାମେରା ପ୍ରବେଶକୁ ସମର୍ଥନ କରେ ନାହିଁ |',
+  },
+  cameraAccessDeniedTitle: {
+    en: 'Camera Access Denied',
+    hi: 'कैमरा एक्सेस अस्वीकृत',
+    or: 'କ୍ୟାମେରା ପ୍ରବେଶ ଅସ୍ୱୀକୃତ',
+  },
+  cameraAccessDeniedDescription: {
+    en: 'Please enable camera permissions in your browser settings to use this feature.',
+    hi: 'कृपया इस सुविधा का उपयोग करने के लिए अपनी ब्राउज़र सेटिंग्स में कैमरा अनुमतियों को सक्षम करें।',
+    or: 'ଏହି ବୈଶିଷ୍ଟ୍ୟ ବ୍ୟବହାର କରିବାକୁ ଦୟାକରି ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହରେ କ୍ୟାମେରା ଅନୁମତି ସକ୍ଷମ କରନ୍ତୁ |',
+  },
+  analysisErrorTitle: {
+    en: 'Analysis Error',
+    hi: 'विश्लेषण त्रुटि',
+    or: 'ବିଶ୍ଳେଷଣ ତ୍ରୁଟି',
+  },
+  analysisErrorDescription: {
+    en: 'Could not analyze the crop image.',
+    hi: 'फसल की छवि का विश्लेषण नहीं किया जा सका।',
+    or: 'ଫସଲ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ କରାଯାଇପାରିଲା ନାହିଁ |',
+  },
+  sortingErrorTitle: {
+    en: 'Sorting Error',
+    hi: 'छँटाई त्रुटि',
+    or: 'କ୍ରମବଦ୍ଧ ତ୍ରୁଟି',
+  },
+  sortingErrorDescription: {
+    en: 'Could not get sorting recommendations.',
+    hi: 'छँटाई की सिफारिशें नहीं मिल सकीं।',
+    or: 'କ୍ରମବଦ୍ଧ ସୁପାରିଶ ମିଳିପାରିଲା ନାହିଁ |',
+  },
+  storageErrorTitle: {
+    en: 'Storage Error',
+    hi: 'भंडारण त्रुटि',
+    or: 'ସଂରକ୍ଷଣ ତ୍ରୁଟି',
+  },
+  storageErrorDescription: {
+    en: 'Could not get storage instructions.',
+    hi: 'भंडारण निर्देश नहीं मिल सके।',
+    or: 'ସଂରକ୍ଷଣ ନିର୍ଦ୍ଦେଶାବଳୀ ମିଳିପାରିଲା ନାହିଁ |',
+  },
+
 
   // Market Connect Page
   marketConnectDescription: {
@@ -359,13 +481,28 @@ export const translations = {
   },
   fungalBlight: {
     en: 'Fungal Blight',
-    hi: 'फफूंदनाशक तुषार',
+    hi: 'फंगल ब्लाइट',
     or: 'କବକୀୟ କ୍ଷୟ',
   },
   locustSwarm: {
     en: 'Locust Swarm',
     hi: 'टिड्डियों का झुंड',
     or: 'ପଙ୍ଗପାଳ ଦଳ',
+  },
+  whiteflies: {
+    en: 'Whiteflies',
+    hi: 'सफ़ेद मक्खी',
+    or: 'ଧଳା ମାଛି',
+  },
+  aphids: {
+    en: 'Aphids',
+    hi: 'एफिड्स',
+    or: 'ଆଫିଡସ୍',
+  },
+  critical: {
+    en: 'Critical',
+    hi: 'गंभीर',
+    or: 'ଗୁରୁତର',
   },
   high: {
     en: 'High',
@@ -442,3 +579,5 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
+
+    

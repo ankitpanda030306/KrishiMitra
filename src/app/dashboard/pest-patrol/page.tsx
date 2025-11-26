@@ -1,3 +1,4 @@
+
 "use client";
 
 import Image from "next/image";
@@ -6,12 +7,13 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { useLanguage } from "@/lib/i18n";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
 import { AlertTriangle, MapPin, Clock } from "lucide-react";
+import type { TranslationKey } from "@/lib/i18n/translations";
 
 const mockIncidents = [
-    { id: 1, pest: 'Aphids', location: 'Near Highway 5', time: '2 hours ago', severity: 'High' },
-    { id: 2, pest: 'Fungal Blight', location: 'West Fields', time: '8 hours ago', severity: 'Medium' },
-    { id: 3, pest: 'Whiteflies', location: 'Greenhouse 3', time: '1 day ago', severity: 'Low' },
-    { id: 4, pest: 'Locust Swarm', location: 'Eastern Valley', time: '2 days ago', severity: 'Critical' },
+    { id: 1, pest: 'aphids' as TranslationKey, location: 'Near Highway 5', time: '2 hours ago', severity: 'high' as TranslationKey },
+    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'West Fields', time: '8 hours ago', severity: 'medium' as TranslationKey },
+    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Greenhouse 3', time: '1 day ago', severity: 'low' as TranslationKey },
+    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Eastern Valley', time: '2 days ago', severity: 'critical' as TranslationKey },
 ];
 
 export default function PestPatrolPage() {
@@ -59,7 +61,7 @@ export default function PestPatrolPage() {
                         <li key={incident.id} className="p-3 rounded-lg border flex flex-col sm:flex-row sm:items-start gap-4">
                             <AlertTriangle className="h-8 w-8 text-destructive flex-shrink-0 mt-1" />
                             <div className="flex-1">
-                                <p className="font-bold text-lg">{incident.pest}</p>
+                                <p className="font-bold text-lg">{t(incident.pest)}</p>
                                 <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <MapPin className="h-4 w-4" />
                                     <span>{incident.location}</span>
@@ -70,7 +72,7 @@ export default function PestPatrolPage() {
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm font-semibold text-destructive">{incident.severity}</p>
+                                <p className="text-sm font-semibold text-destructive">{t(incident.severity)}</p>
                             </div>
                         </li>
                     ))}
@@ -91,3 +93,5 @@ export default function PestPatrolPage() {
     </div>
   );
 }
+
+    

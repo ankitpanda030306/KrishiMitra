@@ -55,8 +55,8 @@ export default function ImageAnalysis() {
         setHasCameraPermission(false);
         toast({
           variant: "destructive",
-          title: "Camera Not Supported",
-          description: "Your browser does not support camera access.",
+          title: t('cameraNotSupported'),
+          description: t('cameraNotSupportedDescription'),
         });
         return;
       }
@@ -72,8 +72,8 @@ export default function ImageAnalysis() {
         setHasCameraPermission(false);
         toast({
           variant: 'destructive',
-          title: 'Camera Access Denied',
-          description: 'Please enable camera permissions in your browser settings to use this feature.',
+          title: t('cameraAccessDeniedTitle'),
+          description: t('cameraAccessDeniedDescription'),
         });
       }
     };
@@ -86,7 +86,7 @@ export default function ImageAnalysis() {
         (videoRef.current.srcObject as MediaStream).getTracks().forEach(track => track.stop());
       }
     };
-  }, [inputMode, toast]);
+  }, [inputMode, toast, t]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -137,8 +137,8 @@ export default function ImageAnalysis() {
       setAnalysisResult(result);
       setStep('analyzed');
     } catch (e) {
-      setError('Failed to analyze image.');
-      toast({ variant: 'destructive', title: 'Analysis Error', description: 'Could not analyze the crop image.' });
+      setError(t('analysisErrorDescription'));
+      toast({ variant: 'destructive', title: t('analysisErrorTitle'), description: t('analysisErrorDescription') });
       setStep('idle');
     }
   };
@@ -157,8 +157,8 @@ export default function ImageAnalysis() {
       setSortingResult(result);
       setStep('sorted');
     } catch (e) {
-      setError('Failed to get sorting recommendations.');
-      toast({ variant: 'destructive', title: 'Sorting Error', description: 'Could not get sorting recommendations.' });
+      setError(t('sortingErrorDescription'));
+      toast({ variant: 'destructive', title: t('sortingErrorTitle'), description: t('sortingErrorDescription') });
       setStep('analyzed');
     }
   };
@@ -176,8 +176,8 @@ export default function ImageAnalysis() {
       setStorageResult(result);
       setStep('stored');
     } catch (e) {
-      setError('Failed to get storage instructions.');
-      toast({ variant: 'destructive', title: 'Storage Error', description: 'Could not get storage instructions.' });
+      setError(t('storageErrorDescription'));
+      toast({ variant: 'destructive', title: t('storageErrorTitle'), description: t('storageErrorDescription') });
       setStep('sorted');
     }
   };
@@ -194,8 +194,8 @@ export default function ImageAnalysis() {
         <div className="space-y-4">
           <Tabs value={inputMode} onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
             <TabsList className="grid w-full grid-cols-2">
-              <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" /> Upload File</TabsTrigger>
-              <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4" /> Use Camera</TabsTrigger>
+              <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" /> {t('uploadFile')}</TabsTrigger>
+              <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4" /> {t('useCamera')}</TabsTrigger>
             </TabsList>
             <TabsContent value="upload">
               <Card>
@@ -203,14 +203,14 @@ export default function ImageAnalysis() {
                   <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
                     <Image
                       src={imagePreview || placeholderImage?.imageUrl || ''}
-                      alt="Crop to be analyzed"
+                      alt={t('cropToBeAnalyzed')}
                       fill
                       className="object-contain"
                       data-ai-hint={imagePreview ? 'uploaded crop' : placeholderImage?.imageHint}
                     />
                   </div>
                   <div className="space-y-2">
-                    <Label htmlFor="file-upload" className="block sr-only">Image File</Label>
+                    <Label htmlFor="file-upload" className="block sr-only">{t('imageFile')}</Label>
                     <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full">
                       <Upload className="mr-2 h-4 w-4" />
                       {t('uploadImage')}
@@ -228,9 +228,9 @@ export default function ImageAnalysis() {
                        <div className="w-full h-full flex flex-col items-center justify-center text-center">
                           <Alert variant="destructive">
                               <AlertTriangle className="h-4 w-4" />
-                              <AlertTitle>Camera Access Required</AlertTitle>
+                              <AlertTitle>{t('cameraAccessRequired')}</AlertTitle>
                               <AlertDescription>
-                                Please allow camera access to use this feature. Check your browser settings.
+                                {t('cameraAccessDescription')}
                               </AlertDescription>
                           </Alert>
                        </div>
@@ -240,7 +240,7 @@ export default function ImageAnalysis() {
                   </div>
                   <Button onClick={handleCapture} disabled={hasCameraPermission !== true} className="w-full">
                     <Camera className="mr-2 h-4 w-4" />
-                    Capture Photo
+                    {t('capturePhoto')}
                   </Button>
                 </CardContent>
               </Card>
@@ -249,10 +249,10 @@ export default function ImageAnalysis() {
 
            {imagePreview && (
             <Card>
-                <CardHeader><CardTitle className="text-lg">Selected Image</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-lg">{t('selectedImage')}</CardTitle></CardHeader>
                 <CardContent>
                     <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
-                        <Image src={imagePreview} alt="Captured crop" fill className="object-contain" />
+                        <Image src={imagePreview} alt={t('capturedCrop')} fill className="object-contain" />
                     </div>
                 </CardContent>
             </Card>
@@ -270,14 +270,14 @@ export default function ImageAnalysis() {
             {analysisResult && (
               <Card>
                 <CardHeader>
-                  <CardTitle className="text-lg">Analysis</CardTitle>
+                  <CardTitle className="text-lg">{t('analysis')}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-4">
                     <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-md">
                         <Info className="h-5 w-5 text-secondary-foreground"/>
                         <p className="text-sm text-secondary-foreground">
-                            Identified Crop: <span className="font-bold">{analysisResult.cropType}</span>
+                            {t('identifiedCrop')}: <span className="font-bold">{analysisResult.cropType}</span>
                         </p>
                     </div>
 
@@ -291,7 +291,7 @@ export default function ImageAnalysis() {
                           <Progress value={analysisResult.confidenceScores[i] * 100} />
                         </li>
                       ))}
-                      {analysisResult.defects.length === 0 && <p className="text-muted-foreground">No defects found.</p>}
+                      {analysisResult.defects.length === 0 && <p className="text-muted-foreground">{t('noDefectsFound')}</p>}
                     </ul>
                   </div>
                 </CardContent>
@@ -307,7 +307,7 @@ export default function ImageAnalysis() {
             </Button>
             {sortingResult && (
               <Card>
-                <CardHeader><CardTitle className="text-lg">Sorting</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-lg">{t('sorting')}</CardTitle></CardHeader>
                 <CardContent className="space-y-4">
                   {sortingResult.sortingRecommendations.map((rec, i) => (
                     <div key={i}>
@@ -328,7 +328,7 @@ export default function ImageAnalysis() {
             </Button>
             {storageResult && (
               <Card>
-                <CardHeader><CardTitle className="text-lg">Storage</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-lg">{t('storage')}</CardTitle></CardHeader>
                 <CardContent>
                   <p className="text-sm">{storageResult.storageInstructions}</p>
                 </CardContent>
@@ -340,3 +340,5 @@ export default function ImageAnalysis() {
     </Card>
   );
 }
+
+    

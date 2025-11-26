@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from 'react';
@@ -16,7 +17,7 @@ export default function LocationAdvisories() {
   useEffect(() => {
     const getAdvisories = () => {
       if (!navigator.geolocation) {
-        setError("Geolocation is not supported by your browser.");
+        setError(t('geolocationNotSupported'));
         setLoading(false);
         return;
       }
@@ -26,24 +27,24 @@ export default function LocationAdvisories() {
           try {
             const { latitude, longitude } = position.coords;
             // Pass language to the flow
-            const result = await provideLocationBasedAdvisories({ latitude, longitude });
+            const result = await provideLocationBasedAdvisories({ latitude, longitude, language });
             setAdvisories(result);
           } catch (e) {
-            setError("Failed to fetch advisories from AI service.");
+            setError(t('weatherFetchError'));
             console.error(e);
           } finally {
             setLoading(false);
           }
         },
         () => {
-          setError("Unable to retrieve your location. Please enable location services.");
+          setError(t('locationAccessDenied'));
           setLoading(false);
         }
       );
     };
 
     getAdvisories();
-  }, [language]); // Re-fetch if language changes
+  }, [language, t]); // Re-fetch if language changes
 
   const advisoryItems = [
     {
@@ -79,7 +80,7 @@ export default function LocationAdvisories() {
         {error && (
           <div className="flex flex-col items-center justify-center text-center text-destructive p-4 border border-destructive/50 rounded-lg">
             <AlertTriangle className="w-8 h-8 mb-2" />
-            <p className="font-semibold">Error</p>
+            <p className="font-semibold">{t('error')}</p>
             <p className="text-sm">{error}</p>
           </div>
         )}
@@ -102,3 +103,5 @@ export default function LocationAdvisories() {
     </Card>
   );
 }
+
+    
