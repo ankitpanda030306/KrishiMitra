@@ -29,7 +29,7 @@ export default function MarketConnectPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline">{t('marketConnect')}</h1>
-        <p className="text-muted-foreground">Connect with local businesses and get market insights.</p>
+        <p className="text-muted-foreground">{t('marketConnectDescription')}</p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -40,24 +40,24 @@ export default function MarketConnectPage() {
             </CardHeader>
             <CardContent className="space-y-4">
               <div className="space-y-2">
-                <Label htmlFor="crop">Crop Type</Label>
-                <Input id="crop" placeholder="e.g., Tomatoes" />
+                <Label htmlFor="crop">{t('cropType')}</Label>
+                <Input id="crop" placeholder={t('egTomatoes')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="grade">Grade</Label>
-                <Input id="grade" placeholder="e.g., Premium" />
+                <Label htmlFor="grade">{t('grade')}</Label>
+                <Input id="grade" placeholder={t('egPremium')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="quantity">Quantity (in kg)</Label>
-                <Input id="quantity" type="number" placeholder="e.g., 50" />
+                <Label htmlFor="quantity">{t('quantityInKg')}</Label>
+                <Input id="quantity" type="number" placeholder={t('eg50')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="price">Price per kg (₹)</Label>
-                <Input id="price" type="number" placeholder="e.g., 30" />
+                <Label htmlFor="price">{t('pricePerKg')}</Label>
+                <Input id="price" type="number" placeholder={t('eg30')} />
               </div>
               <div className="space-y-2">
-                <Label htmlFor="notes">Additional Notes</Label>
-                <Textarea id="notes" placeholder="e.g., Organic, available next week" />
+                <Label htmlFor="notes">{t('additionalNotes')}</Label>
+                <Textarea id="notes" placeholder={t('egOrganic')} />
               </div>
               <Button className="w-full">{t('listNewHarvest')}</Button>
             </CardContent>
@@ -68,17 +68,17 @@ export default function MarketConnectPage() {
           <Card>
             <CardHeader>
               <CardTitle>{t('currentMarketListings')}</CardTitle>
-              <CardDescription>Harvests available from farmers in your region.</CardDescription>
+              <CardDescription>{t('harvestsFromRegion')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Crop</TableHead>
-                    <TableHead>Grade</TableHead>
-                    <TableHead>Quantity</TableHead>
-                    <TableHead>Price</TableHead>
-                    <TableHead>Farmer</TableHead>
+                    <TableHead>{t('crop')}</TableHead>
+                    <TableHead>{t('grade')}</TableHead>
+                    <TableHead>{t('quantity')}</TableHead>
+                    <TableHead>{t('price')}</TableHead>
+                    <TableHead>{t('farmer')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -103,15 +103,15 @@ export default function MarketConnectPage() {
            <Card>
             <CardHeader>
               <CardTitle>{t('marketRates')}</CardTitle>
-              <CardDescription>Average market rates based on quality grades.</CardDescription>
+              <CardDescription>{t('averageMarketRates')}</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Crop</TableHead>
-                    <TableHead>Premium Grade</TableHead>
-                    <TableHead>Market-Ready Grade</TableHead>
+                    <TableHead>{t('crop')}</TableHead>
+                    <TableHead>{t('premiumGrade')}</TableHead>
+                    <TableHead>{t('marketReadyGrade')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>

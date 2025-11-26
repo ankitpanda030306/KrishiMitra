@@ -22,7 +22,7 @@ export default function PestPatrolSummary() {
           <Bug className="text-primary" />
           {t('pestPatrolAlerts')}
         </CardTitle>
-        <CardDescription>Recent threats reported near you.</CardDescription>
+        <CardDescription>{t('recentThreats')}</CardDescription>
       </CardHeader>
       <CardContent className="flex-1">
         <ul className="space-y-4">
@@ -33,7 +33,7 @@ export default function PestPatrolSummary() {
               </div>
               <div>
                 <p className="font-semibold">{alert.threat}</p>
-                <p className="text-sm text-muted-foreground">{alert.distance} - Severity: {alert.severity}</p>
+                <p className="text-sm text-muted-foreground">{alert.distance} - {t('severity')}: {alert.severity}</p>
               </div>
             </li>
           ))}

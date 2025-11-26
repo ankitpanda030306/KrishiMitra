@@ -116,13 +116,23 @@ export const translations = {
   },
   pestPatrolAlerts: {
     en: 'PestPatrol Alerts',
-    hi: 'पेस्टपैट्रोल अलर्ट',
-    or: 'ପେଷ୍ଟପାଟ୍ରୋଲ୍ ଆଲର୍ଟ',
+    hi: 'कीट गश्त अलर्ट',
+    or: 'ପୋକ ସଂକ୍ରାନ୍ତ ନିୟନ୍ତ୍ରଣ ଆଲର୍ଟ',
   },
   viewMap: {
     en: 'View Map',
     hi: 'नक्शा देखो',
     or: 'ମାନଚିତ୍ର ଦେଖନ୍ତୁ',
+  },
+  recentThreats: {
+    en: 'Recent threats reported near you.',
+    hi: 'आपके पास रिपोर्ट की गई हाल की धमकियाँ।',
+    or: 'ଆପଣଙ୍କ ନିକଟରେ ରିପୋର୍ଟ ହୋଇଥିବା ସାମ୍ପ୍ରତିକ ବିପଦ |',
+  },
+  severity: {
+    en: 'Severity',
+    hi: 'गंभीरता',
+    or: 'ଗମ୍ଭୀରତା',
   },
 
   // Sidebar
@@ -138,8 +148,8 @@ export const translations = {
   },
   pestPatrol: {
     en: 'PestPatrol',
-    hi: 'पेस्टपैट्रोल',
-    or: 'ପେଷ୍ଟପାଟ୍ରୋଲ୍',
+    hi: 'कीट गश्त',
+    or: 'ପୋକ ସଂକ୍ରାନ୍ତ ନିୟନ୍ତ୍ରଣ',
   },
   settings: {
     en: 'Settings',
@@ -185,32 +195,157 @@ export const translations = {
   },
 
   // Market Connect Page
+  marketConnectDescription: {
+    en: 'Connect with local businesses and get market insights.',
+    hi: 'स्थानीय व्यवसायों से जुड़ें और बाजार की जानकारी प्राप्त करें।',
+    or: 'ସ୍ଥାନୀୟ ବ୍ୟବସାୟ ସହିତ ସଂଯୋଗ କରନ୍ତୁ ଏବଂ ବଜାର ଅନ୍ତର୍ନିହିତ ପାଆନ୍ତୁ |',
+  },
   listNewHarvest: {
     en: 'List New Harvest',
     hi: 'नई फसल की सूची बनाएं',
     or: 'ନୂତନ ଅମଳ ତାଲିକା କରନ୍ତୁ',
+  },
+  cropType: {
+    en: 'Crop Type',
+    hi: 'फसल का प्रकार',
+    or: 'ଫସଲ ପ୍ରକାର',
+  },
+  egTomatoes: {
+    en: 'e.g., Tomatoes',
+    hi: 'जैसे, टमाटर',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, ଟମାଟୋ',
+  },
+  grade: {
+    en: 'Grade',
+    hi: 'ग्रेड',
+    or: 'ଗ୍ରେଡ୍',
+  },
+  egPremium: {
+    en: 'e.g., Premium',
+    hi: 'जैसे, प्रीमियम',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, ପ୍ରିମିୟମ୍',
+  },
+  quantityInKg: {
+    en: 'Quantity (in kg)',
+    hi: 'मात्रा (किलो में)',
+    or: 'ପରିମାଣ (କେଜିରେ)',
+  },
+  eg50: {
+    en: 'e.g., 50',
+    hi: 'जैसे, 50',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, 50',
+  },
+  pricePerKg: {
+    en: 'Price per kg (₹)',
+    hi: 'मूल्य प्रति किलो (₹)',
+    or: 'ପ୍ରତି କେଜି ମୂଲ୍ୟ (₹)',
+  },
+  eg30: {
+    en: 'e.g., 30',
+    hi: 'जैसे, 30',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, 30',
+  },
+  additionalNotes: {
+    en: 'Additional Notes',
+    hi: 'अतिरिक्त टिप्पणी',
+    or: 'ଅତିରିକ୍ତ ଟିପ୍ପଣୀ',
+  },
+  egOrganic: {
+    en: 'e.g., Organic, available next week',
+    hi: 'जैसे, जैविक, अगले सप्ताह उपलब्ध',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, ଜୈବିକ, ଆସନ୍ତା ସପ୍ତାହରେ ଉପଲବ୍ଧ',
   },
   currentMarketListings: {
     en: 'Current Market Listings',
     hi: 'वर्तमान बाजार लिस्टिंग',
     or: 'ସାମ୍ପ୍ରତିକ ବଜାର ତାଲିକା',
   },
+  harvestsFromRegion: {
+    en: 'Harvests available from farmers in your region.',
+    hi: 'आपके क्षेत्र के किसानों से उपलब्ध फसलें।',
+    or: 'ଆପଣଙ୍କ ଅଞ୍ଚଳର କୃଷକମାନଙ୍କଠାରୁ ଉପଲବ୍ଧ ଫସଲ |',
+  },
+  crop: {
+    en: 'Crop',
+    hi: 'फसल',
+    or: 'ଫସଲ',
+  },
+  quantity: {
+    en: 'Quantity',
+    hi: 'मात्रा',
+    or: 'ପରିମାଣ',
+  },
+  price: {
+    en: 'Price',
+    hi: 'मूल्य',
+    or: 'ମୂଲ୍ୟ',
+  },
+  farmer: {
+    en: 'Farmer',
+    hi: 'किसान',
+    or: 'କୃଷକ',
+  },
   marketRates: {
     en: 'Market Rates',
     hi: 'बाजार दर',
     or: 'ବଜାର ଦର',
   },
+  averageMarketRates: {
+    en: 'Average market rates based on quality grades.',
+    hi: 'गुणवत्ता ग्रेड के आधार पर औसत बाजार दर।',
+    or: 'ଗୁଣବତ୍ତା ଗ୍ରେଡ୍ ଉପରେ ଆଧାରିତ ହାରାହାରି ବଜାର ଦର |',
+  },
+  premiumGrade: {
+    en: 'Premium Grade',
+    hi: 'प्रीमियम ग्रेड',
+    or: 'ପ୍ରିମିୟମ୍ ଗ୍ରେଡ୍',
+  },
+  marketReadyGrade: {
+    en: 'Market-Ready Grade',
+    hi: 'बाजार-तैयार ग्रेड',
+    or: 'ବଜାର-ପ୍ରସ୍ତୁତ ଗ୍ରେଡ୍',
+  },
 
   // Pest Patrol Page
+  pestPatrolDescription: {
+    en: 'View community-reported pest outbreaks and report your own.',
+    hi: 'समुदाय द्वारा रिपोर्ट किए गए कीट प्रकोप देखें और अपना खुद का रिपोर्ट करें।',
+    or: 'ସମ୍ପ୍ରଦାୟ-ରିପୋର୍ଟ ହୋଇଥିବା ପୋକ ପ୍ରାଦୁର୍ଭାବ ଦେଖନ୍ତୁ ଏବଂ ନିଜର ରିପୋର୍ଟ କରନ୍ତୁ |',
+  },
   outbreakMap: {
     en: 'Community Outbreak Map',
     hi: 'सामुदायिक प्रकोप मानचित्र',
     or: 'ସମ୍ପ୍ରଦାୟ ପ୍ରାଦୁର୍ଭାବ ମାନଚିତ୍ର',
   },
+  mapComingSoon: {
+    en: 'Map functionality coming soon',
+    hi: 'मानचित्र कार्यक्षमता जल्द ही आ रही है',
+    or: 'ମାନଚିତ୍ର କାର୍ଯ୍ୟକାରିତା ଶୀଘ୍ର ଆସୁଛି',
+  },
+  recentIncidents: {
+    en: 'Recent Incidents',
+    hi: 'हाल की घटनाएँ',
+    or: 'ସାମ୍ପ୍ରତିକ ଘଟଣା',
+  },
+  latestSightings: {
+    en: 'Latest pest sightings from the community.',
+    hi: 'समुदाय से नवीनतम कीट देखे जाने की घटनाएं।',
+    or: 'ସମ୍ପ୍ରଦାୟରୁ ନବୀନତମ ପୋକ ଦୃଶ୍ୟ |',
+  },
   reportIncident: {
     en: 'Report an Incident',
     hi: 'एक घटना की रिपोर्ट करें',
     or: 'ଏକ ଘଟଣାର ରିପୋର୍ଟ କରନ୍ତୁ',
+  },
+  spottedAPest: {
+    en: 'Spotted a pest? Help the community by reporting it.',
+    hi: 'कीट देखा? इसकी रिपोर्ट करके समुदाय की मदद करें।',
+    or: 'ଏକ ପୋକ ଦେଖିଲେ? ଏହାକୁ ରିପୋର୍ଟ କରି ସମ୍ପ୍ରଦାୟକୁ ସାହାଯ୍ୟ କରନ୍ତୁ |',
+  },
+  byReporting: {
+    en: 'By reporting incidents, you help create a proactive defense network for all farmers in your area.',
+    hi: 'घटनाओं की रिपोर्ट करके, आप अपने क्षेत्र के सभी किसानों के लिए एक सक्रिय रक्षा नेटवर्क बनाने में मदद करते हैं।',
+    or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେଟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
   },
 };
 

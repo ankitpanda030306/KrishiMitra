@@ -22,7 +22,7 @@ export default function PestPatrolPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline">{t('pestPatrol')}</h1>
-        <p className="text-muted-foreground">View community-reported pest outbreaks and report your own.</p>
+        <p className="text-muted-foreground">{t('pestPatrolDescription')}</p>
       </div>
 
       <Card>
@@ -40,7 +40,7 @@ export default function PestPatrolPage() {
                         data-ai-hint={mapImage.imageHint}
                     />
                     <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                        <p className="text-white bg-black/50 px-4 py-2 rounded-md">Map functionality coming soon</p>
+                        <p className="text-white bg-black/50 px-4 py-2 rounded-md">{t('mapComingSoon')}</p>
                     </div>
                 </div>
             )}
@@ -50,8 +50,8 @@ export default function PestPatrolPage() {
       <div className="grid gap-8 lg:grid-cols-2">
           <Card>
             <CardHeader>
-                <CardTitle>Recent Incidents</CardTitle>
-                <CardDescription>Latest pest sightings from the community.</CardDescription>
+                <CardTitle>{t('recentIncidents')}</CardTitle>
+                <CardDescription>{t('latestSightings')}</CardDescription>
             </CardHeader>
             <CardContent>
                 <ul className="space-y-4">
@@ -80,10 +80,10 @@ export default function PestPatrolPage() {
            <Card>
             <CardHeader>
                 <CardTitle>{t('reportIncident')}</CardTitle>
-                <CardDescription>Spotted a pest? Help the community by reporting it.</CardDescription>
+                <CardDescription>{t('spottedAPest')}</CardDescription>
             </CardHeader>
             <CardContent className="flex flex-col items-center justify-center text-center h-full space-y-4 p-8">
-                <p>By reporting incidents, you help create a proactive defense network for all farmers in your area.</p>
+                <p>{t('byReporting')}</p>
                 <Button size="lg">{t('reportIncident')}</Button>
             </CardContent>
           </Card>
