@@ -47,18 +47,16 @@ export default function AppSidebar() {
         <SidebarMenu>
           {navItems.map((item) => (
             <SidebarMenuItem key={item.href}>
-              <Link href={item.href} passHref legacyBehavior>
-                <SidebarMenuButton
-                  asChild
-                  isActive={pathname === item.href}
-                  tooltip={{ children: t(item.labelKey as any) }}
-                >
-                  <a>
-                    <item.icon />
-                    <span>{t(item.labelKey as any)}</span>
-                  </a>
-                </SidebarMenuButton>
-              </Link>
+              <SidebarMenuButton
+                asChild
+                isActive={pathname === item.href}
+                tooltip={{ children: t(item.labelKey as any) }}
+              >
+                <Link href={item.href}>
+                  <item.icon />
+                  <span>{t(item.labelKey as any)}</span>
+                </Link>
+              </SidebarMenuButton>
             </SidebarMenuItem>
           ))}
         </SidebarMenu>
@@ -72,14 +70,12 @@ export default function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <Link href="/" passHref legacyBehavior>
-              <SidebarMenuButton asChild tooltip={{ children: t('logout') }}>
-                <a>
-                  <LogOut />
-                  <span>{t('logout')}</span>
-                </a>
-              </SidebarMenuButton>
-            </Link>
+            <SidebarMenuButton asChild tooltip={{ children: t('logout') }}>
+              <Link href="/">
+                <LogOut />
+                <span>{t('logout')}</span>
+              </Link>
+            </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>
       </SidebarFooter>
