@@ -94,6 +94,11 @@ export const translations = {
     hi: 'वॉयस इनपुट का प्रयोग करें',
     or: 'ଭଏସ୍ ଇନପୁଟ୍ ବ୍ୟବହାର କରନ୍ତୁ',
   },
+  use: {
+    en: 'Use',
+    hi: 'उपयोग',
+    or: 'ବ୍ୟବହାର',
+  },
   locationAdvisories: {
     en: 'Location-Based Advisories',
     hi: 'स्थान-आधारित सलाह',
@@ -349,13 +354,13 @@ export const translations = {
   },
   aphidOutbreak: {
     en: 'Aphid Outbreak',
-    hi: 'एफिड का प्रकोप',
+    hi: 'माहू का प्रकोप',
     or: 'ଆଫିଡ୍ ପ୍ରାଦୁର୍ଭାବ',
   },
   fungalBlight: {
     en: 'Fungal Blight',
-    hi: 'फंगल ब्लाइट',
-    or: 'ଫଙ୍ଗାଲ୍ ବ୍ଲାଇଟ୍',
+    hi: 'फफूंदनाशक तुषार',
+    or: 'କବକୀୟ କ୍ଷୟ',
   },
   locustSwarm: {
     en: 'Locust Swarm',
