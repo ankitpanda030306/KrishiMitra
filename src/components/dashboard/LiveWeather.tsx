@@ -20,11 +20,13 @@ export default function LiveWeather() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  // Use the correct environment variable for the API key
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
   useEffect(() => {
+    // This check runs first. If the key is missing, we show a specific error.
     if (!apiKey) {
-      setError("OpenWeather API key is missing.");
+      setError("OpenWeather API key is missing. Please add it to your .env file.");
       setLoading(false);
       return;
     }
@@ -33,7 +35,8 @@ export default function LiveWeather() {
       try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=${language}`);
         if (!response.ok) {
-          throw new Error('Failed to fetch weather data');
+          // This will now only be thrown for actual API errors, not missing keys.
+          throw new Error('Failed to fetch weather data from API.');
         }
         const data = await response.json();
         
@@ -43,9 +46,9 @@ export default function LiveWeather() {
           condition: data.weather[0].description,
           icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
         });
-      } catch (e) {
+      } catch (e: any) {
         console.error(e);
-        setError(t('weatherFetchError'));
+        setError(e.message || t('weatherFetchError'));
       } finally {
         setLoading(false);
       }
@@ -68,6 +71,7 @@ export default function LiveWeather() {
       }
     }
     
+    // We only try to get the position if the apiKey exists.
     getPosition();
 
   }, [t, language, apiKey]);
@@ -85,8 +89,8 @@ export default function LiveWeather() {
         {error && (
           <div className="flex flex-col items-center justify-center text-center text-destructive h-24">
             <AlertTriangle className="w-8 h-8 mb-2" />
-            <p className="font-semibold">{error === 'OpenWeather API key is missing.' ? 'API Key Missing' : t('error')}</p>
-            <p className="text-sm">{error === 'OpenWeather API key is missing.' ? 'Please add your OpenWeatherMap API key to the .env file.' : error}</p>
+            <p className="font-semibold">{t('error')}</p>
+            <p className="text-sm">{error}</p>
           </div>
         )}
         {!loading && weather && (
