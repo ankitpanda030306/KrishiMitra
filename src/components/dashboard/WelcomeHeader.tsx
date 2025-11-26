@@ -1,10 +1,12 @@
 'use client';
 
 import { useLanguage } from '@/lib/i18n';
+import { useUser } from '@/lib/user';
 
 export default function WelcomeHeader() {
   const { t } = useLanguage();
-  const farmerName = "Sanjay"; // This would come from user session in a real app
+  const { name } = useUser();
+  const farmerName = name || "Farmer"; // This would come from user session in a real app
 
   return (
     <div>

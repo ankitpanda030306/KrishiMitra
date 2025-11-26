@@ -16,9 +16,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/lib/i18n';
 import type { Language } from '@/lib/i18n/translations';
 import { User, Lock, Mail, Phone, Home } from 'lucide-react';
+import { useUser } from '@/lib/user';
 
 export function AuthForm() {
   const { language, setLanguage, t } = useLanguage();
+  const { name, setName } = useUser();
   const router = useRouter();
 
   const handleLanguageChange = (value: string) => {
@@ -28,6 +30,14 @@ export function AuthForm() {
   const handleAuthAction = () => {
     // In a real app, you'd handle login/signup logic here.
     // For this demo, we'll just navigate to the dashboard.
+    if (!name) {
+      // A simple check to ensure a name is entered for signup.
+      // In a real app, you'd have more robust validation.
+      const nameInput = document.getElementById('name-signup') as HTMLInputElement;
+      if(nameInput && nameInput.value) {
+        setName(nameInput.value);
+      }
+    }
     router.push('/dashboard');
   };
 
@@ -62,7 +72,7 @@ export function AuthForm() {
         <TabsContent value="signup" className="space-y-4 pt-4">
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="name-signup" placeholder={t('name')} className="pl-9" />
+            <Input id="name-signup" placeholder={t('name')} className="pl-9" onChange={(e) => setName(e.target.value)} />
           </div>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />

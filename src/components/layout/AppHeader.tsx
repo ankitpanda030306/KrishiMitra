@@ -14,9 +14,20 @@ import { Button } from '@/components/ui/button';
 import { LogOut, Settings, User } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
+import { useUser } from '@/lib/user';
 
 export default function AppHeader() {
   const { t } = useLanguage();
+  const { name } = useUser();
+
+  const getInitials = (name: string) => {
+    if (!name) return 'FN';
+    const parts = name.split(' ');
+    if (parts.length > 1) {
+      return parts[0][0] + parts[parts.length - 1][0];
+    }
+    return name.substring(0, 2);
+  }
 
   return (
     <header className="sticky top-0 z-10 flex h-16 items-center gap-4 border-b bg-card px-4 md:px-6">
@@ -28,14 +39,14 @@ export default function AppHeader() {
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
               <Avatar className="h-10 w-10">
                 <AvatarImage src="https://picsum.photos/seed/farmer-avatar/100/100" data-ai-hint="farmer avatar" />
-                <AvatarFallback>FN</AvatarFallback>
+                <AvatarFallback>{getInitials(name)}</AvatarFallback>
               </Avatar>
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">Farmer Name</p>
+                <p className="text-sm font-medium leading-none">{name || 'Farmer Name'}</p>
                 <p className="text-xs leading-none text-muted-foreground">
                   farmer@example.com
                 </p>
