@@ -14,7 +14,7 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/lib/i18n';
-import type { Language } from '@/lib/i18n/translations';
+import type { Language, TranslationKey } from '@/lib/i18n/translations';
 import { User, Lock, Mail, Phone, Home } from 'lucide-react';
 import { useUser } from '@/lib/user';
 
@@ -31,6 +31,15 @@ export function AuthForm() {
   const handleAuthAction = (action: 'login' | 'signup') => {
     if (action === 'signup') {
       setName(signupName);
+      // In a real app, you'd associate this name with the user account.
+      // For this demo, we'll use localStorage to persist the name.
+      localStorage.setItem('krishiMitraUserName', signupName);
+    } else {
+        // On login, try to retrieve the name from localStorage.
+        const storedName = localStorage.getItem('krishiMitraUserName');
+        if (storedName) {
+            setName(storedName);
+        }
     }
     // In a real app, you'd handle login/signup logic here.
     // For this demo, we'll just navigate to the dashboard.

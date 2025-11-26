@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useState, useContext, ReactNode } from 'react';
+import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
 
 interface UserContextType {
   name: string;
@@ -12,8 +12,22 @@ const UserContext = createContext<UserContextType | undefined>(undefined);
 export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [name, setName] = useState<string>('');
 
+  useEffect(() => {
+    // On initial load, try to get the name from localStorage
+    const storedName = localStorage.getItem('krishiMitraUserName');
+    if (storedName) {
+      setName(storedName);
+    }
+  }, []);
+
+
+  const handleSetName = (newName: string) => {
+    setName(newName);
+    localStorage.setItem('krishiMitraUserName', newName);
+  };
+
   return (
-    <UserContext.Provider value={{ name, setName }}>
+    <UserContext.Provider value={{ name, setName: handleSetName }}>
       {children}
     </UserContext.Provider>
   );
