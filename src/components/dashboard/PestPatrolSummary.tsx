@@ -1,0 +1,49 @@
+'use client';
+
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Bug, AlertTriangle } from 'lucide-react';
+import { useLanguage } from '@/lib/i18n';
+import Link from 'next/link';
+
+const mockAlerts = [
+  { id: 1, threat: 'Aphid Outbreak', distance: '5 km away', severity: 'High' },
+  { id: 2, threat: 'Fungal Blight', distance: '12 km away', severity: 'Medium' },
+  { id: 3, threat: 'Locust Swarm', distance: '18 km away', severity: 'High' },
+];
+
+export default function PestPatrolSummary() {
+  const { t } = useLanguage();
+
+  return (
+    <Card className="shadow-md h-full flex flex-col">
+      <CardHeader>
+        <CardTitle className="flex items-center gap-2">
+          <Bug className="text-primary" />
+          {t('pestPatrolAlerts')}
+        </CardTitle>
+        <CardDescription>Recent threats reported near you.</CardDescription>
+      </CardHeader>
+      <CardContent className="flex-1">
+        <ul className="space-y-4">
+          {mockAlerts.map((alert) => (
+            <li key={alert.id} className="flex items-start gap-3">
+              <div className="flex-shrink-0 pt-1">
+                <AlertTriangle className="w-5 h-5 text-destructive" />
+              </div>
+              <div>
+                <p className="font-semibold">{alert.threat}</p>
+                <p className="text-sm text-muted-foreground">{alert.distance} - Severity: {alert.severity}</p>
+              </div>
+            </li>
+          ))}
+        </ul>
+      </CardContent>
+      <CardFooter>
+        <Button asChild className="w-full">
+          <Link href="/dashboard/pest-patrol">{t('viewMap')}</Link>
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+}

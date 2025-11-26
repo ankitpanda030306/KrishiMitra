@@ -1,3 +1,22 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "login-background",
+      "description": "A lush green farm field under a bright sunny sky.",
+      "imageUrl": "https://images.unsplash.com/photo-1599138900450-3d06e89ad309?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwzfHxmYXJtJTIwZmllbGR8ZW58MHx8fHwxNzY0MDQzOTU1fDA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "farm field"
+    },
+    {
+      "id": "crop-analysis-placeholder",
+      "description": "A placeholder image for the crop analysis tool, showing a vector graphic of a plant.",
+      "imageUrl": "https://images.unsplash.com/photo-1748712073437-08988b6ce601?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHw2fHxwbGFudCUyMGlsbHVzdHJhdGlvbnxlbnwwfHx8fDE3NjQxNTQxNDR8MA&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "plant illustration"
+    },
+    {
+      "id": "pest-patrol-map",
+      "description": "A placeholder map for the PestPatrol feature.",
+      "imageUrl": "https://images.unsplash.com/photo-1581434148492-606b5a7ea56e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFwJTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc2NDA3ODQzNHww&ixlib=rb-4.1.0&q=80&w=1080",
+      "imageHint": "map illustration"
+    }
+  ]
 }
