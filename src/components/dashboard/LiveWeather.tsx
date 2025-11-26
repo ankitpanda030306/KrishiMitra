@@ -20,25 +20,26 @@ export default function LiveWeather() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  // Use the correct environment variable for the API key
   const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
 
   useEffect(() => {
-    // This check runs first. If the key is missing, we show a specific error.
     if (!apiKey) {
-      setError("OpenWeather API key is missing. Please add it to your .env file.");
+      setError("OpenWeather API key is missing. Please add NEXT_PUBLIC_OPENWEATHER_API_KEY to your .env file.");
       setLoading(false);
       return;
     }
 
     const fetchWeather = async (latitude: number, longitude: number) => {
+      setLoading(true);
+      setError(null);
       try {
         const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=${language}`);
-        if (!response.ok) {
-          // This will now only be thrown for actual API errors, not missing keys.
-          throw new Error('Failed to fetch weather data from API.');
-        }
         const data = await response.json();
+
+        if (!response.ok) {
+          // Throw an error with the message from the API if available
+          throw new Error(data.message || 'Failed to fetch weather data from API.');
+        }
         
         setWeather({
           location: data.name,
@@ -47,7 +48,7 @@ export default function LiveWeather() {
           icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
         });
       } catch (e: any) {
-        console.error(e);
+        console.error("Weather fetch error:", e);
         setError(e.message || t('weatherFetchError'));
       } finally {
         setLoading(false);
@@ -71,7 +72,6 @@ export default function LiveWeather() {
       }
     }
     
-    // We only try to get the position if the apiKey exists.
     getPosition();
 
   }, [t, language, apiKey]);
