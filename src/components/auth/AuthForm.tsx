@@ -31,18 +31,12 @@ export function AuthForm() {
   const handleAuthAction = (action: 'login' | 'signup') => {
     if (action === 'signup') {
       setName(signupName);
-      // In a real app, you'd associate this name with the user account.
-      // For this demo, we'll use localStorage to persist the name.
-      localStorage.setItem('krishiMitraUserName', signupName);
     } else {
-        // On login, try to retrieve the name from localStorage.
         const storedName = localStorage.getItem('krishiMitraUserName');
         if (storedName) {
             setName(storedName);
         }
     }
-    // In a real app, you'd handle login/signup logic here.
-    // For this demo, we'll just navigate to the dashboard.
     router.push('/dashboard');
   };
 

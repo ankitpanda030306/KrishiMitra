@@ -27,22 +27,26 @@ import { useUser } from '@/lib/user';
 
 export default function AppHeader() {
   const { t, language, setLanguage } = useLanguage();
-  const { name } = useUser();
+  const { name, displayName } = useUser();
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value as Language);
   };
 
-  const getInitials = (name: string) => {
-    if (!name) return t('farmer').charAt(0);
-    const parts = name.split(' ');
+  const getInitials = (nameStr: string) => {
+    if (!nameStr) return '';
+    const parts = nameStr.split(' ');
+    // For non-latin scripts, just take the first char.
+    if (parts.length > 1 && parts[parts.length -1] && !/^[a-zA-Z0-9]/.test(parts[0][0])) {
+      return nameStr.charAt(0);
+    }
     if (parts.length > 1 && parts[parts.length -1]) {
       return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
-    if(name.length > 1) {
-      return name.substring(0, 2).toUpperCase();
+    if(nameStr.length > 1) {
+      return nameStr.substring(0, 2).toUpperCase();
     }
-    return name.toUpperCase();
+    return nameStr.toUpperCase();
   }
 
   return (
@@ -74,7 +78,7 @@ export default function AppHeader() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{name || t('farmer')}</p>
+                <p className="text-sm font-medium leading-none">{displayName || name}</p>
                 <p className="text-xs leading-none text-muted-foreground">
                   farmer@example.com
                 </p>
