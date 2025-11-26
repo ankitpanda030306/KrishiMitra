@@ -21,23 +21,19 @@ import { useUser } from '@/lib/user';
 export function AuthForm() {
   const { language, setLanguage, t } = useLanguage();
   const { name, setName } = useUser();
+  const [signupName, setSignupName] = useState('');
   const router = useRouter();
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value as Language);
   };
 
-  const handleAuthAction = () => {
+  const handleAuthAction = (action: 'login' | 'signup') => {
+    if (action === 'signup') {
+      setName(signupName);
+    }
     // In a real app, you'd handle login/signup logic here.
     // For this demo, we'll just navigate to the dashboard.
-    if (!name) {
-      // A simple check to ensure a name is entered for signup.
-      // In a real app, you'd have more robust validation.
-      const nameInput = document.getElementById('name-signup') as HTMLInputElement;
-      if(nameInput && nameInput.value) {
-        setName(nameInput.value);
-      }
-    }
     router.push('/dashboard');
   };
 
@@ -72,7 +68,7 @@ export function AuthForm() {
         <TabsContent value="signup" className="space-y-4 pt-4">
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="name-signup" placeholder={t('name')} className="pl-9" onChange={(e) => setName(e.target.value)} />
+            <Input id="name-signup" placeholder={t('name')} className="pl-9" value={signupName} onChange={(e) => setSignupName(e.target.value)} />
           </div>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -90,7 +86,7 @@ export function AuthForm() {
             <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input id="address-signup" placeholder={t('address')} className="pl-9" />
           </div>
-          <Button onClick={handleAuthAction} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+          <Button onClick={() => handleAuthAction('signup')} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
             {t('createAccount')}
           </Button>
         </TabsContent>
@@ -103,7 +99,7 @@ export function AuthForm() {
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
             <Input id="password-login" type="password" placeholder={t('password')} className="pl-9" />
           </div>
-          <Button onClick={handleAuthAction} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+          <Button onClick={() => handleAuthAction('login')} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
             {t('login')}
           </Button>
         </TabsContent>

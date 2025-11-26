@@ -23,10 +23,13 @@ export default function AppHeader() {
   const getInitials = (name: string) => {
     if (!name) return 'FN';
     const parts = name.split(' ');
-    if (parts.length > 1) {
+    if (parts.length > 1 && parts[parts.length -1]) {
       return parts[0][0] + parts[parts.length - 1][0];
     }
-    return name.substring(0, 2);
+    if(name.length > 1) {
+      return name.substring(0, 2);
+    }
+    return name;
   }
 
   return (
