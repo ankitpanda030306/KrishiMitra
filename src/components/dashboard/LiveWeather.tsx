@@ -20,11 +20,11 @@ export default function LiveWeather() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
-  const apiKey = process.env.NEXT_PUBLIC_OPENWEATHER_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_WEATHERAPI_API_KEY;
 
   useEffect(() => {
     if (!apiKey) {
-      setError("OpenWeather API key is missing. Please add NEXT_PUBLIC_OPENWEATHER_API_KEY to your .env file.");
+      setError("WeatherAPI.com API key is missing. Please add NEXT_PUBLIC_WEATHERAPI_API_KEY to your .env file.");
       setLoading(false);
       return;
     }
@@ -33,19 +33,19 @@ export default function LiveWeather() {
       setLoading(true);
       setError(null);
       try {
-        const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?lat=${latitude}&lon=${longitude}&appid=${apiKey}&units=metric&lang=${language}`);
+        const response = await fetch(`https://api.weatherapi.com/v1/current.json?key=${apiKey}&q=${latitude},${longitude}&lang=${language}`);
         const data = await response.json();
 
         if (!response.ok) {
           // Throw an error with the message from the API if available
-          throw new Error(data.message || 'Failed to fetch weather data from API.');
+          throw new Error(data.error?.message || 'Failed to fetch weather data from API.');
         }
         
         setWeather({
-          location: data.name,
-          temperature: Math.round(data.main.temp),
-          condition: data.weather[0].description,
-          icon: `https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png`,
+          location: data.location.name,
+          temperature: Math.round(data.current.temp_c),
+          condition: data.current.condition.text,
+          icon: `https:${data.current.condition.icon}`,
         });
       } catch (e: any) {
         console.error("Weather fetch error:", e);
