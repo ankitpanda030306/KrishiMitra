@@ -13,6 +13,7 @@ import {z} from 'genkit';
 const ProvideLocationBasedAdvisoriesInputSchema = z.object({
   latitude: z.number().describe('Latitude of the location.'),
   longitude: z.number().describe('Longitude of the location.'),
+  language: z.string().optional().describe('The language for the advisory, e.g., "en", "hi", "or".'),
 });
 export type ProvideLocationBasedAdvisoriesInput = z.infer<typeof ProvideLocationBasedAdvisoriesInputSchema>;
 
@@ -34,6 +35,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI assistant providing farming advisories based on location.
 
   Provide specific advisories for irrigation, spray timings, and planting/harvesting windows based on the provided location.
+  The response should be in the specified language: {{{language | "en"}}}.
 
   Latitude: {{{latitude}}}
   Longitude: {{{longitude}}}

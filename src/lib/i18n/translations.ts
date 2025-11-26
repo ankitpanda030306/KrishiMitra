@@ -347,6 +347,41 @@ export const translations = {
     hi: 'घटनाओं की रिपोर्ट करके, आप अपने क्षेत्र के सभी किसानों के लिए एक सक्रिय रक्षा नेटवर्क बनाने में मदद करते हैं।',
     or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେଟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
   },
+  aphidOutbreak: {
+    en: 'Aphid Outbreak',
+    hi: 'एफिड का प्रकोप',
+    or: 'ଆଫିଡ୍ ପ୍ରାଦୁର୍ଭାବ',
+  },
+  fungalBlight: {
+    en: 'Fungal Blight',
+    hi: 'फंगल ब्लाइट',
+    or: 'ଫଙ୍ଗାଲ୍ ବ୍ଲାଇଟ୍',
+  },
+  locustSwarm: {
+    en: 'Locust Swarm',
+    hi: 'टिड्डियों का झुंड',
+    or: 'ପଙ୍ଗପାଳ ଦଳ',
+  },
+  high: {
+    en: 'High',
+    hi: 'उच्च',
+    or: 'ଉଚ୍ଚ',
+  },
+  medium: {
+    en: 'Medium',
+    hi: 'मध्यम',
+    or: 'ମଧ୍ୟମ',
+  },
+  low: {
+    en: 'Low',
+    hi: 'कम',
+    or: 'ନିମ୍ନ',
+  },
+  kmAway: {
+    en: 'km away',
+    hi: 'किमी दूर',
+    or: 'କିମି ଦୂରରେ',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;

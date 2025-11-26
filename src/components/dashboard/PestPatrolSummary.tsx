@@ -7,10 +7,10 @@ import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
 
 const mockAlerts = [
-  { id: 1, threat: 'Aphid Outbreak', distance: '5 km away', severity: 'High' },
-  { id: 2, threat: 'Fungal Blight', distance: '12 km away', severity: 'Medium' },
-  { id: 3, threat: 'Locust Swarm', distance: '18 km away', severity: 'High' },
-];
+  { id: 1, threatKey: 'aphidOutbreak', distance: '5', severityKey: 'high' },
+  { id: 2, threatKey: 'fungalBlight', distance: '12', severityKey: 'medium' },
+  { id: 3, threatKey: 'locustSwarm', distance: '18', severityKey: 'high' },
+] as const;
 
 export default function PestPatrolSummary() {
   const { t } = useLanguage();
@@ -32,8 +32,10 @@ export default function PestPatrolSummary() {
                 <AlertTriangle className="w-5 h-5 text-destructive" />
               </div>
               <div>
-                <p className="font-semibold">{alert.threat}</p>
-                <p className="text-sm text-muted-foreground">{alert.distance} - {t('severity')}: {alert.severity}</p>
+                <p className="font-semibold">{t(alert.threatKey)}</p>
+                <p className="text-sm text-muted-foreground">
+                  {alert.distance} {t('kmAway')} - {t('severity')}: {t(alert.severityKey)}
+                </p>
               </div>
             </li>
           ))}

@@ -8,7 +8,7 @@ import { provideLocationBasedAdvisories, ProvideLocationBasedAdvisoriesOutput } 
 import { Skeleton } from '../ui/skeleton';
 
 export default function LocationAdvisories() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const [advisories, setAdvisories] = useState<ProvideLocationBasedAdvisoriesOutput | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -25,6 +25,7 @@ export default function LocationAdvisories() {
         async (position) => {
           try {
             const { latitude, longitude } = position.coords;
+            // Pass language to the flow
             const result = await provideLocationBasedAdvisories({ latitude, longitude });
             setAdvisories(result);
           } catch (e) {
@@ -42,7 +43,7 @@ export default function LocationAdvisories() {
     };
 
     getAdvisories();
-  }, []);
+  }, [language]); // Re-fetch if language changes
 
   const advisoryItems = [
     {
