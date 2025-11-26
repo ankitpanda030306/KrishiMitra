@@ -1,13 +1,14 @@
+
 "use client";
 
-import { useState, useRef, ChangeEvent } from 'react';
+import { useState, useRef, ChangeEvent, useEffect } from 'react';
 import Image from 'next/image';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/lib/i18n';
-import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2 } from 'lucide-react';
+import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2, Camera, Video } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -15,13 +16,18 @@ import { analyzeCropImageForDefects, AnalyzeCropImageForDefectsOutput } from '@/
 import { recommendSortingGradesForHarvest, RecommendSortingGradesForHarvestOutput } from '@/ai/flows/recommend-sorting-grades-for-harvest';
 import { suggestStorageInstructions, SuggestStorageInstructionsOutput } from '@/ai/flows/suggest-storage-instructions';
 import { useToast } from '@/hooks/use-toast';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
+import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
 
 type Step = 'idle' | 'analyzing' | 'analyzed' | 'sorting' | 'sorted' | 'storing' | 'stored';
+type InputMode = 'upload' | 'camera';
 
 export default function ImageAnalysis() {
   const { t } = useLanguage();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
+  const canvasRef = useRef<HTMLCanvasElement>(null);
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
@@ -32,25 +38,96 @@ export default function ImageAnalysis() {
   const [analysisResult, setAnalysisResult] = useState<AnalyzeCropImageForDefectsOutput | null>(null);
   const [sortingResult, setSortingResult] = useState<RecommendSortingGradesForHarvestOutput | null>(null);
   const [storageResult, setStorageResult] = useState<SuggestStorageInstructionsOutput | null>(null);
+  const [inputMode, setInputMode] = useState<InputMode>('upload');
+  const [hasCameraPermission, setHasCameraPermission] = useState<boolean | null>(null);
 
   const placeholderImage = PlaceHolderImages.find(p => p.id === 'crop-analysis-placeholder');
+
+  useEffect(() => {
+    const getCameraPermission = async () => {
+      if (inputMode !== 'camera') {
+        if (videoRef.current?.srcObject) {
+          (videoRef.current.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+        }
+        return;
+      };
+      
+      if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+        setHasCameraPermission(false);
+        toast({
+          variant: "destructive",
+          title: "Camera Not Supported",
+          description: "Your browser does not support camera access.",
+        });
+        return;
+      }
+
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+        setHasCameraPermission(true);
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+        }
+      } catch (error) {
+        console.error('Error accessing camera:', error);
+        setHasCameraPermission(false);
+        toast({
+          variant: 'destructive',
+          title: 'Camera Access Denied',
+          description: 'Please enable camera permissions in your browser settings to use this feature.',
+        });
+      }
+    };
+
+    getCameraPermission();
+
+    return () => {
+      // Cleanup: stop video stream when component unmounts or mode changes
+      if (videoRef.current?.srcObject) {
+        (videoRef.current.srcObject as MediaStream).getTracks().forEach(track => track.stop());
+      }
+    };
+  }, [inputMode, toast]);
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
     if (file) {
       const reader = new FileReader();
       reader.onload = (e) => {
-        setImagePreview(e.target?.result as string);
-        setImageDataUri(e.target?.result as string);
-        setStep('idle');
-        setAnalysisResult(null);
-        setSortingResult(null);
-        setStorageResult(null);
-        setError(null);
+        const dataUrl = e.target?.result as string;
+        setImagePreview(dataUrl);
+        setImageDataUri(dataUrl);
+        resetAnalysis();
       };
       reader.readAsDataURL(file);
     }
   };
+
+  const handleCapture = () => {
+    if (videoRef.current && canvasRef.current) {
+      const video = videoRef.current;
+      const canvas = canvasRef.current;
+      canvas.width = video.videoWidth;
+      canvas.height = video.videoHeight;
+      const context = canvas.getContext('2d');
+      if(context) {
+        context.drawImage(video, 0, 0, video.videoWidth, video.videoHeight);
+        const dataUrl = canvas.toDataURL('image/jpeg');
+        setImagePreview(dataUrl);
+        setImageDataUri(dataUrl);
+        resetAnalysis();
+      }
+    }
+  };
+
+  const resetAnalysis = () => {
+    setStep('idle');
+    setAnalysisResult(null);
+    setSortingResult(null);
+    setStorageResult(null);
+    setError(null);
+  };
+
 
   const handleAnalyze = async () => {
     if (!imageDataUri) return;
@@ -116,33 +193,79 @@ export default function ImageAnalysis() {
       </CardHeader>
       <CardContent className="grid gap-8 md:grid-cols-2">
         <div className="space-y-4">
-          <Card>
-            <CardContent className="p-4">
-              <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
-                <Image
-                  src={imagePreview || placeholderImage?.imageUrl || ''}
-                  alt="Crop to be analyzed"
-                  fill
-                  className="object-contain"
-                  data-ai-hint={imagePreview ? 'uploaded crop' : placeholderImage?.imageHint}
-                />
-              </div>
-            </CardContent>
-          </Card>
+          <Tabs value={inputMode} onValueChange={(value) => setInputMode(value as InputMode)} className="w-full">
+            <TabsList className="grid w-full grid-cols-2">
+              <TabsTrigger value="upload"><Upload className="mr-2 h-4 w-4" /> Upload File</TabsTrigger>
+              <TabsTrigger value="camera"><Camera className="mr-2 h-4 w-4" /> Use Camera</TabsTrigger>
+            </TabsList>
+            <TabsContent value="upload">
+              <Card>
+                <CardContent className="p-4">
+                  <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
+                    <Image
+                      src={imagePreview || placeholderImage?.imageUrl || ''}
+                      alt="Crop to be analyzed"
+                      fill
+                      className="object-contain"
+                      data-ai-hint={imagePreview ? 'uploaded crop' : placeholderImage?.imageHint}
+                    />
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+            <TabsContent value="camera">
+              <Card>
+                <CardContent className="p-4 space-y-4">
+                  <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
+                    {hasCameraPermission === false && (
+                       <div className="w-full h-full flex flex-col items-center justify-center text-center">
+                          <Alert variant="destructive">
+                              <AlertTriangle className="h-4 w-4" />
+                              <AlertTitle>Camera Access Required</AlertTitle>
+                              <AlertDescription>
+                                Please allow camera access to use this feature. Check your browser settings.
+                              </AlertDescription>
+                          </Alert>
+                       </div>
+                    )}
+                    <video ref={videoRef} className="w-full h-full object-cover" autoPlay playsInline muted />
+                    <canvas ref={canvasRef} className="hidden" />
+                  </div>
+                  <Button onClick={handleCapture} disabled={hasCameraPermission !== true} className="w-full">
+                    <Camera className="mr-2 h-4 w-4" />
+                    Capture Photo
+                  </Button>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div className='space-y-2'>
               <Label htmlFor="crop-type">Crop Type</Label>
               <Input id="crop-type" value={cropType} onChange={(e) => setCropType(e.target.value)} placeholder="e.g., Tomato" />
             </div>
-            <div className="space-y-2">
-              <Label htmlFor="file-upload" className="block">Image File</Label>
-              <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full">
-                <Upload className="mr-2 h-4 w-4" />
-                {t('uploadImage')}
-              </Button>
-              <Input ref={fileInputRef} id="file-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-            </div>
+            {inputMode === 'upload' && (
+              <div className="space-y-2">
+                <Label htmlFor="file-upload" className="block">Image File</Label>
+                <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full">
+                  <Upload className="mr-2 h-4 w-4" />
+                  {t('uploadImage')}
+                </Button>
+                <Input ref={fileInputRef} id="file-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
+              </div>
+            )}
           </div>
+           {imagePreview && inputMode === 'camera' && (
+            <Card>
+                <CardHeader><CardTitle className="text-lg">Captured Image</CardTitle></CardHeader>
+                <CardContent>
+                    <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
+                        <Image src={imagePreview} alt="Captured crop" fill className="object-contain" />
+                    </div>
+                </CardContent>
+            </Card>
+           )}
         </div>
         <div className="space-y-6">
           {error && <div className="p-4 bg-destructive/10 text-destructive border border-destructive/20 rounded-md flex items-center gap-3"><AlertTriangle /> {error}</div>}
