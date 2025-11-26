@@ -382,6 +382,58 @@ export const translations = {
     hi: 'किमी दूर',
     or: 'କିମି ଦୂରରେ',
   },
+
+  // Live Weather
+  fetchingWeather: {
+    en: 'Fetching weather & location...',
+    hi: 'मौसम और स्थान प्राप्त हो रहा है...',
+    or: 'ପାଣିପାଗ ଏବଂ ସ୍ଥାନ ଅଣାଯାଉଛି...',
+  },
+  weatherFetchError: {
+    en: 'Could not fetch weather data.',
+    hi: 'मौसम डेटा प्राप्त नहीं किया जा सका।',
+    or: 'ପାଣିପାଗ ତଥ୍ୟ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
+  },
+  locationAccessDenied: {
+    en: 'Location access denied. Please enable it in your browser settings.',
+    hi: 'स्थान पहुंच से इनकार कर दिया गया। कृपया इसे अपनी ब्राउज़र सेटिंग्स में सक्षम करें।',
+    or: 'ସ୍ଥାନ ପ୍ରବେଶ ଅସ୍ୱୀକାର କରାଗଲା | ଦୟାକରି ଏହାକୁ ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହରେ ସକ୍ଷମ କରନ୍ତୁ |',
+  },
+  geolocationNotSupported: {
+    en: 'Geolocation is not supported by your browser.',
+    hi: 'आपका ब्राउज़र जियोलोकेशन का समर्थन नहीं करता है।',
+    or: 'ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ଦ୍ୱାରା ଜିଓଲୋକେସନ୍ ସମର୍ଥିତ ନୁହେଁ |',
+  },
+  error: {
+    en: 'Error',
+    hi: 'त्रुटि',
+    or: 'ତ୍ରୁଟି',
+  },
+  sunny: {
+    en: 'Sunny',
+    hi: 'धूप',
+    or: 'ଖରାଟିଆ',
+  },
+  cloudy: {
+    en: 'Cloudy',
+    hi: 'बादल',
+    or: 'ମେଘୁଆ',
+  },
+  rainy: {
+    en: 'Rainy',
+    hi: 'बरसात',
+    or: 'ବର୍ଷା',
+  },
+  snowy: {
+    en: 'Snowy',
+    hi: 'बर्फ़ीला',
+    or: 'ବରଫାବୃତ୍ତ',
+  },
+  windy: {
+    en: 'Windy',
+    hi: 'तूफ़ानी',
+    or: 'ପବନିଆ',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;
