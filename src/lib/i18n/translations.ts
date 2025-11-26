@@ -556,6 +556,16 @@ export const translations = {
     hi: 'त्रुटि',
     or: 'ତ୍ରୁଟି',
   },
+  advisoryFetchError: {
+    en: 'Could not fetch advisories.',
+    hi: 'सलाह प्राप्त नहीं की जा सकी।',
+    or: 'ପରାମର୍ଶଗୁଡିକ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
+  },
+  aiServiceOverloaded: {
+    en: 'The AI service is currently overloaded. Please try again in a few moments.',
+    hi: 'एआई सेवा वर्तमान में अतिभारित है। कृपया कुछ क्षणों में पुन: प्रयास करें।',
+    or: 'AI ସେବା ବର୍ତ୍ତମାନ ଓଭରଲୋଡ୍ ହୋଇଛି | ଦୟାକରି କିଛି କ୍ଷଣରେ ପୁନର୍ବାର ଚେଷ୍ଟା କରନ୍ତୁ |',
+  },
   sunny: {
     en: 'Sunny',
     hi: 'धूप',

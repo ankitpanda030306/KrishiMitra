@@ -29,8 +29,12 @@ export default function LocationAdvisories() {
             // Pass language to the flow
             const result = await provideLocationBasedAdvisories({ latitude, longitude, language });
             setAdvisories(result);
-          } catch (e) {
-            setError(t('weatherFetchError'));
+          } catch (e: any) {
+            if (e.message && e.message.includes('model is overloaded')) {
+              setError(t('aiServiceOverloaded'));
+            } else {
+              setError(t('advisoryFetchError'));
+            }
             console.error(e);
           } finally {
             setLoading(false);
@@ -103,5 +107,3 @@ export default function LocationAdvisories() {
     </Card>
   );
 }
-
-    
