@@ -19,6 +19,7 @@ import {
   Leaf,
   Settings,
   LogOut,
+  User,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 
@@ -63,6 +64,14 @@ export default function AppSidebar() {
       </SidebarContent>
       <SidebarFooter className="border-t">
         <SidebarMenu>
+          <SidebarMenuItem>
+             <SidebarMenuButton asChild tooltip={{ children: t('profile') }} isActive={pathname === '/dashboard/profile'}>
+                <Link href="/dashboard/profile">
+                  <User />
+                  <span>{t('profile')}</span>
+                </Link>
+            </SidebarMenuButton>
+          </SidebarMenuItem>
           <SidebarMenuItem>
             <SidebarMenuButton tooltip={{ children: t('settings') }}>
               <Settings />

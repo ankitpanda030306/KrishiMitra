@@ -167,6 +167,11 @@ export const translations = {
     hi: 'लॉग आउट',
     or: 'ଲଗ୍ ଆଉଟ୍',
   },
+  profile: {
+    en: 'Profile',
+    hi: 'प्रोफ़ाइल',
+    or: 'ପ୍ରୋଫାଇଲ୍',
+  },
 
   // Image Analysis Page
   analyzeYourCrop: {
@@ -576,9 +581,37 @@ export const translations = {
     hi: 'तूफ़ानी',
     or: 'ପବନିଆ',
   },
+  // Profile Page
+  profileDescription: {
+    en: 'View and manage your profile details.',
+    hi: 'अपनी प्रोफ़ाइल विवरण देखें और प्रबंधित करें।',
+    or: 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ବିବରଣୀ ଦେଖନ୍ତୁ ଏବଂ ପରିଚାଳନା କରନ୍ତୁ |',
+  },
+  editProfile: {
+    en: 'Edit Profile',
+    hi: 'प्रोफ़ाइल संपादित करें',
+    or: 'ପ୍ରୋଫାଇଲ୍ ସମ୍ପାଦନା କରନ୍ତୁ',
+  },
+  editProfileDescription: {
+    en: 'Update your personal information here.',
+    hi: 'यहां अपनी व्यक्तिगत जानकारी अपडेट करें।',
+    or: 'ଏଠାରେ ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ସୂଚନା ଅପଡେଟ୍ କରନ୍ତୁ |',
+  },
+  saveChanges: {
+    en: 'Save Changes',
+    hi: 'परिवर्तन सहेजें',
+    or: 'ପରିବର୍ତ୍ତନ ସଂରକ୍ଷଣ କରନ୍ତୁ',
+  },
+  profileUpdated: {
+    en: 'Profile Updated',
+    hi: 'प्रोफ़ाइल अपडेट किया गया',
+    or: 'ପ୍ରୋଫାଇଲ୍ ଅପଡେଟ୍ ହୋଇଛି',
+  },
+  profileUpdatedDesc: {
+    en: 'Your profile information has been successfully updated.',
+    hi: 'आपकी प्रोफ़ाइल जानकारी सफलतापूर्वक अपडेट कर दी गई है।',
+    or: 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ସୂଚନା ସଫଳତାର ସହିତ ଅପଡେଟ୍ ହୋଇଛି |',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;
-
-    
-    

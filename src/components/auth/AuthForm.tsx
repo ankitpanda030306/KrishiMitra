@@ -20,8 +20,11 @@ import { useUser } from '@/lib/user';
 
 export function AuthForm() {
   const { language, setLanguage, t } = useLanguage();
-  const { name, setName } = useUser();
+  const { setUserDetails } = useUser();
   const [signupName, setSignupName] = useState('');
+  const [signupEmail, setSignupEmail] = useState('');
+  const [signupPhone, setSignupPhone] = useState('');
+  const [signupAddress, setSignupAddress] = useState('');
   const router = useRouter();
 
   const handleLanguageChange = (value: string) => {
@@ -30,13 +33,14 @@ export function AuthForm() {
 
   const handleAuthAction = (action: 'login' | 'signup') => {
     if (action === 'signup') {
-      setName(signupName);
-    } else {
-        const storedName = localStorage.getItem('krishiMitraUserName');
-        if (storedName) {
-            setName(storedName);
-        }
+      setUserDetails({
+        name: signupName,
+        email: signupEmail,
+        phone: signupPhone,
+        address: signupAddress,
+      });
     }
+    // For login, the user data is loaded from localStorage by the UserProvider
     router.push('/dashboard');
   };
 
@@ -75,7 +79,7 @@ export function AuthForm() {
           </div>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" />
+            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -83,11 +87,11 @@ export function AuthForm() {
           </div>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="phone-signup" type="tel" placeholder={t('phone')} className="pl-9" />
+            <Input id="phone-signup" type="tel" placeholder={t('phone')} className="pl-9" value={signupPhone} onChange={(e) => setSignupPhone(e.target.value)}/>
           </div>
           <div className="relative">
             <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="address-signup" placeholder={t('address')} className="pl-9" />
+            <Input id="address-signup" placeholder={t('address')} className="pl-9" value={signupAddress} onChange={(e) => setSignupAddress(e.target.value)} />
           </div>
           <Button onClick={() => handleAuthAction('signup')} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
             {t('createAccount')}
