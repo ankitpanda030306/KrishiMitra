@@ -35,7 +35,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an AI assistant providing farming advisories based on location.
 
   Provide specific advisories for irrigation, spray timings, and planting/harvesting windows based on the provided location.
-  The response should be in the specified language: {{{language | "en"}}}.
+  {{#if language}}The response should be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Latitude: {{{latitude}}}
   Longitude: {{{longitude}}}
