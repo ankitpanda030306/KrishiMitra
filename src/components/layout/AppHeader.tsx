@@ -1,3 +1,4 @@
+
 "use client";
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -33,15 +34,15 @@ export default function AppHeader() {
   };
 
   const getInitials = (name: string) => {
-    if (!name) return 'FN';
+    if (!name) return t('farmer').charAt(0);
     const parts = name.split(' ');
     if (parts.length > 1 && parts[parts.length -1]) {
-      return parts[0][0] + parts[parts.length - 1][0];
+      return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
     }
     if(name.length > 1) {
-      return name.substring(0, 2);
+      return name.substring(0, 2).toUpperCase();
     }
-    return name;
+    return name.toUpperCase();
   }
 
   return (
@@ -73,7 +74,7 @@ export default function AppHeader() {
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{name || 'Farmer Name'}</p>
+                <p className="text-sm font-medium leading-none">{name || t('farmer')}</p>
                 <p className="text-xs leading-none text-muted-foreground">
                   farmer@example.com
                 </p>
@@ -101,3 +102,5 @@ export default function AppHeader() {
     </header>
   );
 }
+
+    

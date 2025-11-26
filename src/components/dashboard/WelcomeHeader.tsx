@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useLanguage } from '@/lib/i18n';
@@ -6,7 +7,7 @@ import { useUser } from '@/lib/user';
 export default function WelcomeHeader() {
   const { t } = useLanguage();
   const { name } = useUser();
-  const farmerName = name || "Farmer"; // This would come from user session in a real app
+  const farmerName = name || t('farmer');
 
   return (
     <div>
@@ -17,3 +18,6 @@ export default function WelcomeHeader() {
     </div>
   );
 }
+
+
+    

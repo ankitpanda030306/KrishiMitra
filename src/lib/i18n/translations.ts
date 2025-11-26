@@ -185,19 +185,19 @@ export const translations = {
     or: 'ପ୍ରତିଛବି ଅପଲୋଡ୍ କରନ୍ତୁ',
   },
   analysisResults: {
-    en: 'Analysis Results',
-    hi: 'विश्लेषण के परिणाम',
-    or: 'ବିଶ୍ଳେଷଣ ଫଳାଫଳ',
+    en: 'Analyze Crop',
+    hi: 'फसल का विश्लेषण करें',
+    or: 'ଫସଲ ବିଶ୍ଳେଷଣ କରନ୍ତୁ',
   },
   sortingRecommendations: {
-    en: 'Sorting Recommendations',
-    hi: 'छंटाई की सिफारिशें',
-    or: 'କ୍ରମବଦ୍ଧ ସୁପାରିଶ',
+    en: 'Recommend Sorting',
+    hi: 'छंटाई की सिफारिश करें',
+    or: 'କ୍ରମବଦ୍ଧ ସୁପାରିଶ କରନ୍ତୁ',
   },
   storageInstructions: {
-    en: 'Storage Instructions',
-    hi: 'भंडारण निर्देश',
-    or: 'ସଂରକ୍ଷଣ ନିର୍ଦ୍ଦେଶାବଳୀ',
+    en: 'Suggest Storage',
+    hi: 'भंडारण का सुझाव दें',
+    or: 'ସଂରକ୍ଷଣ ପାଇଁ ପରାମର୍ଶ ଦିଅନ୍ତୁ',
   },
   uploadFile: {
     en: 'Upload File',
@@ -580,4 +580,5 @@ export const translations = {
 
 export type TranslationKey = keyof typeof translations;
 
+    
     
