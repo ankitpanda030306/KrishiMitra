@@ -63,7 +63,7 @@ export default function ProfilePage() {
         phone: phone,
         address: address,
     })
-  }, [name, email, phone, address, form])
+  }, [name, email, phone, address]);
 
   function onSubmit(data: ProfileFormValues) {
     setUserDetails(data);
