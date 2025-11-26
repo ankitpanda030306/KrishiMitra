@@ -51,20 +51,25 @@ export default function LiveWeather() {
       }
     };
 
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition(
-        (position) => {
-          fetchWeather(position.coords.latitude, position.coords.longitude);
-        },
-        () => {
-          setError(t('locationAccessDenied'));
-          setLoading(false);
-        }
-      );
-    } else {
-      setError(t('geolocationNotSupported'));
-      setLoading(false);
+    const getPosition = () => {
+      if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+          (position) => {
+            fetchWeather(position.coords.latitude, position.coords.longitude);
+          },
+          () => {
+            setError(t('locationAccessDenied'));
+            setLoading(false);
+          }
+        );
+      } else {
+        setError(t('geolocationNotSupported'));
+        setLoading(false);
+      }
     }
+    
+    getPosition();
+
   }, [t, language, apiKey]);
 
   return (
@@ -74,6 +79,7 @@ export default function LiveWeather() {
           <div className="flex items-center justify-center gap-4 h-24">
             <Loader2 className="w-6 h-6 animate-spin text-primary" />
             <p className="text-muted-foreground">{t('fetchingWeather')}</p>
+
           </div>
         )}
         {error && (
