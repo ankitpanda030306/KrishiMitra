@@ -23,7 +23,7 @@ type Step = 'idle' | 'analyzing' | 'analyzed' | 'sorting' | 'sorted' | 'storing'
 type InputMode = 'upload' | 'camera';
 
 export default function ImageAnalysis() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { toast } = useToast();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -133,7 +133,7 @@ export default function ImageAnalysis() {
     setStep('analyzing');
     setError(null);
     try {
-      const result = await analyzeCropImageForDefects({ photoDataUri: imageDataUri });
+      const result = await analyzeCropImageForDefects({ photoDataUri: imageDataUri, language });
       setAnalysisResult(result);
       setStep('analyzed');
     } catch (e) {
@@ -153,6 +153,7 @@ export default function ImageAnalysis() {
         cropType: analysisResult.cropType,
         qualityDescription,
         harvestPhotoDataUri: imageDataUri,
+        language,
       });
       setSortingResult(result);
       setStep('sorted');
@@ -172,7 +173,7 @@ export default function ImageAnalysis() {
       const quality = sortingResult.sortingRecommendations[0]?.grade || 'market-ready';
       const weatherConditions = 'Sunny, 25°C, 60% humidity';
       const location = '19.0760,72.8777';
-      const result = await suggestStorageInstructions({ quality, weatherConditions, location });
+      const result = await suggestStorageInstructions({ quality, weatherConditions, location, language });
       setStorageResult(result);
       setStep('stored');
     } catch (e) {

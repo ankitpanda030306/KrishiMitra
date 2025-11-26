@@ -22,6 +22,7 @@ const RecommendSortingGradesForHarvestInputSchema = z.object({
     .describe(
       "A photo of the harvested crop, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  language: z.string().optional().describe('The language for the response, e.g., "en", "hi", "or".'),
 });
 export type RecommendSortingGradesForHarvestInput = z.infer<
   typeof RecommendSortingGradesForHarvestInputSchema
@@ -53,6 +54,7 @@ const prompt = ai.definePrompt({
 
   Based on the description of the crop quality, and the provided image, recommend how to sort the harvest into different grades to maximize profit.
   Consider the type of crop, quality, defects and signs of decay when determining the grade. Provide clear reasoning for each recommendation.
+  {{#if language}}The response for 'grade' and 'reasoning' fields must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Crop Type: {{{cropType}}}
   Quality Description: {{{qualityDescription}}}

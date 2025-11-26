@@ -15,6 +15,7 @@ const SuggestStorageInstructionsInputSchema = z.object({
   quality: z.string().describe('The identified quality of the harvest (e.g., premium, market-ready, discard/process).'),
   weatherConditions: z.string().describe('The current weather conditions (e.g., temperature, humidity, rain).'),
   location: z.string().describe('The GPS location of the farm.'),
+  language: z.string().optional().describe('The language for the response, e.g., "en", "hi", "or".'),
 });
 export type SuggestStorageInstructionsInput = z.infer<typeof SuggestStorageInstructionsInputSchema>;
 
@@ -34,6 +35,7 @@ const prompt = ai.definePrompt({
   prompt: `You are an expert in agricultural storage practices.
 
   Based on the identified quality of the harvest, current weather conditions, and the farm's location, provide simple and practical storage instructions to preserve the quality of the harvest.
+  {{#if language}}The response for the 'storageInstructions' field must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Quality: {{{quality}}}
   Weather Conditions: {{{weatherConditions}}}

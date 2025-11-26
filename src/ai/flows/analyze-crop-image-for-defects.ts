@@ -17,6 +17,7 @@ const AnalyzeCropImageForDefectsInputSchema = z.object({
     .describe(
       "A photo of a crop, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
     ),
+  language: z.string().optional().describe('The language for the response, e.g., "en", "hi", "or".'),
 });
 export type AnalyzeCropImageForDefectsInput = z.infer<typeof AnalyzeCropImageForDefectsInputSchema>;
 
@@ -44,6 +45,7 @@ const prompt = ai.definePrompt({
   First, identify the plant or animal in the image. This is the 'cropType'.
   Then, analyze the identified subject and identify any potential defects, diseases, or health issues.
   Provide a list of defects identified and their corresponding confidence scores.
+  {{#if language}}The response for 'cropType' and 'defects' fields must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Image: {{media url=photoDataUri}}
   Format your response as a JSON object with 'cropType', 'defects', and 'confidenceScores' fields.
