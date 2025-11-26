@@ -9,16 +9,28 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Button } from '@/components/ui/button';
-import { LogOut, Settings, User } from 'lucide-react';
+import { LogOut, Settings, User, Languages } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import type { Language } from '@/lib/i18n/translations';
 import Link from 'next/link';
 import { useUser } from '@/lib/user';
 
 export default function AppHeader() {
-  const { t } = useLanguage();
+  const { t, language, setLanguage } = useLanguage();
   const { name } = useUser();
+
+  const handleLanguageChange = (value: string) => {
+    setLanguage(value as Language);
+  };
 
   const getInitials = (name: string) => {
     if (!name) return 'FN';
@@ -37,6 +49,18 @@ export default function AppHeader() {
       <SidebarTrigger className="md:hidden" />
 
       <div className="flex w-full items-center justify-end gap-4">
+        <Select value={language} onValueChange={handleLanguageChange}>
+          <SelectTrigger className="w-auto h-10 border-0 bg-transparent shadow-none focus:ring-0 gap-2">
+              <Languages className="h-5 w-5 text-muted-foreground" />
+              <SelectValue placeholder={t('selectLanguage')} />
+          </SelectTrigger>
+          <SelectContent align="end">
+            <SelectItem value="en">{t('english')}</SelectItem>
+            <SelectItem value="hi">{t('hindi')}</SelectItem>
+            <SelectItem value="or">{t('odia')}</SelectItem>
+          </SelectContent>
+        </Select>
+
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="relative h-10 w-10 rounded-full">
