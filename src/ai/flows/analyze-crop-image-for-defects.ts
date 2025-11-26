@@ -1,7 +1,7 @@
 'use server';
 
 /**
- * @fileOverview Analyzes a crop image for defects and diseases.
+ * @fileOverview Analyzes a crop image to identify the crop and check for defects and diseases.
  *
  * - analyzeCropImageForDefects - A function that handles the image analysis process.
  * - AnalyzeCropImageForDefectsInput - The input type for the analyzeCropImageForDefects function.
@@ -21,6 +21,7 @@ const AnalyzeCropImageForDefectsInputSchema = z.object({
 export type AnalyzeCropImageForDefectsInput = z.infer<typeof AnalyzeCropImageForDefectsInputSchema>;
 
 const AnalyzeCropImageForDefectsOutputSchema = z.object({
+  cropType: z.string().describe('The type of crop or animal identified in the image (e.g., Tomato, Potato, Cow).'),
   defects: z.array(
     z.string().describe('A list of potential defects or diseases identified in the crop.')
   ).describe('List of defects found'),
@@ -38,13 +39,15 @@ const prompt = ai.definePrompt({
   name: 'analyzeCropImageForDefectsPrompt',
   input: {schema: AnalyzeCropImageForDefectsInputSchema},
   output: {schema: AnalyzeCropImageForDefectsOutputSchema},
-  prompt: `You are an AI assistant specialized in analyzing crop images for defects and diseases.
+  prompt: `You are an AI assistant specialized in analyzing images of crops and farm animals for health assessment.
 
-  Analyze the image and identify any potential defects or diseases present in the crop.
+  First, identify the plant or animal in the image. This is the 'cropType'.
+  Then, analyze the identified subject and identify any potential defects, diseases, or health issues.
   Provide a list of defects identified and their corresponding confidence scores.
 
   Image: {{media url=photoDataUri}}
-  Format your response as a JSON object with 'defects' and 'confidenceScores' fields.
+  Format your response as a JSON object with 'cropType', 'defects', and 'confidenceScores' fields.
+  If no defects are found, return an empty array for 'defects' and 'confidenceScores'.
   `,
 });
 

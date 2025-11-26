@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/lib/i18n';
-import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2, Camera, Video } from 'lucide-react';
+import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2, Camera, Video, Info } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -31,7 +31,6 @@ export default function ImageAnalysis() {
 
   const [imagePreview, setImagePreview] = useState<string | null>(null);
   const [imageDataUri, setImageDataUri] = useState<string | null>(null);
-  const [cropType, setCropType] = useState('Tomato');
   const [step, setStep] = useState<Step>('idle');
   const [error, setError] = useState<string | null>(null);
 
@@ -145,13 +144,13 @@ export default function ImageAnalysis() {
   };
 
   const handleSort = async () => {
-    if (!imageDataUri || !analysisResult) return;
+    if (!imageDataUri || !analysisResult || !analysisResult.cropType) return;
     setStep('sorting');
     setError(null);
     try {
       const qualityDescription = analysisResult.defects.join(', ') || 'Good quality';
       const result = await recommendSortingGradesForHarvest({
-        cropType,
+        cropType: analysisResult.cropType,
         qualityDescription,
         harvestPhotoDataUri: imageDataUri,
       });
@@ -200,7 +199,7 @@ export default function ImageAnalysis() {
             </TabsList>
             <TabsContent value="upload">
               <Card>
-                <CardContent className="p-4">
+                <CardContent className="p-4 space-y-4">
                   <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
                     <Image
                       src={imagePreview || placeholderImage?.imageUrl || ''}
@@ -209,6 +208,14 @@ export default function ImageAnalysis() {
                       className="object-contain"
                       data-ai-hint={imagePreview ? 'uploaded crop' : placeholderImage?.imageHint}
                     />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor="file-upload" className="block sr-only">Image File</Label>
+                    <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full">
+                      <Upload className="mr-2 h-4 w-4" />
+                      {t('uploadImage')}
+                    </Button>
+                    <Input ref={fileInputRef} id="file-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
                   </div>
                 </CardContent>
               </Card>
@@ -240,25 +247,9 @@ export default function ImageAnalysis() {
             </TabsContent>
           </Tabs>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className='space-y-2'>
-              <Label htmlFor="crop-type">Crop Type</Label>
-              <Input id="crop-type" value={cropType} onChange={(e) => setCropType(e.target.value)} placeholder="e.g., Tomato" />
-            </div>
-            {inputMode === 'upload' && (
-              <div className="space-y-2">
-                <Label htmlFor="file-upload" className="block">Image File</Label>
-                <Button onClick={() => fileInputRef.current?.click()} variant="outline" className="w-full">
-                  <Upload className="mr-2 h-4 w-4" />
-                  {t('uploadImage')}
-                </Button>
-                <Input ref={fileInputRef} id="file-upload" type="file" accept="image/*" className="hidden" onChange={handleFileChange} />
-              </div>
-            )}
-          </div>
-           {imagePreview && inputMode === 'camera' && (
+           {imagePreview && (
             <Card>
-                <CardHeader><CardTitle className="text-lg">Captured Image</CardTitle></CardHeader>
+                <CardHeader><CardTitle className="text-lg">Selected Image</CardTitle></CardHeader>
                 <CardContent>
                     <div className="aspect-[4/3] relative bg-muted rounded-md overflow-hidden">
                         <Image src={imagePreview} alt="Captured crop" fill className="object-contain" />
@@ -278,20 +269,31 @@ export default function ImageAnalysis() {
             </Button>
             {analysisResult && (
               <Card>
-                <CardHeader><CardTitle className="text-lg">Analysis</CardTitle></CardHeader>
+                <CardHeader>
+                  <CardTitle className="text-lg">Analysis</CardTitle>
+                </CardHeader>
                 <CardContent>
-                  <ul className="space-y-2">
-                    {analysisResult.defects.map((defect, i) => (
-                      <li key={i} className="space-y-1">
-                        <div className="flex justify-between items-center">
-                          <span className="font-medium">{defect}</span>
-                          <Badge variant="secondary">{Math.round(analysisResult.confidenceScores[i] * 100)}%</Badge>
-                        </div>
-                        <Progress value={analysisResult.confidenceScores[i] * 100} />
-                      </li>
-                    ))}
-                    {analysisResult.defects.length === 0 && <p className="text-muted-foreground">No defects found.</p>}
-                  </ul>
+                  <div className="space-y-4">
+                    <div className="flex items-center gap-3 p-3 bg-secondary/50 rounded-md">
+                        <Info className="h-5 w-5 text-secondary-foreground"/>
+                        <p className="text-sm text-secondary-foreground">
+                            Identified Crop: <span className="font-bold">{analysisResult.cropType}</span>
+                        </p>
+                    </div>
+
+                    <ul className="space-y-2">
+                      {analysisResult.defects.map((defect, i) => (
+                        <li key={i} className="space-y-1">
+                          <div className="flex justify-between items-center">
+                            <span className="font-medium">{defect}</span>
+                            <Badge variant="secondary">{Math.round(analysisResult.confidenceScores[i] * 100)}%</Badge>
+                          </div>
+                          <Progress value={analysisResult.confidenceScores[i] * 100} />
+                        </li>
+                      ))}
+                      {analysisResult.defects.length === 0 && <p className="text-muted-foreground">No defects found.</p>}
+                    </ul>
+                  </div>
                 </CardContent>
               </Card>
             )}
