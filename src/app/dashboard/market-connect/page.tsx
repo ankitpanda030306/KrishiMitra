@@ -58,10 +58,8 @@ export default function MarketConnectPage() {
 
   // Seed data only once
   useEffect(() => {
-    let isSeeded = false;
-    if (firestore && !isSeeded) {
+    if (firestore) {
       seedInitialData(firestore);
-      isSeeded = true;
     }
   }, [firestore]);
 
@@ -341,7 +339,4 @@ export default function MarketConnectPage() {
       </div>
     </div>
   );
-
-    
-
-    
+}
