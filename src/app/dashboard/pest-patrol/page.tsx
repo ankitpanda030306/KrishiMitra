@@ -10,10 +10,10 @@ import { AlertTriangle, MapPin, Clock } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 const mockIncidents = [
-    { id: 1, pest: 'aphids' as TranslationKey, location: 'Nashik Region', time: '2 hours ago', severity: 'high' as TranslationKey, coords: { top: '25%', left: '30%' } },
-    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'Pune Farmlands', time: '8 hours ago', severity: 'medium' as TranslationKey, coords: { top: '55%', left: '25%' } },
-    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Nagpur Outskirts', time: '1 day ago', severity: 'low' as TranslationKey, coords: { top: '20%', left: '70%' } },
-    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Solapur District', time: '2 days ago', severity: 'critical' as TranslationKey, coords: { top: '80%', left: '45%' } },
+    { id: 1, pest: 'aphids' as TranslationKey, location: 'Nashik Region', time: '2 hours ago', severity: 'high' as TranslationKey, coords: { top: '35%', left: '20%' } },
+    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'Pune Farmlands', time: '8 hours ago', severity: 'medium' as TranslationKey, coords: { top: '85%', left: '15%' } },
+    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Nagpur Outskirts', time: '1 day ago', severity: 'low' as TranslationKey, coords: { top: '25%', left: '80%' } },
+    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Solapur District', time: '2 days ago', severity: 'critical' as TranslationKey, coords: { top: '75%', left: '45%' } },
 ];
 
 export default function PestPatrolPage() {
@@ -42,7 +42,7 @@ export default function PestPatrolPage() {
                   className="object-cover"
                   data-ai-hint={mapImage.imageHint}
                 />
-                <div className="absolute inset-0 bg-black/20" />
+                <div className="absolute inset-0 bg-black/10" />
                 {mockIncidents.map(incident => (
                   <div
                     key={incident.id}
