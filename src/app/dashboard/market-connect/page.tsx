@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Button } from "@/components/ui/button";
@@ -10,16 +11,16 @@ import { useLanguage } from "@/lib/i18n";
 import { Badge } from "@/components/ui/badge";
 
 const mockListings = [
-  { id: 1, crop: 'Tomatoes', grade: 'Premium', quantity: '50kg', price: '₹30/kg', farmer: 'R. Sharma', location: 'Nashik' },
-  { id: 2, crop: 'Potatoes', grade: 'Market-Ready', quantity: '200kg', price: '₹15/kg', farmer: 'A. Patel', location: 'Indore' },
-  { id: 3, crop: 'Onions', grade: 'Premium', quantity: '150kg', price: '₹25/kg', farmer: 'S. Singh', location: 'Alwar' },
-  { id: 4, crop: 'Apples', grade: 'Processing', quantity: '500kg', price: '₹40/kg', farmer: 'K. Devi', location: 'Shimla' },
+  { id: 1, crop: 'Tomatoes', grade: 'Premium', quantity: '50kg', price: '30/kg', farmer: 'R. Sharma', location: 'Nashik' },
+  { id: 2, crop: 'Potatoes', grade: 'Market-Ready', quantity: '200kg', price: '15/kg', farmer: 'A. Patel', location: 'Indore' },
+  { id: 3, crop: 'Onions', grade: 'Premium', quantity: '150kg', price: '25/kg', farmer: 'S. Singh', location: 'Alwar' },
+  { id: 4, crop: 'Apples', grade: 'Processing', quantity: '500kg', price: '40/kg', farmer: 'K. Devi', location: 'Shimla' },
 ];
 
 const mockRates = [
-  { crop: 'Tomatoes', premium: '₹30-35/kg', market: '₹20-25/kg' },
-  { crop: 'Potatoes', premium: '₹18-22/kg', market: '₹12-16/kg' },
-  { crop: 'Onions', premium: '₹25-30/kg', market: '₹15-20/kg' },
+  { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
+  { crop: 'Potatoes', premium: '18-22/kg', market: '12-16/kg' },
+  { crop: 'Onions', premium: '25-30/kg', market: '15-20/kg' },
 ];
 
 export default function MarketConnectPage() {
@@ -91,7 +92,7 @@ export default function MarketConnectPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>{listing.quantity}</TableCell>
-                      <TableCell>{listing.price}</TableCell>
+                      <TableCell>₹{listing.price}</TableCell>
                       <TableCell>{listing.farmer} ({listing.location})</TableCell>
                     </TableRow>
                   ))}
@@ -118,8 +119,8 @@ export default function MarketConnectPage() {
                   {mockRates.map((rate, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">{rate.crop}</TableCell>
-                      <TableCell>{rate.premium}</TableCell>
-                      <TableCell>{rate.market}</TableCell>
+                      <TableCell>₹{rate.premium}</TableCell>
+                      <TableCell>₹{rate.market}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
