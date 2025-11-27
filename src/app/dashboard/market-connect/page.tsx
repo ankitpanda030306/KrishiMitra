@@ -29,7 +29,6 @@ import {
   useMemoFirebase,
   errorEmitter,
   FirestorePermissionError,
-  addDocumentNonBlocking,
 } from '@/firebase';
 import { collection, serverTimestamp, query, orderBy, addDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -113,9 +112,8 @@ export default function MarketConnectPage() {
       isSeed: false,
     };
 
-    const listingsColRef = collection(firestore, `harvestListings`);
-
     try {
+      const listingsColRef = collection(firestore, `harvestListings`);
       await addDoc(listingsColRef, newListing);
       toast({
           title: 'Harvest Listed!',
@@ -127,13 +125,13 @@ export default function MarketConnectPage() {
       setQuantity('');
       setPrice('');
       setNotes('');
-    } catch (serverError) {
-      const permissionError = new FirestorePermissionError({
-          path: listingsColRef.path,
-          operation: 'create',
-          requestResourceData: newListing,
-      });
-      errorEmitter.emit('permission-error', permissionError);
+    } catch (e: any) {
+        console.error("Error adding document: ", e);
+        toast({
+            variant: "destructive",
+            title: "Listing Failed",
+            description: e.message || "Could not list harvest. Check permissions.",
+        });
     } finally {
       setIsSubmitting(false);
     }

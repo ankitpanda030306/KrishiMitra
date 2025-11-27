@@ -1,3 +1,4 @@
+
 /**
  * Core Philosophy: This ruleset enforces a strict user-ownership model for all
  * personal data and a public-contribution model for community data. All access
@@ -58,10 +59,15 @@ service cloud.firestore {
     }
     
     /**
-    * Checks if the request's user ID matches the user ID on the *existing* resource.
+    * Checks if the request's user ID matches the user ID on the *existing* resource for update/delete
+    * or on the *incoming* resource for create.
     */
-    function isExistingResourceOwner() {
-      return isSignedIn() && exists(path) && request.auth.uid == resource.data.userProfileId;
+    function isResourceOwner() {
+      // For create, check the incoming resource's data.
+      // For update/delete, check the existing resource's data.
+      return isSignedIn() && 
+        (request.auth.uid == request.resource.data.userProfileId || 
+         (exists(path) && request.auth.uid == resource.data.userProfileId));
     }
 
 
@@ -91,8 +97,8 @@ service cloud.firestore {
       allow get: if isSignedIn();
       allow list: if isSignedIn();
       allow create: if isSignedIn() && request.auth.uid == request.resource.data.userProfileId;
-      allow update: if isExistingResourceOwner();
-      allow delete: if isExistingResourceOwner();
+      allow update: if isResourceOwner();
+      allow delete: if isResourceOwner();
     }
 
 
