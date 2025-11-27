@@ -6,7 +6,7 @@ import LiveWeather from '@/components/dashboard/LiveWeather';
 
 export default function DashboardPage() {
   return (
-    <div className="space-y-6">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <WelcomeHeader />
       <LiveWeather />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">

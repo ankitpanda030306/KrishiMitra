@@ -67,7 +67,7 @@ export default function PestPatrolPage() {
   };
 
   return (
-    <div className="space-y-8">
+    <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline">{t('pestPatrol')}</h1>
         <p className="text-muted-foreground">{t('pestPatrolDescription')}</p>
