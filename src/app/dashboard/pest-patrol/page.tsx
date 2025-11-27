@@ -32,36 +32,40 @@ export default function PestPatrolPage() {
           <CardTitle>{t('outbreakMap')}</CardTitle>
         </CardHeader>
         <CardContent>
-            {mapImage && (
-                <div className="aspect-video relative rounded-lg overflow-hidden border bg-secondary/20">
-                     <Image
-                        src={mapImage.imageUrl}
-                        alt={mapImage.description}
-                        fill
-                        className="object-cover"
-                        data-ai-hint={mapImage.imageHint}
-                    />
-                    <div className="absolute inset-0 bg-black/20"></div>
-                    <div className="absolute inset-0">
-                        {mockIncidents.map(incident => (
-                            <div 
-                                key={incident.id} 
-                                className="absolute"
-                                style={{ top: incident.coords.top, left: incident.coords.left }}
-                            >
-                                <div className="relative group">
-                                    <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
-                                    <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                                        <p className="font-bold">{t(incident.pest)}</p>
-                                        <p>{incident.location}</p>
-                                        <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
-                                    </div>
-                                </div>
-                            </div>
-                        ))}
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20">
+            {mapImage ? (
+              <>
+                <Image
+                  src={mapImage.imageUrl}
+                  alt={mapImage.description}
+                  fill
+                  className="object-cover"
+                  data-ai-hint={mapImage.imageHint}
+                />
+                <div className="absolute inset-0 bg-black/20" />
+                {mockIncidents.map(incident => (
+                  <div
+                    key={incident.id}
+                    className="absolute"
+                    style={{ top: incident.coords.top, left: incident.coords.left }}
+                  >
+                    <div className="relative group">
+                      <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
+                      <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                        <p className="font-bold">{t(incident.pest)}</p>
+                        <p>{incident.location}</p>
+                        <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
+                      </div>
                     </div>
-                </div>
+                  </div>
+                ))}
+              </>
+            ) : (
+              <div className="flex h-full items-center justify-center">
+                <p>{t('mapComingSoon')}</p>
+              </div>
             )}
+          </div>
         </CardContent>
       </Card>
 
@@ -101,7 +105,7 @@ export default function PestPatrolPage() {
                 <CardDescription>{t('spottedAPest')}</CardDescription>
             </CardHeader>
             <CardContent className="flex-grow flex flex-col items-center justify-center text-center space-y-4 p-8">
-                <p>{t('byReporting')}</p>
+                <p className="max-w-xs">{t('byReporting')}</p>
                 <Button size="lg">{t('reportIncident')}</Button>
             </CardContent>
           </Card>
