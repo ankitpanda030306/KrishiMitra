@@ -27,6 +27,8 @@ import {
   useFirestore,
   useCollection,
   useMemoFirebase,
+  errorEmitter,
+  FirestorePermissionError,
 } from '@/firebase';
 import { collection, serverTimestamp, query, orderBy, addDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
@@ -115,29 +117,40 @@ export default function MarketConnectPage() {
       `harvestListings`
     );
 
-    try {
-      await addDoc(listingsColRef, newListing);
-      toast({
-        title: 'Harvest Listed!',
-        description: `${quantity}kg of ${crop} has been listed successfully.`,
-      });
-      // Reset form
-      setCrop('');
-      setGrade('');
-      setQuantity('');
-      setPrice('');
-      setNotes('');
-    } catch (e) {
-      console.error('Error adding harvest listing:', e);
-      toast({
-        variant: 'destructive',
-        title: 'Listing Failed',
-        description:
-          'There was a problem listing your harvest. Please try again.',
-      });
-    } finally {
-      setIsSubmitting(false);
-    }
+    addDoc(listingsColRef, newListing)
+    .then(() => {
+        toast({
+            title: 'Harvest Listed!',
+            description: `${quantity}kg of ${crop} has been listed successfully.`,
+        });
+        // Reset form
+        setCrop('');
+        setGrade('');
+        setQuantity('');
+        setPrice('');
+        setNotes('');
+    })
+    .catch(async (serverError) => {
+        console.error("Caught permission error:", serverError); // Keep for temporary diagnosis if needed, but emitter is primary
+        const permissionError = new FirestorePermissionError({
+            path: listingsColRef.path,
+            operation: 'create',
+            requestResourceData: newListing,
+        });
+
+        // Emit the error with the global error emitter
+        errorEmitter.emit('permission-error', permissionError);
+
+        // Optionally, show a generic toast to the user
+        toast({
+            variant: "destructive",
+            title: "Listing Failed",
+            description: "You do not have permission to list a harvest. Please check your account.",
+        });
+    })
+    .finally(() => {
+        setIsSubmitting(false);
+    });
   };
   
   const canSubmit = !isSubmitting && !isUserLoading && !!firebaseUser;
@@ -334,4 +347,5 @@ export default function MarketConnectPage() {
       </div>
     </div>
   );
-}
+
+    
