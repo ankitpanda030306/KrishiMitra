@@ -48,27 +48,42 @@ const initialListings = [
   }
 ];
 
+// Flag to ensure seeding happens only once per session
+let isSeeding = false;
+let hasSeeded = false;
+
 export const seedInitialData = async (db: Firestore) => {
+  if (isSeeding || hasSeeded) {
+    return;
+  }
+
+  isSeeding = true;
+
   const listingsColRef = collection(db, 'harvestListings');
   
-  // Check if seed data already exists to prevent re-seeding
-  const q = query(listingsColRef, where("isSeed", "==", true), limit(1));
-  const snapshot = await getDocs(q);
-  if (!snapshot.empty) {
-    console.log("Seed data already exists. Skipping seeding.");
-    return; // Seed data exists, no need to seed again
-  }
-  
-  console.log("Seeding initial data...");
-  // Add each initial listing to the database
-  for (const listing of initialListings) {
-    try {
-      await addDoc(listingsColRef, {
-        ...listing,
-        availableFrom: serverTimestamp(),
-      });
-    } catch (error) {
-      console.error('Error seeding data:', error);
+  try {
+    // Check if seed data already exists to prevent re-seeding across sessions/reloads
+    const q = query(listingsColRef, where("isSeed", "==", true), limit(1));
+    const snapshot = await getDocs(q);
+    
+    if (!snapshot.empty) {
+      console.log("Seed data already exists. Skipping seeding.");
+      hasSeeded = true; // Mark as seeded for this session
+      return;
     }
+    
+    console.log("Seeding initial data...");
+    // Add each initial listing to the database
+    for (const listing of initialListings) {
+        await addDoc(listingsColRef, {
+          ...listing,
+          availableFrom: serverTimestamp(),
+        });
+    }
+    hasSeeded = true; // Mark as seeded for this session
+  } catch (error) {
+    console.error('Error seeding data:', error);
+  } finally {
+    isSeeding = false;
   }
 };

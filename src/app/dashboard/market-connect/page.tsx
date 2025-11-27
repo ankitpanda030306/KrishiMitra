@@ -27,8 +27,6 @@ import {
   useFirestore,
   useCollection,
   useMemoFirebase,
-  errorEmitter,
-  FirestorePermissionError,
 } from '@/firebase';
 import { collection, serverTimestamp, query, orderBy, addDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
