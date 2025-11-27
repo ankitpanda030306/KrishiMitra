@@ -37,7 +37,12 @@ export default function QuickActions() {
             <Mic className="w-12 h-12 text-primary" />
             <p className="font-semibold">{t('useVoiceInput')}</p>
           </div>
-          <Button className={cn(buttonClasses)}>{t('use')}</Button>
+          <Button 
+            onClick={() => router.push('/dashboard/voice-analysis')}
+            className={cn(buttonClasses)}
+          >
+            {t('use')}
+          </Button>
         </div>
       </CardContent>
     </Card>

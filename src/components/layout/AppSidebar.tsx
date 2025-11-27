@@ -20,6 +20,7 @@ import {
   Settings,
   LogOut,
   User,
+  Mic,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/firebase';
@@ -28,6 +29,7 @@ import { signOut } from 'firebase/auth';
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard' },
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
+  { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
   { href: '/dashboard/pest-patrol', icon: Bug, labelKey: 'pestPatrol' },
 ];

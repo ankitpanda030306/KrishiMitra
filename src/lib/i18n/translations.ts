@@ -190,9 +190,9 @@ export const translations = {
     or: 'ପ୍ରତିଛବି ଅପଲୋଡ୍ କରନ୍ତୁ',
   },
   analysisResults: {
-    en: 'Analyze Crop',
-    hi: 'फसल का विश्लेषण करें',
-    or: 'ଫସଲ ବିଶ୍ଳେଷଣ କରନ୍ତୁ',
+    en: 'Analysis Results',
+    hi: 'विश्लेषण परिणाम',
+    or: 'ବିଶ୍ଳେଷଣ ଫଳାଫଳ',
   },
   sortingRecommendations: {
     en: 'Recommend Sorting',
@@ -683,6 +683,57 @@ export const translations = {
     en: 'Choose the language for the application.',
     hi: 'एप्लिकेशन के लिए भाषा चुनें।',
     or: 'ଆପ୍ଲିକେସନ୍ ପାଇଁ ଭାଷା ଚୟନ କରନ୍ତୁ |',
+  },
+  // Voice Analysis
+  voiceInputDescription: {
+    en: 'Describe your crop condition, and our AI will provide recommendations.',
+    hi: 'अपनी फसल की स्थिति का वर्णन करें, और हमारा एआई सिफारिशें प्रदान करेगा।',
+    or: 'ଆପଣଙ୍କ ଫସଲର ସ୍ଥିତି ବର୍ଣ୍ଣନା କରନ୍ତୁ, ଏବଂ ଆମର AI ସୁପାରିଶ ପ୍ରଦାନ କରିବ |',
+  },
+  micNotSupported: {
+    en: 'Microphone not supported.',
+    hi: 'माइक्रोफ़ोन समर्थित नहीं है।',
+    or: 'ମାଇକ୍ରୋଫୋନ୍ ସମର୍ଥିତ ନୁହେଁ |',
+  },
+  micAccessDenied: {
+    en: 'Microphone access denied. Please enable it in your browser settings.',
+    hi: 'माइक्रोफ़ोन एक्सेस अस्वीकृत। कृपया इसे अपनी ब्राउज़र सेटिंग्स में सक्षम करें।',
+    or: 'ମାଇକ୍ରୋଫୋନ୍ ପ୍ରବେଶ ଅସ୍ୱୀକାର କରାଗଲା | ଦୟାକରି ଏହାକୁ ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହରେ ସକ୍ଷମ କରନ୍ତୁ |',
+  },
+  micErrorTitle: {
+    en: 'Microphone Error',
+    hi: 'माइक्रोफ़ोन त्रुटि',
+    or: 'ମାଇକ୍ରୋଫୋନ୍ ତ୍ରୁଟି',
+  },
+  startRecording: {
+    en: 'Start Recording',
+    hi: 'रिकॉर्डिंग शुरू करें',
+    or: 'ରେକର୍ଡିଂ ଆରମ୍ଭ କରନ୍ତୁ',
+  },
+  stopRecording: {
+    en: 'Stop Recording',
+    hi: 'रिकॉर्डिंग बंद करें',
+    or: 'ରେକର୍ଡିଂ ବନ୍ଦ କରନ୍ତୁ',
+  },
+  recordAgain: {
+    en: 'Record Again',
+    hi: 'फिर से रिकॉर्ड करें',
+    or: 'ପୁନର୍ବାର ରେକର୍ଡ କରନ୍ତୁ',
+  },
+  analyzeRecording: {
+    en: 'Analyze Recording',
+    hi: 'रिकॉर्डिंग का विश्लेषण करें',
+    or: 'ରେକର୍ଡିଂ ବିଶ୍ଳେଷଣ କରନ୍ତୁ',
+  },
+  recordingInProgress: {
+    en: 'Recording in progress...',
+    hi: 'रिकॉर्डिंग जारी है...',
+    or: 'ରେକର୍ଡିଂ ଚାଲୁଅଛି...',
+  },
+  analyzing: {
+    en: 'Analyzing...',
+    hi: 'विश्लेषण हो रहा है...',
+    or: 'ବିଶ୍ଳେଷଣ ଚାଲୁଅଛି...',
   },
 };
 
