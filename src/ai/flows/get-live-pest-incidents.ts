@@ -22,6 +22,7 @@ const IncidentSchema = z.object({
   location: z.string().describe('A nearby city or region for the incident.'),
   time: z.string().describe('A relative time string for when the incident was reported (e.g., "2 hours ago", "1 day ago").'),
   severity: z.enum(['low', 'medium', 'high', 'critical']).describe('The severity of the pest incident.'),
+  description: z.string().describe('A 2-3 line description of the incident, its impact, and recommended immediate actions.'),
 });
 
 const GetLivePestIncidentsOutputSchema = z.object({
@@ -41,8 +42,8 @@ const prompt = ai.definePrompt({
   output: {schema: GetLivePestIncidentsOutputSchema},
   prompt: `You are an agricultural AI assistant. Based on the provided latitude and longitude, generate a realistic list of 4-5 recent pest incidents that could plausibly occur in that geographical region of India.
 
-  For each incident, provide the pest name, a nearby location (city or district), a relative time of discovery, and a severity level.
-  {{#if language}}The 'pest' and 'location' names should be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
+  For each incident, provide the pest name, a nearby location (city or district), a relative time of discovery, a severity level, and a 2-3 line description of the incident, its potential impact on crops, and any immediate recommended actions for farmers.
+  {{#if language}}The 'pest', 'location', and 'description' fields should be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Latitude: {{{latitude}}}
   Longitude: {{{longitude}}}

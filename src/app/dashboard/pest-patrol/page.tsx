@@ -5,10 +5,11 @@ import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/lib/i18n";
-import { AlertTriangle, MapPin, Clock, Construction } from "lucide-react";
+import { AlertTriangle, MapPin, Clock, Construction, ChevronDown } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getLivePestIncidents, GetLivePestIncidentsOutput } from '@/ai/flows/get-live-pest-incidents';
 import { Skeleton } from '@/components/ui/skeleton';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Incident = GetLivePestIncidentsOutput['incidents'][0] & { id: number };
 
@@ -117,27 +118,34 @@ export default function PestPatrolPage() {
                     </div>
                 )}
                 {!loading && !error && incidents.length > 0 && (
-                  <ul className="space-y-4">
+                  <Accordion type="single" collapsible className="w-full space-y-2">
                       {incidents.map(incident => (
-                          <li key={incident.id} className="p-3 rounded-lg border flex flex-col sm:flex-row sm:items-start gap-4">
-                              <AlertTriangle className="h-8 w-8 text-destructive flex-shrink-0 mt-1" />
-                              <div className="flex-1">
-                                  <p className="font-bold text-lg">{incident.pest}</p>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <MapPin className="h-4 w-4" />
-                                      <span>{incident.location}</span>
-                                  </div>
-                                  <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                      <Clock className="h-4 w-4" />
-                                      <span>{incident.time}</span>
-                                  </div>
-                              </div>
-                              <div className="text-right">
-                                  <p className="text-sm font-semibold text-destructive capitalize">{t(severityMapping[incident.severity] || incident.severity as any)}</p>
-                              </div>
-                          </li>
+                        <AccordionItem value={`item-${incident.id}`} key={incident.id} className="p-3 rounded-lg border bg-card">
+                          <AccordionTrigger className="w-full text-left hover:no-underline py-1">
+                            <div className="flex flex-col sm:flex-row sm:items-start gap-4 flex-1">
+                                <AlertTriangle className="h-8 w-8 text-destructive flex-shrink-0 mt-1" />
+                                <div className="flex-1 text-left">
+                                    <p className="font-bold text-lg">{incident.pest}</p>
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <MapPin className="h-4 w-4" />
+                                        <span>{incident.location}</span>
+                                    </div>
+                                    <div className="flex items-center gap-2 text-sm text-muted-foreground">
+                                        <Clock className="h-4 w-4" />
+                                        <span>{incident.time}</span>
+                                    </div>
+                                </div>
+                                <div className="text-right">
+                                    <p className="text-sm font-semibold text-destructive capitalize">{t(severityMapping[incident.severity] || incident.severity as any)}</p>
+                                </div>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent className="pt-2 pl-12 pr-4 text-muted-foreground text-sm">
+                            {incident.description}
+                          </AccordionContent>
+                        </AccordionItem>
                       ))}
-                  </ul>
+                  </Accordion>
                 )}
                 {!loading && !error && incidents.length === 0 && (
                     <p className="text-center text-muted-foreground py-8">{t('noIncidents')}</p>

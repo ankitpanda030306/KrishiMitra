@@ -8,6 +8,7 @@ import { useLanguage } from '@/lib/i18n';
 import Link from 'next/link';
 import { getLivePestIncidents, GetLivePestIncidentsOutput } from '@/ai/flows/get-live-pest-incidents';
 import { Skeleton } from '../ui/skeleton';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 
 type Incident = GetLivePestIncidentsOutput['incidents'][0];
 
@@ -89,21 +90,28 @@ export default function PestPatrolSummary() {
             </div>
         )}
         {!loading && !error && incidents.length > 0 && (
-          <ul className="space-y-4">
+          <Accordion type="single" collapsible className="w-full space-y-1">
             {incidents.map((alert, index) => (
-              <li key={index} className="flex items-start gap-3">
-                <div className="flex-shrink-0 pt-1">
-                  <AlertTriangle className="w-5 h-5 text-destructive" />
-                </div>
-                <div>
-                  <p className="font-semibold">{alert.pest}</p>
-                  <p className="text-sm text-muted-foreground">
-                    {alert.location} - <span className="capitalize">{t((alert.severity || 'low') as any)}</span>
-                  </p>
-                </div>
-              </li>
+              <AccordionItem value={`item-${index}`} key={index}>
+                <AccordionTrigger className="text-left hover:no-underline py-2">
+                  <div className="flex items-start gap-3 flex-1">
+                    <div className="flex-shrink-0 pt-1">
+                      <AlertTriangle className="w-5 h-5 text-destructive" />
+                    </div>
+                    <div className="text-left">
+                      <p className="font-semibold">{alert.pest}</p>
+                      <p className="text-sm text-muted-foreground">
+                        {alert.location} - <span className="capitalize">{t((alert.severity || 'low') as any)}</span>
+                      </p>
+                    </div>
+                  </div>
+                </AccordionTrigger>
+                <AccordionContent className="pb-2 pl-10 pr-2 text-sm text-muted-foreground">
+                   {alert.description}
+                </AccordionContent>
+              </AccordionItem>
             ))}
-          </ul>
+          </Accordion>
         )}
          {!loading && !error && incidents.length === 0 && (
             <p className="text-center text-muted-foreground py-8">{t('noIncidents')}</p>
