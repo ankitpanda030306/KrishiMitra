@@ -5,8 +5,7 @@ import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/lib/i18n";
-import { PlaceHolderImages } from "@/lib/placeholder-images";
-import { AlertTriangle, MapPin, Clock } from "lucide-react";
+import { AlertTriangle, MapPin, Clock, Construction } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 const mockIncidents = [
@@ -18,7 +17,6 @@ const mockIncidents = [
 
 export default function PestPatrolPage() {
   const { t } = useLanguage();
-  const mapImage = PlaceHolderImages.find((img) => img.id === 'pest-patrol-map')!;
 
   return (
     <div className="space-y-8">
@@ -32,31 +30,12 @@ export default function PestPatrolPage() {
           <CardTitle>{t('outbreakMap')}</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20">
-            <Image
-              src={mapImage.imageUrl}
-              alt={mapImage.description}
-              fill
-              className="object-cover"
-              data-ai-hint={mapImage.imageHint}
-            />
-            <div className="absolute inset-0 bg-black/10" />
-            {mockIncidents.map(incident => (
-              <div
-                key={incident.id}
-                className="absolute"
-                style={{ top: incident.coords.top, left: incident.coords.left }}
-              >
-                <div className="relative group">
-                  <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
-                  <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                    <p className="font-bold">{t(incident.pest)}</p>
-                    <p>{incident.location}</p>
-                    <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
-                  </div>
-                </div>
-              </div>
-            ))}
+          <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20 flex flex-col items-center justify-center text-center p-8">
+            <Construction className="w-16 h-16 text-primary mb-4" />
+            <h3 className="text-2xl font-bold font-headline text-foreground">Feature Coming Soon!</h3>
+            <p className="text-muted-foreground max-w-sm mt-2">
+              We are working hard to bring you an interactive pest outbreak map. Stay tuned for updates!
+            </p>
           </div>
         </CardContent>
       </Card>
