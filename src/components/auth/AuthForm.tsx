@@ -270,19 +270,19 @@ export function AuthForm() {
         <TabsContent value="signup" className="space-y-4 pt-4">
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="name-signup" placeholder={t('name')} className="pl-9" value={signupName} onChange={(e) => setSignupName(e.target.value)} disabled={phoneVerified} />
+            <Input id="name-signup" placeholder={t('name')} className="pl-9" value={signupName} onChange={(e) => setSignupName(e.target.value)} disabled={otpSent} />
           </div>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} disabled={phoneVerified} />
+            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} disabled={otpSent} />
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="password-signup" type="password" placeholder={t('password')} className="pl-9" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} disabled={phoneVerified} />
+            <Input id="password-signup" type="password" placeholder={t('password')} className="pl-9" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} disabled={otpSent} />
           </div>
            <div className="relative">
             <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="address-signup" placeholder={t('address')} className="pl-9" value={signupAddress} onChange={(e) => setSignupAddress(e.target.value)} disabled={phoneVerified} />
+            <Input id="address-signup" placeholder={t('address')} className="pl-9" value={signupAddress} onChange={(e) => setSignupAddress(e.target.value)} disabled={otpSent} />
           </div>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
@@ -350,5 +350,3 @@ export function AuthForm() {
     </div>
   );
 }
-
-    
