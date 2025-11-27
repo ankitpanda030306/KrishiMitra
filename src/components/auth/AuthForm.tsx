@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -72,12 +72,8 @@ export function AuthForm() {
   const [otpSent, setOtpSent] = useState(false);
   const [phoneVerified, setPhoneVerified] = useState(false);
 
-
-  const handleLanguageChange = (value: string) => {
-    setLanguage(value as Language);
-  };
-
-  const setupRecaptcha = () => {
+  // Setup recaptcha verifier
+  useEffect(() => {
     if (!auth) return;
     if (!(window as any).recaptchaVerifier) {
       (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
@@ -86,13 +82,18 @@ export function AuthForm() {
           // reCAPTCHA solved, allow signInWithPhoneNumber.
         }
       });
+      (window as any).recaptchaVerifier.render();
     }
-  }
+  }, [auth]);
+
+
+  const handleLanguageChange = (value: string) => {
+    setLanguage(value as Language);
+  };
 
   const onSendOtp = async () => {
     setLoading(true);
     try {
-      setupRecaptcha();
       const appVerifier = (window as any).recaptchaVerifier;
       const result = await signInWithPhoneNumber(auth, `+91${signupPhone}`, appVerifier);
       setConfirmationResult(result);
@@ -106,6 +107,14 @@ export function AuthForm() {
       }
       toast({ variant: "destructive", title: "Error", description: errorMessage });
       setOtpSent(false);
+      // Reset reCAPTCHA
+      if((window as any).recaptchaVerifier) {
+        (window as any).recaptchaVerifier.render().then((widgetId: any) => {
+            if ((window as any).grecaptcha) {
+                (window as any).grecaptcha.reset(widgetId);
+            }
+        });
+      }
     } finally {
       setLoading(false);
     }
