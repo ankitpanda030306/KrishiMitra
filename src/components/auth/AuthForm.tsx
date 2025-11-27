@@ -118,7 +118,12 @@ export function AuthForm() {
         const user = userCredential.user;
         
         // Send verification email
-        await sendEmailVerification(user);
+        const actionCodeSettings = {
+          url: `${window.location.origin}/dashboard`,
+          handleCodeInApp: true,
+        };
+        await sendEmailVerification(user, actionCodeSettings);
+
         toast({
           title: "Verification Email Sent",
           description: "Please check your inbox to verify your email address before logging in.",
@@ -282,3 +287,5 @@ export function AuthForm() {
     </div>
   );
 }
+
+    
