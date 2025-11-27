@@ -1,0 +1,125 @@
+/**
+ * Core Philosophy: This ruleset enforces a strict user-ownership model for all
+ * personal data and a public-contribution model for community data. All access
+ * control decisions are based on the user's authenticated UID.
+ *
+ * Data Structure:
+ * - /users/{userId}: Contains private user profiles.
+ * - /users/{userId}/harvestListings/{listingId}: Subcollection for a user's private listings.
+ * - /pestOutbreaks/{outbreakId}: Top-level collection for publicly readable community data.
+ *
+ * Key Security Decisions:
+ * - Strict Ownership: A user can only access documents within their own data tree
+ *   (i.e., under /users/{their-own-userId}). Listing other users' data is disallowed.
+ * - Public Data Contribution: The `pestOutbreaks` collection is readable by anyone
+ *   (including unauthenticated users) to support a community map feature. However,
+ *   only authenticated users are permitted to create new outbreak reports.
+ *   To prevent tampering, updating or deleting these reports is disallowed.
+ * - Relational Integrity: On document creation, key relational fields (like a
+ *   user's own ID) must be correctly set and are immutable thereafter.
+ * - No Schema Validation: In this prototyping phase, rules focus solely on
+ *   authorization and do not validate the shape or data types of document fields,
+ *   allowing for rapid frontend development.
+ *
+ * Denormalization for Authorization:
+ * This ruleset relies on path-based security, where the user's UID is part of the
+ * document path (e.g., /users/{userId}/...). This avoids slow and costly `get()`
+ * calls to other documents for authorization checks, resulting in simpler and more
+ * performant rules.
+ *
+ * Structural Segregation:
+ * Private user data and public community data are stored in separate top-level
+ * collections (/users and /pestOutbreaks). This separation is critical for security
+ * and performance, as it ensures that queries for public data cannot accidentally
+ * expose private user information.
+ */
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    //-------------------------------------------------------------------------
+    // Helper Functions
+    //-------------------------------------------------------------------------
+
+    /**
+     * Checks if the user is authenticated.
+     */
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    /**
+     * Checks if the currently authenticated user's UID matches the provided userId.
+     * Use this for path-based security checks.
+     */
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    /**
+     * Checks for ownership on an existing document.
+     * CRITICAL: Use for all update and delete operations to prevent modifying
+     * documents that do not exist.
+     */
+    function isExistingOwner(userId) {
+      return isOwner(userId) && resource != null;
+    }
+
+    //-------------------------------------------------------------------------
+    // User Profile Rules
+    //-------------------------------------------------------------------------
+
+    /**
+     * @description Controls access to a user's own profile document.
+     * @path /users/{userId}
+     * @allow (create) An authenticated user creating their own profile document.
+     * @deny (get) A user trying to read another user's profile.
+     * @principle Restricts access to a user's own data tree.
+     */
+    match /users/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if isOwner(userId);
+      allow create: if isOwner(userId) && request.resource.data.id == userId;
+      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isExistingOwner(userId);
+
+      //-----------------------------------------------------------------------
+      // Harvest Listing Subcollection Rules
+      //-----------------------------------------------------------------------
+
+      /**
+       * @description Controls access to a user's harvest listings.
+       * @path /users/{userId}/harvestListings/{harvestListingId}
+       * @allow (create) An authenticated user creating a harvest listing under their own profile.
+       * @deny (list) User 'A' trying to list harvest listings owned by user 'B'.
+       * @principle Enforces document ownership for all operations within a subcollection.
+       */
+      match /harvestListings/{harvestListingId} {
+        allow get: if isOwner(userId);
+        allow list: if isOwner(userId);
+        allow create: if isOwner(userId) && request.resource.data.userProfileId == userId;
+        allow update: if isExistingOwner(userId) && request.resource.data.userProfileId == resource.data.userProfileId;
+        allow delete: if isExistingOwner(userId);
+      }
+    }
+
+    //-------------------------------------------------------------------------
+    // Pest Outbreak Rules
+    //-------------------------------------------------------------------------
+
+    /**
+     * @description Manages access to the public pest outbreak map data.
+     * @path /pestOutbreaks/{pestOutbreakId}
+     * @allow (get) Any user, including anonymous ones, reading a specific outbreak report.
+     * @deny (update) Any user trying to modify an existing outbreak report.
+     * @principle Allows public read access and authenticated-only creation for community data.
+     */
+    match /pestOutbreaks/{pestOutbreakId} {
+      allow get: if true;
+      allow list: if true;
+      allow create: if isSignedIn();
+      allow update: if false;
+      allow delete: if false;
+    }
+  }
+}

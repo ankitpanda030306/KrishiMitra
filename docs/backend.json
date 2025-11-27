@@ -1,0 +1,195 @@
+{
+  "entities": {
+    "UserProfile": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "UserProfile",
+      "type": "object",
+      "description": "Represents a user profile in the Krishi Mitra application.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the UserProfile entity."
+        },
+        "name": {
+          "type": "string",
+          "description": "User's full name."
+        },
+        "email": {
+          "type": "string",
+          "description": "User's email address.",
+          "format": "email"
+        },
+        "phone": {
+          "type": "string",
+          "description": "User's phone number."
+        },
+        "address": {
+          "type": "string",
+          "description": "User's address."
+        },
+        "preferredLanguage": {
+          "type": "string",
+          "description": "User's preferred language for the app (e.g., 'en', 'hi', 'or')."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "phone",
+        "address",
+        "preferredLanguage"
+      ]
+    },
+    "HarvestListing": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "HarvestListing",
+      "type": "object",
+      "description": "Represents a harvest listing created by a farmer.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the HarvestListing entity."
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "Reference to UserProfile. (Relationship: UserProfile 1:N HarvestListing)"
+        },
+        "cropType": {
+          "type": "string",
+          "description": "Type of crop being harvested (e.g., rice, wheat)."
+        },
+        "quantity": {
+          "type": "number",
+          "description": "Quantity of harvest available."
+        },
+        "qualityGrade": {
+          "type": "string",
+          "description": "Quality grade of the harvest (e.g., premium, market-ready, discard)."
+        },
+        "location": {
+          "type": "string",
+          "description": "Location of the harvest (e.g., GPS coordinates)."
+        },
+        "availableFrom": {
+          "type": "string",
+          "description": "Date from which the harvest is available.",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "id",
+        "userProfileId",
+        "cropType",
+        "quantity",
+        "qualityGrade",
+        "location",
+        "availableFrom"
+      ]
+    },
+    "PestOutbreak": {
+      "$schema": "http://json-schema.org/draft-07/schema#",
+      "title": "PestOutbreak",
+      "type": "object",
+      "description": "Represents a reported pest outbreak incident.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the PestOutbreak entity."
+        },
+        "latitude": {
+          "type": "number",
+          "description": "Latitude of the outbreak location."
+        },
+        "longitude": {
+          "type": "number",
+          "description": "Longitude of the outbreak location."
+        },
+        "pestType": {
+          "type": "string",
+          "description": "Type of pest involved in the outbreak."
+        },
+        "reportDate": {
+          "type": "string",
+          "description": "Date when the outbreak was reported.",
+          "format": "date-time"
+        },
+        "severity": {
+          "type": "string",
+          "description": "Severity level of the pest outbreak (e.g., low, medium, high)."
+        }
+      },
+      "required": [
+        "id",
+        "latitude",
+        "longitude",
+        "pestType",
+        "reportDate",
+        "severity"
+      ]
+    }
+  },
+  "auth": {
+    "providers": [
+      "password",
+      "anonymous"
+    ]
+  },
+  "firestore": {
+    "structure": [
+      {
+        "path": "/users/{userId}",
+        "definition": {
+          "entityName": "UserProfile",
+          "schema": {
+            "$ref": "#/backend/entities/UserProfile"
+          },
+          "description": "Stores user profile information. Path-based ownership ensures only the authenticated user can access their own profile.  'userId' must match request.auth.uid.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/harvestListings/{harvestListingId}",
+        "definition": {
+          "entityName": "HarvestListing",
+          "schema": {
+            "$ref": "#/backend/entities/HarvestListing"
+          },
+          "description": "Stores harvest listings created by a farmer. Path-based ownership. The 'userId' must match request.auth.uid for CRUD operations.",
+          "params": [
+            {
+              "name": "userId",
+              "description": "The unique identifier of the user."
+            },
+            {
+              "name": "harvestListingId",
+              "description": "The unique identifier of the harvest listing."
+            }
+          ]
+        }
+      },
+      {
+        "path": "/pestOutbreaks/{pestOutbreakId}",
+        "definition": {
+          "entityName": "PestOutbreak",
+          "schema": {
+            "$ref": "#/backend/entities/PestOutbreak"
+          },
+          "description": "Stores reported pest outbreak incidents. Globally accessible data for the PestPatrol community outbreak map.",
+          "params": [
+            {
+              "name": "pestOutbreakId",
+              "description": "The unique identifier of the pest outbreak."
+            }
+          ]
+        }
+      }
+    ],
+    "reasoning": "The Firestore structure is designed to ensure secure and scalable data management for the Krishi Mitra application. It leverages path-based ownership for user profiles and harvest listings, and a globally accessible structure for pest outbreaks.  \n\n**Authorization Independence (CRITICAL):**\n\n*   The structure avoids hierarchical authorization dependencies (`get()`). Access control relies on `request.auth.uid` and path-based ownership. For instance, harvest listings are stored under `/users/{userId}/harvestListings/{harvestListingId}`, ensuring only the authenticated user (farmer) can manage their listings. Pest outbreaks, while globally accessible, do not depend on user-specific data for authorization.\n\n**Clarity of Intent (Debuggability):**\n\n*   The structure makes authorization intent explicit through clear path naming and dedicated collections. User profiles are stored under `/users/{userId}`, making it clear that only the authenticated user can access their own profile data.\n\n**DBAC (No Custom Claims):**\n\n*   Authorization relies solely on `request.auth.uid`, which is the standard practice. There are no custom claims.\n\n**QAPs (Rules are not Filters):**\n\n*   The structure enables secure `list` operations. For example, listing harvest listings under `/users/{userId}/harvestListings` is secure because the rule can simply check if `request.auth.uid == userId`. The PestPatrol outbreak map also supports `list` operations without needing to filter based on user roles.\n\n**Invariants:**\n\n*   The structure supports the integrity of ownership. Each harvest listing has a `userProfileId` field referencing the owner (denormalized). While not used in security rules *directly* in this setup (path-based ownership takes precedence), it can be validated in backend functions to maintain data integrity.\n\n**Structural Segregation (Homogeneous Security Posture):**\n\n*   The structure ensures that all documents within a collection share the same security requirements. User-owned data is segregated under the `/users/{userId}` path, while globally accessible pest outbreak data is stored in the `/pestOutbreaks` collection.\n\nIn summary, this structure promotes secure, scalable, and easily debuggable security rules by focusing on authorization independence and structural segregation."
+  }
+}
