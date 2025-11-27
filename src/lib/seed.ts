@@ -1,5 +1,5 @@
 
-import { collection, addDoc, getDocs, serverTimestamp, Firestore } from 'firebase/firestore';
+import { collection, addDoc, getDocs, serverTimestamp, Firestore, query, where, limit } from 'firebase/firestore';
 
 const initialListings = [
   {
@@ -11,6 +11,7 @@ const initialListings = [
     notes: 'Freshly harvested organic tomatoes.',
     location: 'Nashik, Maharashtra',
     userProfileId: 'dummy_user_1',
+    isSeed: true,
   },
   {
     userName: 'Priya Singh',
@@ -21,6 +22,7 @@ const initialListings = [
     notes: 'Large, healthy onions.',
     location: 'Pune, Maharashtra',
     userProfileId: 'dummy_user_2',
+    isSeed: true,
   },
   {
     userName: 'Amit Patel',
@@ -31,6 +33,7 @@ const initialListings = [
     notes: '',
     location: 'Satara, Maharashtra',
     userProfileId: 'dummy_user_3',
+    isSeed: true,
   },
     {
     userName: 'Sunita Devi',
@@ -41,16 +44,18 @@ const initialListings = [
     notes: 'High-quality grain, low moisture.',
     location: 'Nagpur, Maharashtra',
     userProfileId: 'dummy_user_4',
+    isSeed: true,
   }
 ];
 
 export const seedInitialData = async (db: Firestore) => {
   const listingsColRef = collection(db, 'harvestListings');
   
-  // Check if there's already data to prevent re-seeding
-  const snapshot = await getDocs(listingsColRef);
+  // Check if seed data already exists to prevent re-seeding
+  const q = query(listingsColRef, where("isSeed", "==", true), limit(1));
+  const snapshot = await getDocs(q);
   if (!snapshot.empty) {
-    return; // Data exists, no need to seed
+    return; // Seed data exists, no need to seed again
   }
 
   // Add each initial listing to the database
@@ -65,3 +70,5 @@ export const seedInitialData = async (db: Firestore) => {
     }
   }
 };
+
+    

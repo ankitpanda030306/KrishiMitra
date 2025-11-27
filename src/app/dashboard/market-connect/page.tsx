@@ -58,8 +58,10 @@ export default function MarketConnectPage() {
 
   // Seed data only once
   useEffect(() => {
-    if (firestore) {
+    let isSeeded = false;
+    if (firestore && !isSeeded) {
       seedInitialData(firestore);
+      isSeeded = true;
     }
   }, [firestore]);
 
@@ -284,7 +286,7 @@ export default function MarketConnectPage() {
                           {rupeeSymbol}
                           {listing.pricePerKg}/kg
                         </TableCell>
-                        <TableCell>{listing.userName === (currentUserName || 'Anonymous Farmer') ? 'You' : listing.userName}</TableCell>
+                        <TableCell>{listing.userProfileId === firebaseUser?.uid ? 'You' : listing.userName}</TableCell>
                       </TableRow>
                     ))}
                   {!areListingsLoading &&
@@ -307,7 +309,7 @@ export default function MarketConnectPage() {
             <CardHeader>
               <CardTitle>{t('marketRates')}</CardTitle>
               <CardDescription>{t('averageMarketRates')}</CardDescription>
-            </CardHeader>
+            </Header>
             <CardContent>
               <Table>
                 <TableHeader>
@@ -339,5 +341,7 @@ export default function MarketConnectPage() {
       </div>
     </div>
   );
+
+    
 
     
