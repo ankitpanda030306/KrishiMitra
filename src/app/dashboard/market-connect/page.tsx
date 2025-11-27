@@ -25,7 +25,6 @@ import { useLanguage } from '@/lib/i18n';
 import { Badge } from '@/components/ui/badge';
 import {
   useFirestore,
-  useUser,
   useCollection,
   useMemoFirebase,
   addDocumentNonBlocking,
@@ -34,6 +33,7 @@ import { collection, serverTimestamp, query, orderBy } from 'firebase/firestore'
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useUser } from '@/lib/user';
 
 const mockRates = [
   { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
@@ -202,10 +202,10 @@ export default function MarketConnectPage() {
               </div>
               <Button
                 onClick={handleListHarvest}
-                disabled={isSubmitting || isUserLoading}
+                disabled={isSubmitting || isUserLoading || !firebaseUser}
                 className="w-full"
               >
-                {isSubmitting || isUserLoading && (
+                {isUserLoading && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {t('listNewHarvest')}
