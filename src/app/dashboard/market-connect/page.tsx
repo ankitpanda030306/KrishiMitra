@@ -27,8 +27,9 @@ import {
   useFirestore,
   useCollection,
   useMemoFirebase,
+  addDocumentNonBlocking,
 } from '@/firebase';
-import { collection, serverTimestamp, query, orderBy, addDoc } from 'firebase/firestore';
+import { collection, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -57,20 +58,28 @@ export default function MarketConnectPage() {
 
   // Seed data only once
   useEffect(() => {
-    if (firestore) {
-      seedInitialData(firestore);
-    }
+    const seedData = async () => {
+      if (firestore) {
+        // Check if there are any documents at all.
+        const listingsColRef = collection(firestore, `harvestListings`);
+        const snapshot = await getDocs(listingsColRef);
+        if (snapshot.empty) {
+          await seedInitialData(firestore);
+        }
+      }
+    };
+    seedData();
   }, [firestore]);
 
 
   const harvestListingsQuery = useMemoFirebase(() => {
-    if (!firestore) return null;
+    if (!firestore || !firebaseUser) return null;
     const listingsColRef = collection(
       firestore,
       `harvestListings`
     );
     return query(listingsColRef, orderBy('availableFrom', 'desc'));
-  }, [firestore]);
+  }, [firestore, firebaseUser]);
 
   const {
     data: harvestListings,
@@ -110,29 +119,30 @@ export default function MarketConnectPage() {
       isSeed: false,
     };
 
-    try {
-      const listingsColRef = collection(firestore, `harvestListings`);
-      await addDoc(listingsColRef, newListing);
-      toast({
-          title: 'Harvest Listed!',
-          description: `${quantity}kg of ${crop} has been listed successfully.`,
-      });
-      // Reset form
-      setCrop('');
-      setGrade('');
-      setQuantity('');
-      setPrice('');
-      setNotes('');
-    } catch (e: any) {
-        console.error("Error adding document: ", e);
-        toast({
-            variant: "destructive",
-            title: "Listing Failed",
-            description: e.message || "Could not list harvest. Check permissions.",
+    const listingsColRef = collection(firestore, `harvestListings`);
+    addDocumentNonBlocking(listingsColRef, newListing)
+        .then(() => {
+            toast({
+                title: 'Harvest Listed!',
+                description: `${quantity}kg of ${crop} has been listed successfully.`,
+            });
+            // Reset form
+            setCrop('');
+            setGrade('');
+            setQuantity('');
+            setPrice('');
+            setNotes('');
+        })
+        .catch((e: any) => {
+             toast({
+                variant: "destructive",
+                title: "Listing Failed",
+                description: "Could not list harvest. Check permissions.",
+            });
+        })
+        .finally(() => {
+            setIsSubmitting(false);
         });
-    } finally {
-      setIsSubmitting(false);
-    }
   };
   
   const canSubmit = !isSubmitting && !isUserLoading && !!firebaseUser;
