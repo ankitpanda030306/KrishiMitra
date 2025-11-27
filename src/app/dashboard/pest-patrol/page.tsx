@@ -79,12 +79,12 @@ export default function PestPatrolPage() {
                 </ul>
             </CardContent>
           </Card>
-           <Card>
+           <Card className="flex flex-col">
             <CardHeader>
                 <CardTitle>{t('reportIncident')}</CardTitle>
                 <CardDescription>{t('spottedAPest')}</CardDescription>
             </CardHeader>
-            <CardContent className="flex flex-col items-center justify-center text-center h-full space-y-4 p-8">
+            <CardContent className="flex-grow flex flex-col items-center justify-center text-center space-y-4 p-8">
                 <p>{t('byReporting')}</p>
                 <Button size="lg">{t('reportIncident')}</Button>
             </CardContent>
@@ -93,5 +93,3 @@ export default function PestPatrolPage() {
     </div>
   );
 }
-
-    
