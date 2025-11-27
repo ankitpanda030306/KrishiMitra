@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -27,11 +28,13 @@ import {
   updateProfile,
   GoogleAuthProvider,
   signInWithPopup,
-  getAdditionalUserInfo
+  getAdditionalUserInfo,
+  RecaptchaVerifier,
+  signInWithPhoneNumber,
+  ConfirmationResult
 } from 'firebase/auth';
 import { doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
-import { Separator } from '../ui/separator';
 
 const GoogleIcon = () => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2">
@@ -63,9 +66,83 @@ export function AuthForm() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
+  // Phone auth state
+  const [phone, setPhone] = useState('');
+  const [otp, setOtp] = useState('');
+  const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
+  const [otpSent, setOtpSent] = useState(false);
+
+
   const handleLanguageChange = (value: string) => {
     setLanguage(value as Language);
   };
+
+  const setupRecaptcha = () => {
+    if (!auth) return;
+    if (!(window as any).recaptchaVerifier) {
+      (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        'size': 'invisible',
+        'callback': (response: any) => {
+          // reCAPTCHA solved, allow signInWithPhoneNumber.
+        }
+      });
+    }
+  }
+
+  const onSendOtp = async () => {
+    setLoading(true);
+    try {
+      setupRecaptcha();
+      const appVerifier = (window as any).recaptchaVerifier;
+      const result = await signInWithPhoneNumber(auth, `+91${phone}`, appVerifier);
+      setConfirmationResult(result);
+      setOtpSent(true);
+      toast({ title: 'OTP Sent', description: 'An OTP has been sent to your phone.' });
+    } catch (error: any) {
+      console.error("Error sending OTP:", error);
+      let errorMessage = "Failed to send OTP.";
+      if (error.code === 'auth/invalid-phone-number') {
+        errorMessage = "Invalid phone number provided.";
+      }
+      toast({ variant: "destructive", title: "Error", description: errorMessage });
+      setOtpSent(false);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const onVerifyOtp = async () => {
+    setLoading(true);
+    if (!confirmationResult) return;
+    try {
+      const result = await confirmationResult.confirm(otp);
+      const user = result.user;
+      const additionalInfo = getAdditionalUserInfo(result);
+       
+      if (additionalInfo?.isNewUser) {
+        const userProfile = {
+            id: user.uid,
+            name: `Farmer ${user.uid.substring(0, 5)}`,
+            email: user.email || '',
+            phone: user.phoneNumber,
+            preferredLanguage: language,
+        };
+        const userDocRef = doc(firestore, 'users', user.uid);
+        setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
+      }
+      router.push('/dashboard');
+    } catch (error: any) {
+      console.error("Error verifying OTP:", error);
+      let errorMessage = "Failed to verify OTP.";
+      if (error.code === 'auth/invalid-verification-code') {
+        errorMessage = "Invalid OTP. Please try again.";
+      }
+      toast({ variant: "destructive", title: "Error", description: errorMessage });
+    } finally {
+      setLoading(false);
+    }
+  };
+
   
   const handleGoogleSignIn = async () => {
     setLoading(true);
@@ -171,9 +248,10 @@ export function AuthForm() {
 
   return (
     <div className="flex flex-col gap-6">
+      <div id="recaptcha-container"></div>
       <div className="space-y-2 text-center">
-        <h2 className="text-3xl font-bold font-headline">{t('createAccount')}</h2>
-        <p className="text-muted-foreground">{t('getStarted')}</p>
+        <h2 className="text-3xl font-bold font-headline">{t('getStarted')}</h2>
+        <p className="text-muted-foreground">{t('createAccount')}</p>
       </div>
 
       <div className="space-y-4">
@@ -193,9 +271,10 @@ export function AuthForm() {
       </div>
 
       <Tabs defaultValue="signup" className="w-full">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="signup">{t('createAccount')}</TabsTrigger>
           <TabsTrigger value="login">{t('login')}</TabsTrigger>
+          <TabsTrigger value="phone">Phone</TabsTrigger>
         </TabsList>
         <TabsContent value="signup" className="space-y-4 pt-4">
           <div className="relative">
@@ -251,7 +330,37 @@ export function AuthForm() {
             Sign in with Google
           </Button>
         </TabsContent>
+        <TabsContent value="phone" className="space-y-4 pt-4">
+          {!otpSent ? (
+            <>
+              <div className="relative">
+                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="phone-login" type="tel" placeholder="Enter phone number" className="pl-9" value={phone} onChange={(e) => setPhone(e.target.value)} />
+              </div>
+              <Button onClick={onSendOtp} disabled={loading || !phone} className="w-full">
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Send OTP
+              </Button>
+            </>
+          ) : (
+            <>
+              <div className="relative">
+                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                <Input id="otp-login" type="text" placeholder="Enter OTP" className="pl-9" value={otp} onChange={(e) => setOtp(e.target.value)} />
+              </div>
+              <Button onClick={onVerifyOtp} disabled={loading || !otp} className="w-full">
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Verify OTP & Sign In
+              </Button>
+              <Button variant="link" onClick={() => setOtpSent(false)} disabled={loading}>
+                Change phone number
+              </Button>
+            </>
+          )}
+        </TabsContent>
       </Tabs>
     </div>
   );
 }
+
+    

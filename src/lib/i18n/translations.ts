@@ -4,9 +4,9 @@ export type Language = 'en' | 'hi' | 'or';
 export const translations = {
   // Auth Page
   createAccount: {
-    en: 'Create an Account',
-    hi: 'खाता बनाएं',
-    or: 'ଏକ ଆକାଉଣ୍ଟ ସୃଷ୍ଟି କରନ୍ତୁ',
+    en: 'Sign up',
+    hi: 'साइन अप करें',
+    or: 'ସାଇନ୍ ଅପ୍ କରନ୍ତୁ',
   },
   login: {
     en: 'Login',
@@ -14,9 +14,9 @@ export const translations = {
     or: 'ଲଗଇନ୍ କରନ୍ତୁ',
   },
   getStarted: {
-    en: 'Get started by creating a new account.',
-    hi: 'नया खाता बनाकर आरंभ करें।',
-    or: 'ଏକ ନୂତନ ଆକାଉଣ୍ଟ ସୃଷ୍ଟି କରି ଆରମ୍ଭ କରନ୍ତୁ |',
+    en: 'Welcome to Krishi Mitra',
+    hi: 'कृषि मित्र में आपका स्वागत है',
+    or: 'କୃଷି ମିତ୍ରକୁ ସ୍ୱାଗତ',
   },
   name: {
     en: 'Name',
@@ -687,3 +687,5 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
+
+    
