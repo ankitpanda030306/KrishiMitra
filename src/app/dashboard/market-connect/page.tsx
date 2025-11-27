@@ -129,6 +129,9 @@ export default function MarketConnectPage() {
         setNotes('');
       })
       .catch((e) => {
+        // The non-blocking function will emit a detailed error,
+        // but we can still show a generic failure toast here.
+        // The detailed developer error will appear in the Next.js overlay.
         console.error('Error adding harvest listing:', e);
         toast({
           variant: 'destructive',
@@ -218,7 +221,7 @@ export default function MarketConnectPage() {
                 disabled={!canSubmit}
                 className="w-full"
               >
-                {isUserLoading && (
+                {isSubmitting && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {t('listNewHarvest')}
@@ -336,4 +339,5 @@ export default function MarketConnectPage() {
       </div>
     </div>
   );
-}
+
+    
