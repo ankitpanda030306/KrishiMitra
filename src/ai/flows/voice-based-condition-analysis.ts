@@ -1,3 +1,4 @@
+
 'use server';
 
 /**
@@ -14,7 +15,9 @@ import {z} from 'genkit';
 const VoiceConditionInputSchema = z.object({
   voiceDescription: z
     .string()
-    .describe('A description of the crop conditions provided via voice.'),
+    .describe(
+      "A description of the crop conditions provided via voice, as a data URI that must include a MIME type and use Base64 encoding. Expected format: 'data:<mimetype>;base64,<encoded_data>'."
+    ),
   location: z
     .string()
     .optional()
@@ -39,13 +42,13 @@ const prompt = ai.definePrompt({
   output: {schema: VoiceConditionOutputSchema},
   prompt: `You are an AI assistant providing recommendations to farmers based on their descriptions of crop conditions.
 
-  Description: {{{voiceDescription}}}
+First, transcribe the provided audio. Then, based on the transcription, provide specific and actionable recommendations to address the described conditions. Focus on potential issues, preventative measures, and treatment options. Ensure the recommendations are clear, concise, and easy for farmers to understand.
+If a location is provided, tailor your recommendations to the local climate and growing conditions.
 
-  {% if location %}Location: {{{location}}}{% endif %}
-
-  Provide specific and actionable recommendations to address the described conditions. Focus on potential issues, preventative measures, and treatment options.
-  Ensure the recommendations are clear, concise, and easy to understand for farmers.
-  If a location is provided, tailor your recommendations to the local climate and growing conditions.
+Voice Input: {{media url=voiceDescription}}
+{{#if location}}
+Location: {{{location}}}
+{{/if}}
   `,
 });
 
