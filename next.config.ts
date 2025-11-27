@@ -23,7 +23,8 @@ const nextConfig: NextConfig = {
         pathname: '/**',
       },
       {
-        protocol: 'https',
+        protocol: 'https'
+        ,
         hostname: 'picsum.photos',
         port: '',
         pathname: '/**',
@@ -31,6 +32,12 @@ const nextConfig: NextConfig = {
       {
         protocol: 'https',
         hostname: 'cdn.weatherapi.com',
+        port: '',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'storage.googleapis.com',
         port: '',
         pathname: '/**',
       }
