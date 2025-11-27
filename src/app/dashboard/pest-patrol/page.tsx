@@ -33,15 +33,15 @@ export default function PestPatrolPage() {
         </CardHeader>
         <CardContent>
             {mapImage && (
-                <div className="aspect-video relative rounded-lg overflow-hidden border">
+                <div className="aspect-video relative rounded-lg overflow-hidden border bg-secondary/20">
                      <Image
                         src={mapImage.imageUrl}
                         alt={mapImage.description}
                         fill
-                        className="object-cover"
+                        className="object-cover opacity-50"
                         data-ai-hint={mapImage.imageHint}
                     />
-                    <div className="absolute inset-0 bg-black/10">
+                    <div className="absolute inset-0">
                         {mockIncidents.map(incident => (
                             <div 
                                 key={incident.id} 
