@@ -55,9 +55,11 @@ export const seedInitialData = async (db: Firestore) => {
   const q = query(listingsColRef, where("isSeed", "==", true), limit(1));
   const snapshot = await getDocs(q);
   if (!snapshot.empty) {
+    console.log("Seed data already exists. Skipping seeding.");
     return; // Seed data exists, no need to seed again
   }
-
+  
+  console.log("Seeding initial data...");
   // Add each initial listing to the database
   for (const listing of initialListings) {
     try {
@@ -70,5 +72,3 @@ export const seedInitialData = async (db: Firestore) => {
     }
   }
 };
-
-    

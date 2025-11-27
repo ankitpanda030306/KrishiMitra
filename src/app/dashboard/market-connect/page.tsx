@@ -27,9 +27,8 @@ import {
   useFirestore,
   useCollection,
   useMemoFirebase,
-  addDocumentNonBlocking,
 } from '@/firebase';
-import { collection, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { collection, serverTimestamp, query, orderBy, addDoc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -108,6 +107,7 @@ export default function MarketConnectPage() {
       notes: notes,
       location: 'user_location', // Placeholder
       availableFrom: serverTimestamp(),
+      isSeed: false,
     };
 
     const listingsColRef = collection(
@@ -115,34 +115,29 @@ export default function MarketConnectPage() {
       `harvestListings`
     );
 
-    addDocumentNonBlocking(listingsColRef, newListing)
-      .then(() => {
-        toast({
-          title: 'Harvest Listed!',
-          description: `${quantity}kg of ${crop} has been listed successfully.`,
-        });
-        // Reset form
-        setCrop('');
-        setGrade('');
-        setQuantity('');
-        setPrice('');
-        setNotes('');
-      })
-      .catch((e) => {
-        // The non-blocking function will emit a detailed error,
-        // but we can still show a generic failure toast here.
-        // The detailed developer error will appear in the Next.js overlay.
-        console.error('Error adding harvest listing:', e);
-        toast({
-          variant: 'destructive',
-          title: 'Listing Failed',
-          description:
-            'There was a problem listing your harvest. Please try again.',
-        });
-      })
-      .finally(() => {
-        setIsSubmitting(false);
+    try {
+      await addDoc(listingsColRef, newListing);
+      toast({
+        title: 'Harvest Listed!',
+        description: `${quantity}kg of ${crop} has been listed successfully.`,
       });
+      // Reset form
+      setCrop('');
+      setGrade('');
+      setQuantity('');
+      setPrice('');
+      setNotes('');
+    } catch (e) {
+      console.error('Error adding harvest listing:', e);
+      toast({
+        variant: 'destructive',
+        title: 'Listing Failed',
+        description:
+          'There was a problem listing your harvest. Please try again.',
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   
   const canSubmit = !isSubmitting && !isUserLoading && !!firebaseUser;
@@ -307,7 +302,7 @@ export default function MarketConnectPage() {
             <CardHeader>
               <CardTitle>{t('marketRates')}</CardTitle>
               <CardDescription>{t('averageMarketRates')}</CardDescription>
-            </Header>
+            </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
