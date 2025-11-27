@@ -66,11 +66,11 @@ export function AuthForm() {
   const [loginEmail, setLoginEmail] = useState('');
   const [loginPassword, setLoginPassword] = useState('');
 
-  // Phone auth state
-  const [phone, setPhone] = useState('');
+  // Phone auth state for signup
   const [otp, setOtp] = useState('');
   const [confirmationResult, setConfirmationResult] = useState<ConfirmationResult | null>(null);
   const [otpSent, setOtpSent] = useState(false);
+  const [phoneVerified, setPhoneVerified] = useState(false);
 
 
   const handleLanguageChange = (value: string) => {
@@ -94,10 +94,10 @@ export function AuthForm() {
     try {
       setupRecaptcha();
       const appVerifier = (window as any).recaptchaVerifier;
-      const result = await signInWithPhoneNumber(auth, `+91${phone}`, appVerifier);
+      const result = await signInWithPhoneNumber(auth, `+91${signupPhone}`, appVerifier);
       setConfirmationResult(result);
       setOtpSent(true);
-      toast({ title: 'OTP Sent', description: 'An OTP has been sent to your phone.' });
+      toast({ title: 'OTP Sent', description: 'An OTP has been sent to your phone for verification.' });
     } catch (error: any) {
       console.error("Error sending OTP:", error);
       let errorMessage = "Failed to send OTP.";
@@ -115,29 +115,16 @@ export function AuthForm() {
     setLoading(true);
     if (!confirmationResult) return;
     try {
-      const result = await confirmationResult.confirm(otp);
-      const user = result.user;
-      const additionalInfo = getAdditionalUserInfo(result);
-       
-      if (additionalInfo?.isNewUser) {
-        const userProfile = {
-            id: user.uid,
-            name: `Farmer ${user.uid.substring(0, 5)}`,
-            email: user.email || '',
-            phone: user.phoneNumber,
-            preferredLanguage: language,
-        };
-        const userDocRef = doc(firestore, 'users', user.uid);
-        setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
-      }
-      router.push('/dashboard');
+      await confirmationResult.confirm(otp);
+      setPhoneVerified(true);
+      toast({ title: "Phone Verified", description: "Your phone number has been successfully verified."});
     } catch (error: any) {
       console.error("Error verifying OTP:", error);
       let errorMessage = "Failed to verify OTP.";
       if (error.code === 'auth/invalid-verification-code') {
         errorMessage = "Invalid OTP. Please try again.";
       }
-      toast({ variant: "destructive", title: "Error", description: errorMessage });
+      toast({ variant: "destructive", title: "Verification Failed", description: errorMessage });
     } finally {
       setLoading(false);
     }
@@ -187,6 +174,11 @@ export function AuthForm() {
       if (action === 'signup') {
         if (!signupEmail || !signupPassword || !signupName) {
             toast({ variant: 'destructive', title: 'Error', description: 'Name, email and password are required for signup.'});
+            setLoading(false);
+            return;
+        }
+         if (!phoneVerified) {
+            toast({ variant: 'destructive', title: 'Error', description: 'Please verify your phone number to sign up.'});
             setLoading(false);
             return;
         }
@@ -271,33 +263,57 @@ export function AuthForm() {
       </div>
 
       <Tabs defaultValue="signup" className="w-full">
-        <TabsList className="grid w-full grid-cols-3">
+        <TabsList className="grid w-full grid-cols-2">
           <TabsTrigger value="signup">{t('createAccount')}</TabsTrigger>
           <TabsTrigger value="login">{t('login')}</TabsTrigger>
-          <TabsTrigger value="phone">Phone</TabsTrigger>
         </TabsList>
         <TabsContent value="signup" className="space-y-4 pt-4">
           <div className="relative">
             <User className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="name-signup" placeholder={t('name')} className="pl-9" value={signupName} onChange={(e) => setSignupName(e.target.value)} />
+            <Input id="name-signup" placeholder={t('name')} className="pl-9" value={signupName} onChange={(e) => setSignupName(e.target.value)} disabled={phoneVerified} />
           </div>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} />
+            <Input id="email-signup" type="email" placeholder={t('email')} className="pl-9" value={signupEmail} onChange={(e) => setSignupEmail(e.target.value)} disabled={phoneVerified} />
           </div>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="password-signup" type="password" placeholder={t('password')} className="pl-9" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} />
+            <Input id="password-signup" type="password" placeholder={t('password')} className="pl-9" value={signupPassword} onChange={(e) => setSignupPassword(e.target.value)} disabled={phoneVerified} />
+          </div>
+           <div className="relative">
+            <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+            <Input id="address-signup" placeholder={t('address')} className="pl-9" value={signupAddress} onChange={(e) => setSignupAddress(e.target.value)} disabled={phoneVerified} />
           </div>
           <div className="relative">
             <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="phone-signup" type="tel" placeholder={t('phone')} className="pl-9" value={signupPhone} onChange={(e) => setSignupPhone(e.target.value)}/>
+            <Input id="phone-signup" type="tel" placeholder={t('phone')} className="pl-9" value={signupPhone} onChange={(e) => setSignupPhone(e.target.value)} disabled={otpSent}/>
           </div>
-          <div className="relative">
-            <Home className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-            <Input id="address-signup" placeholder={t('address')} className="pl-9" value={signupAddress} onChange={(e) => setSignupAddress(e.target.value)} />
-          </div>
-          <Button onClick={() => handleAuthAction('signup')} disabled={loading} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+
+          {!phoneVerified && otpSent && (
+            <div className="space-y-2">
+                <div className="relative">
+                    <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
+                    <Input id="otp-signup" type="text" placeholder="Enter OTP" className="pl-9" value={otp} onChange={(e) => setOtp(e.target.value)} />
+                </div>
+                <Button onClick={onVerifyOtp} disabled={loading || !otp} className="w-full" variant="secondary">
+                    {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                    Verify OTP
+                </Button>
+            </div>
+          )}
+
+          {!phoneVerified && !otpSent && (
+            <Button onClick={onSendOtp} disabled={loading || !signupPhone} className="w-full">
+              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+              Send OTP
+            </Button>
+          )}
+
+          {phoneVerified && (
+             <p className="text-sm text-center text-green-600">Phone number verified successfully!</p>
+          )}
+
+          <Button onClick={() => handleAuthAction('signup')} disabled={loading || !phoneVerified} className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
              {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
             {t('createAccount')}
           </Button>
@@ -329,34 +345,6 @@ export function AuthForm() {
             {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <GoogleIcon />}
             Sign in with Google
           </Button>
-        </TabsContent>
-        <TabsContent value="phone" className="space-y-4 pt-4">
-          {!otpSent ? (
-            <>
-              <div className="relative">
-                <Phone className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="phone-login" type="tel" placeholder="Enter phone number" className="pl-9" value={phone} onChange={(e) => setPhone(e.target.value)} />
-              </div>
-              <Button onClick={onSendOtp} disabled={loading || !phone} className="w-full">
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Send OTP
-              </Button>
-            </>
-          ) : (
-            <>
-              <div className="relative">
-                <Lock className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-muted-foreground" />
-                <Input id="otp-login" type="text" placeholder="Enter OTP" className="pl-9" value={otp} onChange={(e) => setOtp(e.target.value)} />
-              </div>
-              <Button onClick={onVerifyOtp} disabled={loading || !otp} className="w-full">
-                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
-                Verify OTP & Sign In
-              </Button>
-              <Button variant="link" onClick={() => setOtpSent(false)} disabled={loading}>
-                Change phone number
-              </Button>
-            </>
-          )}
         </TabsContent>
       </Tabs>
     </div>
