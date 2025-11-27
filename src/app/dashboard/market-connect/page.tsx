@@ -1,21 +1,39 @@
 
-"use client";
+'use client';
 
-import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
-import { Textarea } from "@/components/ui/textarea";
-import { useLanguage } from "@/lib/i18n";
-import { Badge } from "@/components/ui/badge";
-
-const mockListings = [
-  { id: 1, crop: 'Tomatoes', grade: 'Premium', quantity: '50kg', price: '30/kg', farmer: 'R. Sharma', location: 'Nashik' },
-  { id: 2, crop: 'Potatoes', grade: 'Market-Ready', quantity: '200kg', price: '15/kg', farmer: 'A. Patel', location: 'Indore' },
-  { id: 3, crop: 'Onions', grade: 'Premium', quantity: '150kg', price: '25/kg', farmer: 'S. Singh', location: 'Alwar' },
-  { id: 4, crop: 'Apples', grade: 'Processing', quantity: '500kg', price: '40/kg', farmer: 'K. Devi', location: 'Shimla' },
-];
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from '@/components/ui/table';
+import { Textarea } from '@/components/ui/textarea';
+import { useLanguage } from '@/lib/i18n';
+import { Badge } from '@/components/ui/badge';
+import {
+  useFirestore,
+  useUser,
+  useCollection,
+  useMemoFirebase,
+  addDocumentNonBlocking,
+} from '@/firebase';
+import { collection, serverTimestamp, query, orderBy } from 'firebase/firestore';
+import { useToast } from '@/hooks/use-toast';
+import { Loader2 } from 'lucide-react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 const mockRates = [
   { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
@@ -26,12 +44,101 @@ const mockRates = [
 export default function MarketConnectPage() {
   const { t } = useLanguage();
   const rupeeSymbol = '\u20B9';
+  const { firebaseUser, isUserLoading } = useUser();
+  const firestore = useFirestore();
+  const { toast } = useToast();
+
+  const [crop, setCrop] = useState('');
+  const [grade, setGrade] = useState('');
+  const [quantity, setQuantity] = useState('');
+  const [price, setPrice] = useState('');
+  const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const harvestListingsQuery = useMemoFirebase(() => {
+    if (!firestore || !firebaseUser) return null;
+    const listingsColRef = collection(
+      firestore,
+      `users/${firebaseUser.uid}/harvestListings`
+    );
+    return query(listingsColRef, orderBy('availableFrom', 'desc'));
+  }, [firestore, firebaseUser]);
+
+  const {
+    data: harvestListings,
+    isLoading: areListingsLoading,
+  } = useCollection(harvestListingsQuery);
+
+  const handleListHarvest = async () => {
+    if (!crop || !grade || !quantity || !price) {
+      toast({
+        variant: 'destructive',
+        title: 'Missing Fields',
+        description: 'Please fill out all required fields to list your harvest.',
+      });
+      return;
+    }
+    if (!firebaseUser) {
+      toast({
+        variant: 'destructive',
+        title: 'Not Authenticated',
+        description: 'You must be logged in to list a harvest.',
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+
+    const newListing = {
+      userProfileId: firebaseUser.uid,
+      cropType: crop,
+      qualityGrade: grade,
+      quantity: Number(quantity),
+      pricePerKg: Number(price),
+      notes: notes,
+      location: 'user_location', // Placeholder
+      availableFrom: serverTimestamp(),
+    };
+
+    const listingsColRef = collection(
+      firestore,
+      `users/${firebaseUser.uid}/harvestListings`
+    );
+
+    addDocumentNonBlocking(listingsColRef, newListing)
+      .then(() => {
+        toast({
+          title: 'Harvest Listed!',
+          description: `${quantity}kg of ${crop} has been listed successfully.`,
+        });
+        // Reset form
+        setCrop('');
+        setGrade('');
+        setQuantity('');
+        setPrice('');
+        setNotes('');
+      })
+      .catch((e) => {
+        console.error('Error adding harvest listing:', e);
+        toast({
+          variant: 'destructive',
+          title: 'Listing Failed',
+          description:
+            'There was a problem listing your harvest. Please try again.',
+        });
+      })
+      .finally(() => {
+        setIsSubmitting(false);
+      });
+  };
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline">{t('marketConnect')}</h1>
-        <p className="text-muted-foreground">{t('marketConnectDescription')}</p>
+        <p className="text-muted-foreground">
+          {t('marketConnectDescription')}
+        </p>
       </div>
 
       <div className="grid gap-8 lg:grid-cols-3">
@@ -43,25 +150,66 @@ export default function MarketConnectPage() {
             <CardContent className="space-y-4">
               <div className="space-y-2">
                 <Label htmlFor="crop">{t('cropType')}</Label>
-                <Input id="crop" placeholder={t('egTomatoes')} />
+                <Input
+                  id="crop"
+                  placeholder={t('egTomatoes')}
+                  value={crop}
+                  onChange={(e) => setCrop(e.target.value)}
+                  disabled={isSubmitting}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="grade">{t('grade')}</Label>
-                <Input id="grade" placeholder={t('egPremium')} />
+                <Input
+                  id="grade"
+                  placeholder={t('egPremium')}
+                  value={grade}
+                  onChange={(e) => setGrade(e.target.value)}
+                  disabled={isSubmitting}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="quantity">{t('quantityInKg')}</Label>
-                <Input id="quantity" type="number" placeholder={t('eg50')} />
+                <Input
+                  id="quantity"
+                  type="number"
+                  placeholder={t('eg50')}
+                  value={quantity}
+                  onChange={(e) => setQuantity(e.target.value)}
+                  disabled={isSubmitting}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="price">{t('pricePerKg')}</Label>
-                <Input id="price" type="number" placeholder={t('eg30')} />
+                <Input
+                  id="price"
+                  type="number"
+                  placeholder={t('eg30')}
+                  value={price}
+                  onChange={(e) => setPrice(e.target.value)}
+                  disabled={isSubmitting}
+                />
               </div>
               <div className="space-y-2">
                 <Label htmlFor="notes">{t('additionalNotes')}</Label>
-                <Textarea id="notes" placeholder={t('egOrganic')} />
+                <Textarea
+                  id="notes"
+                  placeholder={t('egOrganic')}
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  disabled={isSubmitting}
+                />
               </div>
-              <Button className="w-full">{t('listNewHarvest')}</Button>
+              <Button
+                onClick={handleListHarvest}
+                disabled={isSubmitting || isUserLoading}
+                className="w-full"
+              >
+                {isSubmitting && (
+                  <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                )}
+                {t('listNewHarvest')}
+              </Button>
             </CardContent>
           </Card>
         </div>
@@ -84,25 +232,62 @@ export default function MarketConnectPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockListings.map((listing) => (
-                    <TableRow key={listing.id}>
-                      <TableCell className="font-medium">{listing.crop}</TableCell>
-                      <TableCell>
-                        <Badge variant={listing.grade === 'Premium' ? 'default' : 'secondary'} className={listing.grade === 'Premium' ? 'bg-accent text-accent-foreground' : ''}>
-                          {listing.grade}
-                        </Badge>
-                      </TableCell>
-                      <TableCell>{listing.quantity}</TableCell>
-                      <TableCell>{rupeeSymbol}{listing.price}</TableCell>
-                      <TableCell>{listing.farmer} ({listing.location})</TableCell>
-                    </TableRow>
-                  ))}
+                  {areListingsLoading &&
+                    [...Array(3)].map((_, i) => (
+                      <TableRow key={i}>
+                        <TableCell colSpan={5}>
+                          <Skeleton className="h-5 w-full" />
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  {!areListingsLoading &&
+                    harvestListings &&
+                    harvestListings.map((listing) => (
+                      <TableRow key={listing.id}>
+                        <TableCell className="font-medium">
+                          {listing.cropType}
+                        </TableCell>
+                        <TableCell>
+                          <Badge
+                            variant={
+                              listing.qualityGrade === 'Premium'
+                                ? 'default'
+                                : 'secondary'
+                            }
+                            className={
+                              listing.qualityGrade === 'Premium'
+                                ? 'bg-accent text-accent-foreground'
+                                : ''
+                            }
+                          >
+                            {listing.qualityGrade}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>{listing.quantity}kg</TableCell>
+                        <TableCell>
+                          {rupeeSymbol}
+                          {listing.pricePerKg}/kg
+                        </TableCell>
+                        <TableCell>You</TableCell>
+                      </TableRow>
+                    ))}
+                  {!areListingsLoading &&
+                    (!harvestListings || harvestListings.length === 0) && (
+                      <TableRow>
+                        <TableCell
+                          colSpan={5}
+                          className="text-center text-muted-foreground"
+                        >
+                          You have not listed any harvests yet.
+                        </TableCell>
+                      </TableRow>
+                    )}
                 </TableBody>
               </Table>
             </CardContent>
           </Card>
 
-           <Card>
+          <Card>
             <CardHeader>
               <CardTitle>{t('marketRates')}</CardTitle>
               <CardDescription>{t('averageMarketRates')}</CardDescription>
@@ -120,8 +305,14 @@ export default function MarketConnectPage() {
                   {mockRates.map((rate, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">{rate.crop}</TableCell>
-                      <TableCell>{rupeeSymbol}{rate.premium}</TableCell>
-                      <TableCell>{rupeeSymbol}{rate.market}</TableCell>
+                      <TableCell>
+                        {rupeeSymbol}
+                        {rate.premium}
+                      </TableCell>
+                      <TableCell>
+                        {rupeeSymbol}
+                        {rate.market}
+                      </TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
@@ -133,3 +324,5 @@ export default function MarketConnectPage() {
     </div>
   );
 }
+
+    
