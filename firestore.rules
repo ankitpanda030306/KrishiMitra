@@ -70,7 +70,7 @@ service cloud.firestore {
      * Checks if the request's user ID matches the user ID on the resource being written.
      */
     function isResourceOwner() {
-      return request.auth.uid == request.resource.data.userProfileId;
+      return isSignedIn() && request.auth.uid == request.resource.data.userProfileId;
     }
     
     /**
@@ -106,7 +106,7 @@ service cloud.firestore {
     match /harvestListings/{harvestListingId} {
       allow get: if isSignedIn();
       allow list: if isSignedIn();
-      allow create: if isSignedIn() && isResourceOwner();
+      allow create: if isResourceOwner();
       allow update: if isExistingResourceOwner();
       allow delete: if isExistingResourceOwner();
     }
