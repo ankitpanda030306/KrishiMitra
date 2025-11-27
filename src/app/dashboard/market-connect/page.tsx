@@ -205,7 +205,7 @@ export default function MarketConnectPage() {
                 disabled={isSubmitting || isUserLoading}
                 className="w-full"
               >
-                {isSubmitting && (
+                {isSubmitting || isUserLoading && (
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                 )}
                 {t('listNewHarvest')}
@@ -324,5 +324,3 @@ export default function MarketConnectPage() {
     </div>
   );
 }
-
-    
