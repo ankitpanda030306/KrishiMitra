@@ -75,15 +75,23 @@ export function AuthForm() {
   // Setup recaptcha verifier
   useEffect(() => {
     if (!auth) return;
-    if (!(window as any).recaptchaVerifier) {
-      (window as any).recaptchaVerifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
-        'size': 'invisible',
-        'callback': (response: any) => {
-          // reCAPTCHA solved, allow signInWithPhoneNumber.
-        }
-      });
-      (window as any).recaptchaVerifier.render();
-    }
+
+    const verifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+      'size': 'invisible',
+      'callback': (response: any) => {
+        // reCAPTCHA solved, allow signInWithPhoneNumber.
+      }
+    });
+
+    (window as any).recaptchaVerifier = verifier;
+
+    // It's important to only render the verifier once.
+    verifier.render();
+
+    // Cleanup on unmount
+    return () => {
+        verifier.clear();
+    };
   }, [auth]);
 
 
@@ -108,12 +116,8 @@ export function AuthForm() {
       toast({ variant: "destructive", title: "Error", description: errorMessage });
       setOtpSent(false);
       // Reset reCAPTCHA
-      if((window as any).recaptchaVerifier) {
-        (window as any).recaptchaVerifier.render().then((widgetId: any) => {
-            if ((window as any).grecaptcha) {
-                (window as any).grecaptcha.reset(widgetId);
-            }
-        });
+      if((window as any).grecaptcha && (window as any).recaptchaWidgetId) {
+        (window as any).grecaptcha.reset((window as any).recaptchaWidgetId);
       }
     } finally {
       setLoading(false);
@@ -359,3 +363,5 @@ export function AuthForm() {
     </div>
   );
 }
+
+    
