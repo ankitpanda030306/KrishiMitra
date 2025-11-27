@@ -82,9 +82,6 @@ export default function PestPatrolPage() {
             <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20 flex flex-col items-center justify-center text-center p-8">
               <Construction className="w-16 h-16 text-primary mb-4" />
               <h3 className="text-2xl font-bold font-headline text-foreground">Feature Coming Soon!</h3>
-              <p className="text-muted-foreground max-w-sm mt-2">
-                We are working hard to bring you an interactive pest outbreak map. Stay tuned for updates!
-              </p>
             </div>
           </CardContent>
         </Card>
