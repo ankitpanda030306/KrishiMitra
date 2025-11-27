@@ -52,6 +52,10 @@
           "type": "string",
           "description": "Reference to UserProfile. (Relationship: UserProfile 1:N HarvestListing)"
         },
+        "userName": {
+          "type": "string",
+          "description": "Name of the farmer who created the listing."
+        },
         "cropType": {
           "type": "string",
           "description": "Type of crop being harvested (e.g., rice, wheat)."
@@ -60,6 +64,10 @@
           "type": "number",
           "description": "Quantity of harvest available."
         },
+        "pricePerKg": {
+          "type": "number",
+          "description": "Price per Kg for the harvest"
+        },
         "qualityGrade": {
           "type": "string",
           "description": "Quality grade of the harvest (e.g., premium, market-ready, discard)."
@@ -67,6 +75,10 @@
         "location": {
           "type": "string",
           "description": "Location of the harvest (e.g., GPS coordinates)."
+        },
+        "notes": {
+          "type": "string",
+          "description": "Additional notes about the harvest"
         },
         "availableFrom": {
           "type": "string",
@@ -77,6 +89,7 @@
       "required": [
         "id",
         "userProfileId",
+        "userName",
         "cropType",
         "quantity",
         "qualityGrade",
@@ -152,18 +165,14 @@
         }
       },
       {
-        "path": "/users/{userId}/harvestListings/{harvestListingId}",
+        "path": "/harvestListings/{harvestListingId}",
         "definition": {
           "entityName": "HarvestListing",
           "schema": {
             "$ref": "#/backend/entities/HarvestListing"
           },
-          "description": "Stores harvest listings created by a farmer. Path-based ownership. The 'userId' must match request.auth.uid for CRUD operations.",
+          "description": "A global collection of all harvest listings from all users. Readable by all authenticated users, but writable only by the user who created it.",
           "params": [
-            {
-              "name": "userId",
-              "description": "The unique identifier of the user."
-            },
             {
               "name": "harvestListingId",
               "description": "The unique identifier of the harvest listing."

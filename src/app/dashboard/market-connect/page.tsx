@@ -1,7 +1,7 @@
 
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
   Card,
@@ -34,6 +34,7 @@ import { useToast } from '@/hooks/use-toast';
 import { Loader2 } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/lib/user';
+import { seedInitialData } from '@/lib/seed';
 
 const mockRates = [
   { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
@@ -44,7 +45,7 @@ const mockRates = [
 export default function MarketConnectPage() {
   const { t } = useLanguage();
   const rupeeSymbol = '\u20B9';
-  const { firebaseUser, isUserLoading } = useUser();
+  const { firebaseUser, isUserLoading, name: currentUserName } = useUser();
   const firestore = useFirestore();
   const { toast } = useToast();
 
@@ -55,14 +56,22 @@ export default function MarketConnectPage() {
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Seed data only once
+  useEffect(() => {
+    if (firestore) {
+      seedInitialData(firestore);
+    }
+  }, [firestore]);
+
+
   const harvestListingsQuery = useMemoFirebase(() => {
-    if (!firestore || !firebaseUser) return null;
+    if (!firestore) return null;
     const listingsColRef = collection(
       firestore,
-      `users/${firebaseUser.uid}/harvestListings`
+      `harvestListings`
     );
     return query(listingsColRef, orderBy('availableFrom', 'desc'));
-  }, [firestore, firebaseUser]);
+  }, [firestore]);
 
   const {
     data: harvestListings,
@@ -91,6 +100,7 @@ export default function MarketConnectPage() {
 
     const newListing = {
       userProfileId: firebaseUser.uid,
+      userName: currentUserName || 'Anonymous Farmer',
       cropType: crop,
       qualityGrade: grade,
       quantity: Number(quantity),
@@ -102,7 +112,7 @@ export default function MarketConnectPage() {
 
     const listingsColRef = collection(
       firestore,
-      `users/${firebaseUser.uid}/harvestListings`
+      `harvestListings`
     );
 
     addDocumentNonBlocking(listingsColRef, newListing)
@@ -131,6 +141,9 @@ export default function MarketConnectPage() {
         setIsSubmitting(false);
       });
   };
+  
+  const canSubmit = !isSubmitting && !isUserLoading && !!firebaseUser;
+
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -155,7 +168,7 @@ export default function MarketConnectPage() {
                   placeholder={t('egTomatoes')}
                   value={crop}
                   onChange={(e) => setCrop(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled={!canSubmit}
                 />
               </div>
               <div className="space-y-2">
@@ -165,7 +178,7 @@ export default function MarketConnectPage() {
                   placeholder={t('egPremium')}
                   value={grade}
                   onChange={(e) => setGrade(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled={!canSubmit}
                 />
               </div>
               <div className="space-y-2">
@@ -176,7 +189,7 @@ export default function MarketConnectPage() {
                   placeholder={t('eg50')}
                   value={quantity}
                   onChange={(e) => setQuantity(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled={!canSubmit}
                 />
               </div>
               <div className="space-y-2">
@@ -187,7 +200,7 @@ export default function MarketConnectPage() {
                   placeholder={t('eg30')}
                   value={price}
                   onChange={(e) => setPrice(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled={!canSubmit}
                 />
               </div>
               <div className="space-y-2">
@@ -197,12 +210,12 @@ export default function MarketConnectPage() {
                   placeholder={t('egOrganic')}
                   value={notes}
                   onChange={(e) => setNotes(e.target.value)}
-                  disabled={isSubmitting}
+                  disabled={!canSubmit}
                 />
               </div>
               <Button
                 onClick={handleListHarvest}
-                disabled={isSubmitting || isUserLoading || !firebaseUser}
+                disabled={!canSubmit}
                 className="w-full"
               >
                 {isUserLoading && (
@@ -233,7 +246,7 @@ export default function MarketConnectPage() {
                 </TableHeader>
                 <TableBody>
                   {areListingsLoading &&
-                    [...Array(3)].map((_, i) => (
+                    [...Array(5)].map((_, i) => (
                       <TableRow key={i}>
                         <TableCell colSpan={5}>
                           <Skeleton className="h-5 w-full" />
@@ -268,7 +281,7 @@ export default function MarketConnectPage() {
                           {rupeeSymbol}
                           {listing.pricePerKg}/kg
                         </TableCell>
-                        <TableCell>You</TableCell>
+                        <TableCell>{listing.userName === (currentUserName || 'Anonymous Farmer') ? 'You' : listing.userName}</TableCell>
                       </TableRow>
                     ))}
                   {!areListingsLoading &&
@@ -278,7 +291,7 @@ export default function MarketConnectPage() {
                           colSpan={5}
                           className="text-center text-muted-foreground"
                         >
-                          You have not listed any harvests yet.
+                          No harvest listings available yet.
                         </TableCell>
                       </TableRow>
                     )}
