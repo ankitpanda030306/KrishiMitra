@@ -106,7 +106,7 @@ service cloud.firestore {
     match /harvestListings/{harvestListingId} {
       allow get: if isSignedIn();
       allow list: if isSignedIn();
-      allow create: if isResourceOwner();
+      allow create: if isSignedIn() && request.auth.uid == request.resource.data.userProfileId;
       allow update: if isExistingResourceOwner();
       allow delete: if isExistingResourceOwner();
     }
