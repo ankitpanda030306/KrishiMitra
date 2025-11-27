@@ -10,10 +10,10 @@ import { AlertTriangle, MapPin, Clock } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 const mockIncidents = [
-    { id: 1, pest: 'aphids' as TranslationKey, location: 'Near Highway 5', time: '2 hours ago', severity: 'high' as TranslationKey },
-    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'West Fields', time: '8 hours ago', severity: 'medium' as TranslationKey },
-    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Greenhouse 3', time: '1 day ago', severity: 'low' as TranslationKey },
-    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Eastern Valley', time: '2 days ago', severity: 'critical' as TranslationKey },
+    { id: 1, pest: 'aphids' as TranslationKey, location: 'Near Highway 5', time: '2 hours ago', severity: 'high' as TranslationKey, coords: { top: '30%', left: '40%' } },
+    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'West Fields', time: '8 hours ago', severity: 'medium' as TranslationKey, coords: { top: '55%', left: '15%' } },
+    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Greenhouse 3', time: '1 day ago', severity: 'low' as TranslationKey, coords: { top: '65%', left: '70%' } },
+    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Eastern Valley', time: '2 days ago', severity: 'critical' as TranslationKey, coords: { top: '20%', left: '80%' } },
 ];
 
 export default function PestPatrolPage() {
@@ -41,8 +41,23 @@ export default function PestPatrolPage() {
                         className="object-cover"
                         data-ai-hint={mapImage.imageHint}
                     />
-                    <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
-                        <p className="text-white bg-black/50 px-4 py-2 rounded-md">{t('mapComingSoon')}</p>
+                    <div className="absolute inset-0 bg-black/10">
+                        {mockIncidents.map(incident => (
+                            <div 
+                                key={incident.id} 
+                                className="absolute"
+                                style={{ top: incident.coords.top, left: incident.coords.left }}
+                            >
+                                <div className="relative group">
+                                    <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
+                                    <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                        <p className="font-bold">{t(incident.pest)}</p>
+                                        <p>{incident.location}</p>
+                                        <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
+                                    </div>
+                                </div>
+                            </div>
+                        ))}
                     </div>
                 </div>
             )}
@@ -72,7 +87,7 @@ export default function PestPatrolPage() {
                                 </div>
                             </div>
                             <div className="text-right">
-                                <p className="text-sm font-semibold text-destructive">{t(incident.severity)}</p>
+                                <p className="text-sm font-semibold text-destructive capitalize">{t(incident.severity)}</p>
                             </div>
                         </li>
                     ))}
