@@ -10,10 +10,10 @@ import { AlertTriangle, MapPin, Clock } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 
 const mockIncidents = [
-    { id: 1, pest: 'aphids' as TranslationKey, location: 'Near Highway 5', time: '2 hours ago', severity: 'high' as TranslationKey, coords: { top: '30%', left: '40%' } },
-    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'West Fields', time: '8 hours ago', severity: 'medium' as TranslationKey, coords: { top: '55%', left: '15%' } },
-    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Greenhouse 3', time: '1 day ago', severity: 'low' as TranslationKey, coords: { top: '65%', left: '70%' } },
-    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Eastern Valley', time: '2 days ago', severity: 'critical' as TranslationKey, coords: { top: '20%', left: '80%' } },
+    { id: 1, pest: 'aphids' as TranslationKey, location: 'Nashik Region', time: '2 hours ago', severity: 'high' as TranslationKey, coords: { top: '25%', left: '30%' } },
+    { id: 2, pest: 'fungalBlight' as TranslationKey, location: 'Pune Farmlands', time: '8 hours ago', severity: 'medium' as TranslationKey, coords: { top: '55%', left: '25%' } },
+    { id: 3, pest: 'whiteflies' as TranslationKey, location: 'Nagpur Outskirts', time: '1 day ago', severity: 'low' as TranslationKey, coords: { top: '20%', left: '70%' } },
+    { id: 4, pest: 'locustSwarm' as TranslationKey, location: 'Solapur District', time: '2 days ago', severity: 'critical' as TranslationKey, coords: { top: '80%', left: '45%' } },
 ];
 
 export default function PestPatrolPage() {
@@ -38,9 +38,10 @@ export default function PestPatrolPage() {
                         src={mapImage.imageUrl}
                         alt={mapImage.description}
                         fill
-                        className="object-cover opacity-50"
+                        className="object-cover"
                         data-ai-hint={mapImage.imageHint}
                     />
+                    <div className="absolute inset-0 bg-black/20"></div>
                     <div className="absolute inset-0">
                         {mockIncidents.map(incident => (
                             <div 
@@ -50,7 +51,7 @@ export default function PestPatrolPage() {
                             >
                                 <div className="relative group">
                                     <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
-                                    <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
+                                    <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
                                         <p className="font-bold">{t(incident.pest)}</p>
                                         <p>{incident.location}</p>
                                         <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>

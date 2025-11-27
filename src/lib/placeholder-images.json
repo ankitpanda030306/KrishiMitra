@@ -14,9 +14,9 @@
     },
     {
       "id": "pest-patrol-map",
-      "description": "A placeholder map for the PestPatrol feature.",
-      "imageUrl": "https://images.unsplash.com/photo-1581434148492-606b5a7ea56e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=M3w3NDE5ODJ8MHwxfHNlYXJjaHwxMHx8bWFwJTIwaWxsdXN0cmF0aW9ufGVufDB8fHx8MTc2NDA3ODQzNHww&ixlib=rb-4.1.0&q=80&w=1080",
-      "imageHint": "map illustration"
+      "description": "A satellite map image of Maharashtra, India for the PestPatrol feature.",
+      "imageUrl": "https://images.unsplash.com/photo-1622324185433-a3c3d5a57424?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDE4fHx8ZW58MHx8fHx8",
+      "imageHint": "satellite map Maharashtra"
     }
   ]
 }
