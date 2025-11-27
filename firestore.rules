@@ -56,22 +56,6 @@ service cloud.firestore {
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
-
-    /**
-     * Checks for ownership on an existing document.
-     * CRITICAL: Use for all update and delete operations to prevent modifying
-     * documents that do not exist.
-     */
-    function isExistingOwner(userId) {
-      return isOwner(userId) && resource != null;
-    }
-    
-    /**
-     * Checks if the request's user ID matches the user ID on the resource being written.
-     */
-    function isResourceOwner() {
-      return isSignedIn() && request.auth.uid == request.resource.data.userProfileId;
-    }
     
     /**
     * Checks if the request's user ID matches the user ID on the *existing* resource.
@@ -96,8 +80,8 @@ service cloud.firestore {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
       allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isExistingOwner(userId) && request.resource.data.id == resource.data.id;
-      allow delete: if isExistingOwner(userId);
+      allow update: if isOwner(userId) && request.resource.data.id == resource.data.id;
+      allow delete: if isOwner(userId);
     }
     
     //-------------------------------------------------------------------------
