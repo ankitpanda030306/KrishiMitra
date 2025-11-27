@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from 'react';
@@ -14,7 +15,7 @@ import {
 } from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useLanguage } from '@/lib/i18n';
-import type { Language, TranslationKey } from '@/lib/i18n/translations';
+import type { Language } from '@/lib/i18n/translations';
 import { User, Lock, Mail, Phone, Home } from 'lucide-react';
 import { useUser } from '@/lib/user';
 
