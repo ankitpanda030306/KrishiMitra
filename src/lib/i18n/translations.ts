@@ -529,6 +529,17 @@ export const translations = {
     hi: 'किमी दूर',
     or: 'କିମି ଦୂରରେ',
   },
+  incidentFetchError: {
+    en: 'Could not fetch live incidents.',
+    hi: 'लाइव घटनाएं प्राप्त नहीं की जा सकीं।',
+    or: 'ଲାଇଭ୍ ଘଟଣାଗୁଡିକ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
+  },
+  noIncidents: {
+    en: 'No recent incidents reported in your area.',
+    hi: 'आपके क्षेत्र में हाल ही में कोई घटना रिपोर्ट नहीं की गई है।',
+    or: 'ଆପଣଙ୍କ ଅଞ୍ଚଳରେ କୌଣସି ସାମ୍ପ୍ରତିକ ଘଟଣା ରିପୋର୍ଟ ହୋଇନାହିଁ |',
+  },
+
 
   // Live Weather
   fetchingWeather: {
