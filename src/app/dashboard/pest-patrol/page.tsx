@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { useLanguage } from "@/lib/i18n";
-import { AlertTriangle, MapPin, Clock, Construction, Loader2 } from "lucide-react";
+import { AlertTriangle, MapPin, Clock, Construction } from "lucide-react";
 import type { TranslationKey } from "@/lib/i18n/translations";
 import { getLivePestIncidents, GetLivePestIncidentsOutput } from '@/ai/flows/get-live-pest-incidents';
 import { Skeleton } from '@/components/ui/skeleton';
@@ -72,22 +72,23 @@ export default function PestPatrolPage() {
         <p className="text-muted-foreground">{t('pestPatrolDescription')}</p>
       </div>
 
-      <Card>
-        <CardHeader>
-          <CardTitle>{t('outbreakMap')}</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20 flex flex-col items-center justify-center text-center p-8">
-            <Construction className="w-16 h-16 text-primary mb-4" />
-            <h3 className="text-2xl font-bold font-headline text-foreground">Feature Coming Soon!</h3>
-            <p className="text-muted-foreground max-w-sm mt-2">
-              We are working hard to bring you an interactive pest outbreak map. Stay tuned for updates!
-            </p>
-          </div>
-        </CardContent>
-      </Card>
-
       <div className="grid gap-8 lg:grid-cols-2">
+        <Card className="lg:col-span-1">
+          <CardHeader>
+            <CardTitle>{t('outbreakMap')}</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20 flex flex-col items-center justify-center text-center p-8">
+              <Construction className="w-16 h-16 text-primary mb-4" />
+              <h3 className="text-2xl font-bold font-headline text-foreground">Feature Coming Soon!</h3>
+              <p className="text-muted-foreground max-w-sm mt-2">
+                We are working hard to bring you an interactive pest outbreak map. Stay tuned for updates!
+              </p>
+            </div>
+          </CardContent>
+        </Card>
+        
+        <div className="space-y-8 lg:col-span-1">
           <Card>
             <CardHeader>
                 <CardTitle>{t('recentIncidents')}</CardTitle>
@@ -153,6 +154,7 @@ export default function PestPatrolPage() {
                 <Button size="lg">{t('reportIncident')}</Button>
             </CardContent>
           </Card>
+        </div>
       </div>
     </div>
   );
