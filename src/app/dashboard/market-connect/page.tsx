@@ -25,6 +25,7 @@ const mockRates = [
 
 export default function MarketConnectPage() {
   const { t } = useLanguage();
+  const rupeeSymbol = '\u20B9';
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -92,7 +93,7 @@ export default function MarketConnectPage() {
                         </Badge>
                       </TableCell>
                       <TableCell>{listing.quantity}</TableCell>
-                      <TableCell>₹{listing.price}</TableCell>
+                      <TableCell>{rupeeSymbol}{listing.price}</TableCell>
                       <TableCell>{listing.farmer} ({listing.location})</TableCell>
                     </TableRow>
                   ))}
@@ -119,8 +120,8 @@ export default function MarketConnectPage() {
                   {mockRates.map((rate, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">{rate.crop}</TableCell>
-                      <TableCell>₹{rate.premium}</TableCell>
-                      <TableCell>₹{rate.market}</TableCell>
+                      <TableCell>{rupeeSymbol}{rate.premium}</TableCell>
+                      <TableCell>{rupeeSymbol}{rate.market}</TableCell>
                     </TableRow>
                   ))}
                 </TableBody>
