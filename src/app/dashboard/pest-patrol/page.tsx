@@ -88,7 +88,7 @@ export default function PestPatrolPage() {
           </CardContent>
         </Card>
         
-        <div className="space-y-8 lg:col-span-1">
+        <div className="lg:col-span-1 flex flex-col gap-8">
           <Card>
             <CardHeader>
                 <CardTitle>{t('recentIncidents')}</CardTitle>
@@ -144,7 +144,7 @@ export default function PestPatrolPage() {
                 )}
             </CardContent>
           </Card>
-           <Card className="flex flex-col">
+           <Card className="flex flex-col flex-grow">
             <CardHeader>
                 <CardTitle>{t('reportIncident')}</CardTitle>
                 <CardDescription>{t('spottedAPest')}</CardDescription>
