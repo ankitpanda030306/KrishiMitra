@@ -1,8 +1,7 @@
-
 "use client";
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import {
   Sidebar,
   SidebarContent,
@@ -23,6 +22,8 @@ import {
   User,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
+import { useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard' },
@@ -34,6 +35,13 @@ const navItems = [
 export default function AppSidebar() {
   const pathname = usePathname();
   const { t } = useLanguage();
+  const auth = useAuth();
+  const router = useRouter();
+  
+  const handleLogout = () => {
+    signOut(auth);
+    router.push('/');
+  }
 
   return (
     <Sidebar>
@@ -82,11 +90,9 @@ export default function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip={{ children: t('logout') }}>
-              <Link href="/">
-                <LogOut />
-                <span>{t('logout')}</span>
-              </Link>
+            <SidebarMenuButton onClick={handleLogout} tooltip={{ children: t('logout') }}>
+              <LogOut />
+              <span>{t('logout')}</span>
             </SidebarMenuButton>
           </SidebarMenuItem>
         </SidebarMenu>

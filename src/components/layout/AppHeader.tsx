@@ -1,4 +1,3 @@
-
 "use client";
 
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -24,14 +23,24 @@ import { useLanguage } from '@/lib/i18n';
 import type { Language } from '@/lib/i18n/translations';
 import Link from 'next/link';
 import { useUser } from '@/lib/user';
+import { useAuth } from '@/firebase';
+import { signOut } from 'firebase/auth';
+import { useRouter } from 'next/navigation';
 
 export default function AppHeader() {
   const { t, language, setLanguage } = useLanguage();
   const { name, displayName, email } = useUser();
+  const auth = useAuth();
+  const router = useRouter();
 
   const handleLanguageChange = (value: string) => {
     setLanguage(value as Language);
   };
+  
+  const handleLogout = () => {
+    signOut(auth);
+    router.push('/');
+  }
 
   const getInitials = (nameStr: string) => {
     if (!nameStr) return '';
@@ -98,11 +107,9 @@ export default function AppHeader() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
-              <Link href="/">
+            <DropdownMenuItem onClick={handleLogout}>
                 <LogOut className="mr-2 h-4 w-4" />
                 <span>{t('logout')}</span>
-              </Link>
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

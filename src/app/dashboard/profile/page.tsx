@@ -33,7 +33,7 @@ const profileFormSchema = z.object({
   }),
   email: z.string().email({
     message: 'Please enter a valid email address.',
-  }),
+  }).optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
 });
@@ -42,7 +42,7 @@ type ProfileFormValues = z.infer<typeof profileFormSchema>;
 
 export default function ProfilePage() {
   const { t } = useLanguage();
-  const { name, email, phone, address, setUserDetails } = useUser();
+  const { name, email, phone, address, setUserDetails, isUserLoading } = useUser();
   const { toast } = useToast();
 
   const form = useForm<ProfileFormValues>({
@@ -57,16 +57,22 @@ export default function ProfilePage() {
   });
   
   useEffect(() => {
-    form.reset({
-        name: name,
-        email: email,
-        phone: phone,
-        address: address,
-    })
-  }, [name, email, phone, address, form]);
+    if (!isUserLoading) {
+        form.reset({
+            name: name,
+            email: email,
+            phone: phone,
+            address: address,
+        })
+    }
+  }, [name, email, phone, address, form, isUserLoading]);
 
   function onSubmit(data: ProfileFormValues) {
-    setUserDetails(data);
+    setUserDetails({
+        name: data.name,
+        phone: data.phone,
+        address: data.address
+    });
     toast({
       title: t('profileUpdated'),
       description: t('profileUpdatedDesc'),
@@ -120,8 +126,11 @@ export default function ProfilePage() {
                             placeholder={t('email')}
                             {...field}
                              className="pl-9"
+                             readOnly
+                             disabled
                           />
                         </FormControl>
+                        <FormDescription>Email cannot be changed.</FormDescription>
                       </div>
                       <FormMessage />
                     </FormItem>
@@ -168,7 +177,7 @@ export default function ProfilePage() {
                   )}
                 />
               </div>
-              <Button type="submit">{t('saveChanges')}</Button>
+              <Button type="submit" disabled={isUserLoading}>{t('saveChanges')}</Button>
             </form>
           </Form>
         </CardContent>

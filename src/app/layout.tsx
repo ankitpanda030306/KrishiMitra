@@ -4,6 +4,7 @@ import { Toaster } from '@/components/ui/toaster';
 import { LanguageProvider } from '@/lib/i18n';
 import { UserProvider } from '@/lib/user';
 import { ThemeProvider } from '@/components/providers/theme-provider';
+import { FirebaseClientProvider } from '@/firebase';
 
 export const metadata: Metadata = {
   title: 'Krishi Mitra',
@@ -32,12 +33,14 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
         >
+          <FirebaseClientProvider>
             <LanguageProvider>
               <UserProvider>
                 {children}
                 <Toaster />
               </UserProvider>
             </LanguageProvider>
+          </FirebaseClientProvider>
         </ThemeProvider>
       </body>
     </html>
