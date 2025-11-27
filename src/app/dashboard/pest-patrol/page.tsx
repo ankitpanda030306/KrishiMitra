@@ -18,7 +18,7 @@ const mockIncidents = [
 
 export default function PestPatrolPage() {
   const { t } = useLanguage();
-  const mapImage = PlaceHolderImages.find((img) => img.id === 'pest-patrol-map');
+  const mapImage = PlaceHolderImages.find((img) => img.id === 'pest-patrol-map')!;
 
   return (
     <div className="space-y-8">
@@ -33,38 +33,30 @@ export default function PestPatrolPage() {
         </CardHeader>
         <CardContent>
           <div className="relative aspect-video w-full overflow-hidden rounded-lg border bg-secondary/20">
-            {mapImage ? (
-              <>
-                <Image
-                  src={mapImage.imageUrl}
-                  alt={mapImage.description}
-                  fill
-                  className="object-cover"
-                  data-ai-hint={mapImage.imageHint}
-                />
-                <div className="absolute inset-0 bg-black/10" />
-                {mockIncidents.map(incident => (
-                  <div
-                    key={incident.id}
-                    className="absolute"
-                    style={{ top: incident.coords.top, left: incident.coords.left }}
-                  >
-                    <div className="relative group">
-                      <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
-                      <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
-                        <p className="font-bold">{t(incident.pest)}</p>
-                        <p>{incident.location}</p>
-                        <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
-                      </div>
-                    </div>
+            <Image
+              src={mapImage.imageUrl}
+              alt={mapImage.description}
+              fill
+              className="object-cover"
+              data-ai-hint={mapImage.imageHint}
+            />
+            <div className="absolute inset-0 bg-black/10" />
+            {mockIncidents.map(incident => (
+              <div
+                key={incident.id}
+                className="absolute"
+                style={{ top: incident.coords.top, left: incident.coords.left }}
+              >
+                <div className="relative group">
+                  <AlertTriangle className="h-8 w-8 text-destructive animate-pulse" />
+                  <div className="absolute bottom-full mb-2 w-48 p-2 bg-popover text-popover-foreground rounded-md shadow-lg text-sm opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                    <p className="font-bold">{t(incident.pest)}</p>
+                    <p>{incident.location}</p>
+                    <p className="capitalize">{t('severity')}: {t(incident.severity)}</p>
                   </div>
-                ))}
-              </>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <p>{t('mapComingSoon')}</p>
+                </div>
               </div>
-            )}
+            ))}
           </div>
         </CardContent>
       </Card>
