@@ -55,7 +55,7 @@ export default function PricingPage() {
   const { t } = useLanguage();
   const { subscriptionPlan, setUserDetails } = useUser();
   const { toast } = useToast();
-  const rupeeSymbol = '\u20B9';
+  const rupeeSymbol = 'Rs.';
 
   const handleStartTrial = () => {
     const oneMonthFromNow = add(new Date(), { months: 1 });
@@ -164,3 +164,5 @@ export default function PricingPage() {
     </div>
   );
 }
+
+    

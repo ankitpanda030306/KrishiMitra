@@ -373,9 +373,9 @@ export const translations = {
     or: 'ଉଦାହରଣ ସ୍ୱରୂପ, 50',
   },
   pricePerKg: {
-    en: 'Price per kg (₹)',
-    hi: 'मूल्य प्रति किलो (₹)',
-    or: 'ପ୍ରତି କେଜି ମୂଲ୍ୟ (₹)',
+    en: 'Price per kg (Rs.)',
+    hi: 'मूल्य प्रति किलो (रु.)',
+    or: 'ପ୍ରତି କେଜି ମୂଲ୍ୟ (ଟଙ୍କା)',
   },
   eg30: {
     en: 'e.g., 30',
@@ -844,3 +844,5 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
+
+    

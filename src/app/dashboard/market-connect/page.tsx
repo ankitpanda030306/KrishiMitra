@@ -44,7 +44,7 @@ const mockRates = [
 
 export default function MarketConnectPage() {
   const { t } = useLanguage();
-  const rupeeSymbol = '\u20B9';
+  const rupeeSymbol = 'Rs.';
   const { firebaseUser, isUserLoading, name: currentUserName } = useUser();
   const firestore = useFirestore();
   const { toast } = useToast();
@@ -340,3 +340,5 @@ export default function MarketConnectPage() {
     </div>
   );
 }
+
+    
