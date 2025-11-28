@@ -786,10 +786,10 @@ export const translations = {
     hi: 'वार्षिक',
     or: 'ବାର୍ଷିକ',
   },
-  upgradeToFreemium: {
-    en: 'Upgrade to Freemium',
-    hi: 'फ्रीमियम में अपग्रेड करें',
-    or: 'ଫ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
+  upgradeToPremium: {
+    en: 'Upgrade to Premium',
+    hi: 'प्रीमियम में अपग्रेड करें',
+    or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
   },
   startFreeTrial: {
     en: 'Start 1-Month Free Trial',

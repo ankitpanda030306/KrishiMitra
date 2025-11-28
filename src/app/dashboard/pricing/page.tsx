@@ -84,6 +84,13 @@ export default function PricingPage() {
         description: 'You now have access to all freemium features for 30 days.'
     })
   };
+  
+  const handleUpgradeToPremium = () => {
+    toast({
+        title: 'Coming Soon!',
+        description: 'Payment processing for the premium plan is not yet available.'
+    })
+  };
 
   const plans = staticPlans.map(p => {
       const isCurrent = subscriptionPlan === p.planId;
@@ -99,8 +106,8 @@ export default function PricingPage() {
           buttonAction = isCurrent ? () => {} : handleStartTrial;
           buttonDisabled = isCurrent;
       } else if (p.planId === 'premium-plus') {
-          buttonLabel = isCurrent ? t('currentPlan') : t('contactSales');
-          buttonAction = () => { /* Logic for contacting sales */ };
+          buttonLabel = isCurrent ? t('currentPlan') : t('upgradeToPremium');
+          buttonAction = isCurrent ? () => {} : handleUpgradeToPremium;
           buttonDisabled = isCurrent;
       }
 
