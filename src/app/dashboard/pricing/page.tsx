@@ -18,7 +18,6 @@ import { useToast } from '@/hooks/use-toast';
 import type { TranslationKey } from '@/lib/i18n/translations';
 import { useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
-import { useTheme } from 'next-themes';
 import { useRouter } from 'next/navigation';
 
 // Define plans statically outside the component to prevent hydration issues
@@ -35,7 +34,6 @@ const staticPlans = [
       Icon: Star,
       isFeatured: false,
       planId: 'free',
-      theme: 'system',
     },
     {
       planNameKey: 'freemium' as TranslationKey,
@@ -51,7 +49,6 @@ const staticPlans = [
       Icon: Gem,
       isFeatured: true,
       planId: 'freemium',
-      theme: 'sky-blue',
     },
     {
       planNameKey: 'premium' as TranslationKey,
@@ -68,7 +65,6 @@ const staticPlans = [
       Icon: Rocket,
       isFeatured: false,
       planId: 'premium',
-      theme: 'light-red',
     }
   ];
 
@@ -80,7 +76,6 @@ export default function PricingPage() {
   const router = useRouter();
   const rupeeSymbol = 'Rs.';
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
-  const { setTheme } = useTheme();
 
   const handleStartTrial = () => {
     setLoadingPlanId('freemium');
@@ -90,7 +85,6 @@ export default function PricingPage() {
         subscriptionPlan: 'freemium',
         subscriptionExpires: Timestamp.fromDate(oneMonthFromNow),
       });
-      setTheme('sky-blue');
       toast({
           title: 'Free Trial Started!',
           description: 'You now have access to all freemium features for 30 days.'
@@ -103,12 +97,18 @@ export default function PricingPage() {
   const handleUpgradeToPremium = () => {
     setLoadingPlanId('premium');
     setTimeout(() => {
-       setTheme('light-red');
+      // For now, we simulate the upgrade without a real payment
+      const oneYearFromNow = add(new Date(), { years: 1 });
+       setUserDetails({
+        subscriptionPlan: 'premium',
+        subscriptionExpires: Timestamp.fromDate(oneYearFromNow),
+      });
       toast({
           title: 'Coming Soon!',
-          description: 'Payment processing for the premium plan is not yet available.'
+          description: 'Payment processing for the premium plan is not yet available. Welcome to Premium!'
       });
       setLoadingPlanId(null);
+      router.push('/dashboard/premium');
     }, 2000);
   };
 
@@ -120,7 +120,7 @@ export default function PricingPage() {
       const isLoading = loadingPlanId === p.planId;
 
       if (p.planId === 'free') {
-          buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade'; // Assuming downgrade is possible
+          buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade';
           buttonDisabled = isCurrent || subscriptionPlan !== 'free';
       } else if (p.planId === 'freemium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');

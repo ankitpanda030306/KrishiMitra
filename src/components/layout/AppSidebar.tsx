@@ -31,7 +31,8 @@ import { useUser } from '@/lib/user';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'free' },
-  { href: '/dashboard/freemium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
+  { href: '/dashboard/freemium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'freemium'},
+  { href: '/dashboard/premium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
@@ -51,7 +52,16 @@ export default function AppSidebar() {
     router.push('/');
   }
 
-  const dashboardPath = subscriptionPlan === 'premium' ? '/dashboard/freemium' : '/dashboard';
+  const getDashboardPath = () => {
+    switch (subscriptionPlan) {
+      case 'premium':
+        return '/dashboard/premium';
+      case 'freemium':
+        return '/dashboard/freemium';
+      default:
+        return '/dashboard';
+    }
+  };
 
   return (
     <Sidebar>
@@ -68,11 +78,11 @@ export default function AppSidebar() {
           {navItems.map((item) => {
             let href = item.href;
             if (item.labelKey === 'dashboard') {
-              // Skip rendering the non-relevant dashboard link
-              if (item.plan !== (subscriptionPlan === 'premium' ? 'premium' : 'free')) {
-                return null;
+              // Skip rendering the non-relevant dashboard links
+              if (item.plan !== subscriptionPlan && (item.plan !== 'free' || (subscriptionPlan !== 'free' && subscriptionPlan))) {
+                 return null;
               }
-              href = dashboardPath;
+              href = getDashboardPath();
             }
 
             return (
