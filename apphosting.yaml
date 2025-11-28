@@ -1,0 +1,73 @@
+# Specifies the version of the App Hosting platform
+version: 1
+
+# Specifies the build and server commands for your Next.js application
+run:
+  # The command to build your application
+  build: npm run build
+  # The command to start your application server
+  serve: npm run start
+
+# Specifies the environment variables required by your application
+env:
+  # Environment variables for Firebase SDK auto-initialization
+  - variable: FIREBASE_APP_ID
+    value: ${FIREBASE_APP_ID}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_API_KEY
+    value: ${FIREBASE_API_KEY}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_AUTH_DOMAIN
+    value: ${FIREBASE_AUTH_DOMAIN}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_PROJECT_ID
+    value: ${FIREBASE_PROJECT_ID}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_STORAGE_BUCKET
+    value: ${FIREBASE_STORAGE_BUCKET}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_MESSAGING_SENDER_ID
+    value: ${FIREBASE_MESSAGING_SENDER_ID}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_MEASUREMENT_ID
+    value: ${FIREBASE_MEASUREMENT_ID}
+    availability:
+    - BUILD
+    - RUNTIME
+  - variable: FIREBASE_DATABASE_URL
+    value: ${FIREBASE_DATABASE_URL}
+    availability:
+    - BUILD
+    - RUNTIME
+
+# Specifies required backend resources for your application
+resources:
+  # The Cloud Firestore database used by your application
+  backends:
+    # A Genkit flow requires a Cloud Function backend
+    - backendId: genkit
+      # Grants the App Hosting server IAM permissions to invoke the Cloud Function
+      roles:
+        - run.invoker
+    - backendId: weather-api
+      roles:
+        - secretmanager.secretAccessor
+    - backendId: gemini-api
+      roles:
+        - secretmanager.secretAccessor
+
+# Specifies the minimum number of server instances to run
+scaling:
+  minInstances: 0
