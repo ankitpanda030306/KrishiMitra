@@ -33,7 +33,6 @@ import {
 } from 'firebase/auth';
 import { doc } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
-import { add } from 'date-fns';
 
 const GoogleIcon = () => (
     <svg role="img" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 mr-2">
@@ -78,15 +77,13 @@ export function AuthForm() {
         const additionalInfo = getAdditionalUserInfo(result);
 
         if (additionalInfo?.isNewUser) {
-            const now = new Date();
-            const oneMonthFromNow = add(now, { months: 1 });
             const userProfile = {
                 id: user.uid,
                 name: user.displayName || 'New User',
                 email: user.email || '',
                 preferredLanguage: language,
-                subscriptionPlan: 'premium',
-                subscriptionExpires: oneMonthFromNow.toISOString(),
+                subscriptionPlan: 'free',
+                subscriptionExpires: null,
             };
             const userDocRef = doc(firestore, 'users', user.uid);
             setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
@@ -136,9 +133,6 @@ export function AuthForm() {
 
         await updateProfile(user, { displayName: signupName });
         
-        const now = new Date();
-        const oneMonthFromNow = add(now, { months: 1 });
-
         const userProfile = {
             id: user.uid,
             name: signupName,
@@ -146,8 +140,8 @@ export function AuthForm() {
             phone: signupPhone,
             address: signupAddress,
             preferredLanguage: language,
-            subscriptionPlan: 'premium',
-            subscriptionExpires: oneMonthFromNow.toISOString(),
+            subscriptionPlan: 'free',
+            subscriptionExpires: null,
         };
         
         const userDocRef = doc(firestore, 'users', user.uid);

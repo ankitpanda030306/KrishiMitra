@@ -20,8 +20,9 @@
  *   To prevent tampering, updating or deleting these reports is disallowed.
  * - Relational Integrity: On document creation, key relational fields (like a
  *   user's own ID) must be correctly set and are immutable thereafter.
- * - Subscription Fields Immutable: The `subscriptionPlan` and `subscriptionExpires` fields
- *   cannot be changed by the user on update, they must be managed server-side (e.g. via a payments webhook).
+ * - Subscription Fields Immutable by default: The `subscriptionPlan` and `subscriptionExpires` fields
+ *   can only be changed if the update is from a free to a premium plan and the expiry date is in the future.
+ *   This prevents users from downgrading or extending their own subscriptions.
  *
  * Denormalization for Authorization:
  * This ruleset relies on path-based security and checks on `request.resource.data.userProfileId`
@@ -84,18 +85,26 @@ service cloud.firestore {
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
-      // On create, user starts with a 1-month premium trial.
+      // On create, user starts with a free plan.
       allow create: if isOwner(userId) 
                     && request.resource.data.id == userId
-                    && request.resource.data.subscriptionPlan == 'premium'
-                    && request.resource.data.subscriptionExpires is timestamp
-                    && request.resource.data.subscriptionExpires > request.time;
+                    && request.resource.data.subscriptionPlan == 'free';
 
-      // On update, user cannot change their own subscription status. This must be done server-side.
+      // On update, user can update their profile.
+      // Subscription can only be changed from free to premium with a future expiry.
       allow update: if isOwner(userId) 
                     && request.resource.data.id == resource.data.id
-                    && request.resource.data.subscriptionPlan == resource.data.subscriptionPlan
-                    && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires;
+                    && (
+                      // Case 1: Subscription is NOT changing
+                      request.resource.data.subscriptionPlan == resource.data.subscriptionPlan
+                      && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires
+                      ||
+                      // Case 2: Upgrading from free to premium trial
+                      resource.data.subscriptionPlan == 'free'
+                      && request.resource.data.subscriptionPlan == 'premium'
+                      && request.resource.data.subscriptionExpires is timestamp
+                      && request.resource.data.subscriptionExpires > request.time
+                    );
       allow delete: if isOwner(userId);
     }
     

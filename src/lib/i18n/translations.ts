@@ -482,7 +482,7 @@ export const translations = {
   byReporting: {
     en: 'By reporting incidents, you help create a proactive defense network for all farmers in your area.',
     hi: 'घटनाओं की रिपोर्ट करके, आप अपने क्षेत्र के सभी किसानों के लिए एक सक्रिय रक्षा नेटवर्क बनाने में मदद करते हैं।',
-    or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେଟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
+    or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେਟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
   },
   aphidOutbreak: {
     en: 'Aphid Outbreak',
@@ -554,7 +554,7 @@ export const translations = {
   },
   weatherFetchError: {
     en: 'Could not fetch weather data.',
-    hi: 'मौसम डेटा प्राप्त نہیں کیا جا सका।',
+    hi: 'मौसम डेटा प्राप्त نہیں کیا जा सका।',
     or: 'ପାଣିପାଗ ତଥ୍ୟ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
   },
   locationAccessDenied: {
@@ -693,7 +693,7 @@ export const translations = {
   voiceInputDescription: {
     en: 'Describe your crop condition, and our AI will provide recommendations.',
     hi: 'अपनी फसल की स्थिति का वर्णन करें, और हमारा एआई सिफारिशें प्रदान करेगा।',
-    or: 'ଆପଣଙ୍କ ଫସଲର ସ୍ଥିତି ବର୍ଣ୍ଣନା କରନ୍ତୁ, ଏବଂ ଆମର AI ସୁପାରିଶ ପ୍ରଦାନ କରିବ |',
+    or: 'ଆପଣଙ୍କ  फसलର ସ୍ଥିତି ବର୍ଣ୍ଣନା କରନ୍ତୁ, ଏବଂ ଆମର AI ସୁପାରିଶ ପ୍ରଦାନ କରିବ |',
   },
   micNotSupported: {
     en: 'Microphone not supported.',
@@ -703,7 +703,7 @@ export const translations = {
   micAccessDenied: {
     en: 'Microphone access denied. Please enable it in your browser settings.',
     hi: 'माइक्रोफ़ोन एक्सेस अस्वीकृत। कृपया इसे अपनी ब्राउज़र सेटिंग्स में सक्षम करें।',
-    or: 'ମାଇକ୍ରୋଫୋନ୍ ପ୍ରବେଶ ଅସ୍ୱୀକାର କରାଗଲା | ଦୟାକରି ଏହାକୁ ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହରେ ସକ୍ଷମ କରନ୍ତୁ |',
+    or: 'ମାଇକ୍ରୋଫੋନ୍ ପ୍ରବେଶ ଅସ୍ୱୀକାର କରାଗଲା | ଦୟାକରି ଏହାକୁ ଆପଣଙ୍କ ବ୍ରାଉଜର୍ ସେଟିଂସମୂହରେ ସକ୍ଷମ କରନ୍ତୁ |',
   },
   micErrorTitle: {
     en: 'Microphone Error',
@@ -779,7 +779,12 @@ export const translations = {
   upgradeToPremium: {
     en: 'Upgrade to Premium',
     hi: 'प्रीमियम में अपग्रेड करें',
-    or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
+    or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରੇଡ୍ କରନ୍ତୁ',
+  },
+  startFreeTrial: {
+    en: 'Start 1-Month Free Trial',
+    hi: '1-महीने का निःशुल्क परीक्षण शुरू करें',
+    or: '୧-ମାସର ମାଗଣା ପରୀକ୍ଷା ଆରମ୍ଭ କରନ୍ତୁ',
   },
   currentPlan: {
     en: 'Current Plan',
@@ -826,6 +831,16 @@ export const translations = {
     hi: 'प्राथमिकता समर्थन',
     or: 'ପ୍ରାଥମିକତା ସମର୍ଥନ',
   },
+  yearlyBilling: {
+    en: 'Yearly Billing Available',
+    hi: 'वार्षिक बिलिंग उपलब्ध है',
+    or: 'ବାର୍ଷିକ ବିଲିଂ ଉପଲବ୍ଧ',
+  },
+  contactForYearly: {
+    en: 'Contact us for yearly billing options.',
+    hi: 'वार्षिक बिलिंग विकल्पों के लिए हमसे संपर्क करें।',
+    or: 'ବାର୍ଷିକ ବିଲିଂ ବିକଳ୍ପ ପାଇଁ ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତु |',
+  }
 };
 
 export type TranslationKey = keyof typeof translations;
