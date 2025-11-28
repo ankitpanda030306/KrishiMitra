@@ -94,7 +94,6 @@ service cloud.firestore {
       // Subscription upgrades from 'free' are also allowed.
       allow update: if isOwner(userId) && request.resource.data.id == resource.data.id && (
           // Case 1: Subscription is NOT changing, allowing other profile fields to be updated.
-          // This also allows users on paid plans to update their info without changing their subscription.
           (request.resource.data.subscriptionPlan == resource.data.subscriptionPlan && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires) ||
           // Case 2: Upgrading from 'free' to 'freemium' OR 'premium'.
           (resource.data.subscriptionPlan == 'free' && 
