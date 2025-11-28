@@ -11,7 +11,7 @@ import {
   setDocumentNonBlocking,
   useMemoFirebase,
 } from '@/firebase';
-import { doc } from 'firebase/firestore';
+import { doc, Timestamp } from 'firebase/firestore';
 import type { User as FirebaseUser } from 'firebase/auth';
 
 interface UserProfile {
@@ -20,7 +20,7 @@ interface UserProfile {
   phone: string;
   address: string;
   subscriptionPlan: 'free' | 'premium';
-  subscriptionExpires?: string;
+  subscriptionExpires?: Timestamp;
 }
 
 interface UserContextType extends UserProfile {

@@ -18,6 +18,7 @@ import { add } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { TranslationKey } from '@/lib/i18n/translations';
 import { useState } from 'react';
+import { Timestamp } from 'firebase/firestore';
 
 // Define plans statically outside the component to prevent hydration issues
 const staticPlans = [
@@ -81,7 +82,7 @@ export default function PricingPage() {
       const oneMonthFromNow = add(new Date(), { months: 1 });
       setUserDetails({
         subscriptionPlan: 'premium',
-        subscriptionExpires: oneMonthFromNow.toISOString(),
+        subscriptionExpires: Timestamp.fromDate(oneMonthFromNow),
       });
       toast({
           title: 'Free Trial Started!',
@@ -111,11 +112,11 @@ export default function PricingPage() {
 
       if (p.planId === 'free') {
           buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade'; // Assuming downgrade is possible
-          buttonDisabled = isCurrent;
+          buttonDisabled = isCurrent || subscriptionPlan !== 'free';
       } else if (p.planId === 'premium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
           buttonAction = isCurrent ? () => {} : handleStartTrial;
-          buttonDisabled = isCurrent || !!loadingPlanId;
+          buttonDisabled = isCurrent || subscriptionPlan !== 'free' || !!loadingPlanId;
       } else if (p.planId === 'premium-plus') {
           buttonLabel = isCurrent ? t('currentPlan') : t('upgradeToPremium');
           buttonAction = isCurrent ? () => {} : handleUpgradeToPremium;
