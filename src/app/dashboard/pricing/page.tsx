@@ -12,11 +12,12 @@ import {
 } from '@/components/ui/card';
 import { useUser } from '@/lib/user';
 import { useLanguage } from '@/lib/i18n';
-import { CheckCircle, Gem, Star, Rocket } from 'lucide-react';
+import { CheckCircle, Gem, Star, Rocket, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { add } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { TranslationKey } from '@/lib/i18n/translations';
+import { useState } from 'react';
 
 // Define plans statically outside the component to prevent hydration issues
 const staticPlans = [
@@ -72,24 +73,33 @@ export default function PricingPage() {
   const { subscriptionPlan, setUserDetails } = useUser();
   const { toast } = useToast();
   const rupeeSymbol = 'Rs.';
+  const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
 
   const handleStartTrial = () => {
-    const oneMonthFromNow = add(new Date(), { months: 1 });
-    setUserDetails({
-      subscriptionPlan: 'premium',
-      subscriptionExpires: oneMonthFromNow.toISOString(),
-    });
-    toast({
-        title: 'Free Trial Started!',
-        description: 'You now have access to all freemium features for 30 days.'
-    })
+    setLoadingPlanId('premium');
+    setTimeout(() => {
+      const oneMonthFromNow = add(new Date(), { months: 1 });
+      setUserDetails({
+        subscriptionPlan: 'premium',
+        subscriptionExpires: oneMonthFromNow.toISOString(),
+      });
+      toast({
+          title: 'Free Trial Started!',
+          description: 'You now have access to all freemium features for 30 days.'
+      });
+      setLoadingPlanId(null);
+    }, 2000);
   };
   
   const handleUpgradeToPremium = () => {
-    toast({
-        title: 'Coming Soon!',
-        description: 'Payment processing for the premium plan is not yet available.'
-    })
+    setLoadingPlanId('premium-plus');
+    setTimeout(() => {
+      toast({
+          title: 'Coming Soon!',
+          description: 'Payment processing for the premium plan is not yet available.'
+      });
+      setLoadingPlanId(null);
+    }, 2000);
   };
 
   const plans = staticPlans.map(p => {
@@ -97,6 +107,7 @@ export default function PricingPage() {
       let buttonLabel = '';
       let buttonAction = () => {};
       let buttonDisabled = false;
+      const isLoading = loadingPlanId === p.planId;
 
       if (p.planId === 'free') {
           buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade'; // Assuming downgrade is possible
@@ -104,11 +115,11 @@ export default function PricingPage() {
       } else if (p.planId === 'premium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
           buttonAction = isCurrent ? () => {} : handleStartTrial;
-          buttonDisabled = isCurrent;
+          buttonDisabled = isCurrent || !!loadingPlanId;
       } else if (p.planId === 'premium-plus') {
           buttonLabel = isCurrent ? t('currentPlan') : t('upgradeToPremium');
           buttonAction = isCurrent ? () => {} : handleUpgradeToPremium;
-          buttonDisabled = isCurrent;
+          buttonDisabled = isCurrent || !!loadingPlanId;
       }
 
       return {
@@ -118,6 +129,7 @@ export default function PricingPage() {
         priceSuffix: p.priceSuffixKey ? t(p.priceSuffixKey) : undefined,
         features: p.featuresKeys.map(key => t(key)),
         isCurrent: isCurrent,
+        isLoading,
         buttonLabel,
         buttonAction,
         buttonDisabled,
@@ -174,10 +186,11 @@ export default function PricingPage() {
             <CardFooter>
               <Button
                 onClick={plan.buttonAction}
-                disabled={plan.buttonDisabled}
+                disabled={plan.buttonDisabled || plan.isLoading}
                 className="w-full"
                 variant={plan.isCurrent ? 'outline' : 'default'}
               >
+                {plan.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
                 {plan.buttonLabel}
               </Button>
             </CardFooter>
