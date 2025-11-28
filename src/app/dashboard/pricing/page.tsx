@@ -16,6 +16,40 @@ import { CheckCircle, Gem, Star } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { add } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
+import type { TranslationKey } from '@/lib/i18n/translations';
+
+// Define plans statically outside the component to prevent hydration issues
+const staticPlans = [
+    {
+      planNameKey: 'free' as TranslationKey,
+      price: '0',
+      descriptionKey: 'freePlanDescription' as TranslationKey,
+      featuresKeys: [
+        'basicImageAnalysis' as TranslationKey,
+        'voiceAnalysis' as TranslationKey,
+        'marketListings' as TranslationKey,
+      ],
+      Icon: Star,
+      isFeatured: false,
+      planId: 'free',
+    },
+    {
+      planNameKey: 'freemium' as TranslationKey,
+      price: '399',
+      priceSuffixKey: 'monthly' as TranslationKey,
+      descriptionKey: 'freemiumPlanDescription' as TranslationKey,
+      featuresKeys: [
+        'unlimitedImageAnalysis' as TranslationKey,
+        'unlimitedVoiceAnalysis' as TranslationKey,
+        'advancedAdvisories' as TranslationKey,
+        'prioritySupport' as TranslationKey,
+      ],
+      Icon: Gem,
+      isFeatured: true,
+      planId: 'premium',
+    },
+  ];
+
 
 export default function PricingPage() {
   const { t } = useLanguage();
@@ -35,42 +69,33 @@ export default function PricingPage() {
     })
   };
 
-  const plans = [
-    {
-      name: t('free'),
-      price: '0',
-      description: t('freePlanDescription'),
-      features: [
-        t('basicImageAnalysis'),
-        t('voiceAnalysis'),
-        t('marketListings'),
-      ],
-      isCurrent: subscriptionPlan === 'free',
-      buttonLabel: t('currentPlan'),
-      buttonAction: () => {},
-      buttonDisabled: true,
-      Icon: Star,
-      isFeatured: false,
-    },
-    {
-      name: t('freemium'),
-      price: '399',
-      priceSuffix: t('monthly'),
-      description: t('freemiumPlanDescription'),
-      features: [
-        t('unlimitedImageAnalysis'),
-        t('unlimitedVoiceAnalysis'),
-        t('advancedAdvisories'),
-        t('prioritySupport'),
-      ],
-      isCurrent: subscriptionPlan === 'premium',
-      buttonLabel: t('startFreeTrial'),
-      buttonAction: handleStartTrial,
-      buttonDisabled: subscriptionPlan === 'premium',
-      Icon: Gem,
-      isFeatured: true,
-    },
-  ];
+  const plans = staticPlans.map(p => {
+      const isCurrent = subscriptionPlan === p.planId;
+      let buttonLabel = '';
+      let buttonAction = () => {};
+      let buttonDisabled = false;
+
+      if (p.planId === 'free') {
+          buttonLabel = t('currentPlan');
+          buttonDisabled = true;
+      } else if (p.planId === 'premium') {
+          buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
+          buttonAction = isCurrent ? () => {} : handleStartTrial;
+          buttonDisabled = isCurrent;
+      }
+
+      return {
+        ...p,
+        name: t(p.planNameKey),
+        description: t(p.descriptionKey),
+        priceSuffix: p.priceSuffixKey ? t(p.priceSuffixKey) : undefined,
+        features: p.featuresKeys.map(key => t(key)),
+        isCurrent: isCurrent,
+        buttonLabel,
+        buttonAction,
+        buttonDisabled,
+      }
+  })
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
