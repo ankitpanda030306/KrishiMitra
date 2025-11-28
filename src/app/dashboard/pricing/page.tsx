@@ -19,6 +19,7 @@ import { useToast } from '@/hooks/use-toast';
 import type { TranslationKey } from '@/lib/i18n/translations';
 import { useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
+import { useTheme } from 'next-themes';
 
 // Define plans statically outside the component to prevent hydration issues
 const staticPlans = [
@@ -34,6 +35,7 @@ const staticPlans = [
       Icon: Star,
       isFeatured: false,
       planId: 'free',
+      theme: 'system',
     },
     {
       planNameKey: 'freemium' as TranslationKey,
@@ -49,6 +51,7 @@ const staticPlans = [
       Icon: Gem,
       isFeatured: true,
       planId: 'premium',
+      theme: 'sky-blue',
     },
     {
       planNameKey: 'premium' as TranslationKey,
@@ -65,6 +68,7 @@ const staticPlans = [
       Icon: Rocket,
       isFeatured: false,
       planId: 'premium-plus',
+      theme: 'light-red',
     }
   ];
 
@@ -75,6 +79,7 @@ export default function PricingPage() {
   const { toast } = useToast();
   const rupeeSymbol = 'Rs.';
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
+  const { setTheme } = useTheme();
 
   const handleStartTrial = () => {
     setLoadingPlanId('premium');
@@ -84,6 +89,7 @@ export default function PricingPage() {
         subscriptionPlan: 'premium',
         subscriptionExpires: Timestamp.fromDate(oneMonthFromNow),
       });
+      setTheme('sky-blue');
       toast({
           title: 'Free Trial Started!',
           description: 'You now have access to all freemium features for 30 days.'
@@ -95,6 +101,7 @@ export default function PricingPage() {
   const handleUpgradeToPremium = () => {
     setLoadingPlanId('premium-plus');
     setTimeout(() => {
+       setTheme('light-red');
       toast({
           title: 'Coming Soon!',
           description: 'Payment processing for the premium plan is not yet available.'
