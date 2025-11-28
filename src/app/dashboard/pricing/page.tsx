@@ -132,7 +132,7 @@ export default function PricingPage() {
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg scale-105'
+              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg lg:scale-105'
             )}
           >
             <CardHeader className="text-center">
@@ -177,8 +177,10 @@ export default function PricingPage() {
           </Card>
         ))}
       </div>
-      <div className="text-center text-muted-foreground">
-        <p className="font-bold">{t('yearlyBilling')}: {rupeeSymbol}3999/year (Save 15%)</p>
+      <div className="text-center text-muted-foreground space-y-1">
+        <p className="font-bold">{t('yearlyBilling')}</p>
+        <p>{rupeeSymbol}3999/{t('yearly')} for Freemium (Save 15%)</p>
+        <p>{rupeeSymbol}4499/{t('yearly')} for Premium (Save ~25%)</p>
         <p>{t('contactForYearly')}</p>
       </div>
     </div>

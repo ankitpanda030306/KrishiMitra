@@ -852,9 +852,9 @@ export const translations = {
     or: 'ଫସଲ ପର୍ଯ୍ୟବେକ୍ଷଣ ପାଇଁ ଡ୍ରୋନ୍ ସୁବିଧା',
   },
   yearlyBilling: {
-    en: 'Yearly Billing Available',
-    hi: 'वार्षिक बिलिंग उपलब्ध है',
-    or: 'ବାର୍ଷିକ ବିଲିଂ ଉପଲବ୍ଧ',
+    en: 'Yearly Billing Also Available',
+    hi: 'वार्षिक बिलिंग भी उपलब्ध है',
+    or: 'ବାର୍ଷିକ ବିଲିଂ ମଧ୍ୟ ଉପଲବ୍ଧ',
   },
   contactForYearly: {
     en: 'Contact us for yearly billing options.',
