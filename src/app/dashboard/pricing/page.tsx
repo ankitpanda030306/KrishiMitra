@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -51,7 +50,7 @@ const staticPlans = [
       ],
       Icon: Gem,
       isFeatured: true,
-      planId: 'premium',
+      planId: 'freemium',
       theme: 'sky-blue',
     },
     {
@@ -68,7 +67,7 @@ const staticPlans = [
       ],
       Icon: Rocket,
       isFeatured: false,
-      planId: 'premium-plus',
+      planId: 'premium',
       theme: 'light-red',
     }
   ];
@@ -84,11 +83,11 @@ export default function PricingPage() {
   const { setTheme } = useTheme();
 
   const handleStartTrial = () => {
-    setLoadingPlanId('premium');
+    setLoadingPlanId('freemium');
     setTimeout(() => {
       const oneMonthFromNow = add(new Date(), { months: 1 });
       setUserDetails({
-        subscriptionPlan: 'premium',
+        subscriptionPlan: 'freemium',
         subscriptionExpires: Timestamp.fromDate(oneMonthFromNow),
       });
       setTheme('sky-blue');
@@ -102,7 +101,7 @@ export default function PricingPage() {
   };
   
   const handleUpgradeToPremium = () => {
-    setLoadingPlanId('premium-plus');
+    setLoadingPlanId('premium');
     setTimeout(() => {
        setTheme('light-red');
       toast({
@@ -123,11 +122,11 @@ export default function PricingPage() {
       if (p.planId === 'free') {
           buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade'; // Assuming downgrade is possible
           buttonDisabled = isCurrent || subscriptionPlan !== 'free';
-      } else if (p.planId === 'premium') {
+      } else if (p.planId === 'freemium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
           buttonAction = isCurrent ? () => {} : handleStartTrial;
           buttonDisabled = isCurrent || subscriptionPlan !== 'free' || !!loadingPlanId;
-      } else if (p.planId === 'premium-plus') {
+      } else if (p.planId === 'premium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('upgradeToPremium');
           buttonAction = isCurrent ? () => {} : handleUpgradeToPremium;
           buttonDisabled = isCurrent || !!loadingPlanId;
