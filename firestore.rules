@@ -91,7 +91,7 @@ service cloud.firestore {
                     && request.resource.data.subscriptionPlan == 'free';
 
       // On update, user can update their profile.
-      // Subscription can only be changed from free to freemium with a future expiry.
+      // Subscription can only be changed from free to premium with a future expiry.
       allow update: if isOwner(userId) 
                     && request.resource.data.id == resource.data.id
                     && (
@@ -99,9 +99,9 @@ service cloud.firestore {
                       request.resource.data.subscriptionPlan == resource.data.subscriptionPlan
                       && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires
                       ||
-                      // Case 2: Upgrading from free to freemium trial
+                      // Case 2: Upgrading from free to premium trial
                       resource.data.subscriptionPlan == 'free'
-                      && request.resource.data.subscriptionPlan == 'freemium'
+                      && request.resource.data.subscriptionPlan == 'premium'
                       && request.resource.data.subscriptionExpires is timestamp
                       && request.resource.data.subscriptionExpires > request.time
                     );

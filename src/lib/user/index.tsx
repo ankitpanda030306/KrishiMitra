@@ -19,7 +19,7 @@ interface UserProfile {
   email: string;
   phone: string;
   address: string;
-  subscriptionPlan: 'free' | 'freemium';
+  subscriptionPlan: 'free' | 'premium';
   subscriptionExpires?: string;
 }
 
@@ -104,5 +104,3 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
-
-    

@@ -1,3 +1,4 @@
+
 {
   "entities": {
     "UserProfile": {
@@ -34,7 +35,7 @@
         "subscriptionPlan": {
           "type": "string",
           "description": "The user's current subscription plan.",
-          "enum": ["free", "freemium"]
+          "enum": ["free", "premium"]
         },
         "subscriptionExpires": {
             "type": "string",

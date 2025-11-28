@@ -26,7 +26,7 @@ export default function PricingPage() {
   const handleStartTrial = () => {
     const oneMonthFromNow = add(new Date(), { months: 1 });
     setUserDetails({
-      subscriptionPlan: 'freemium',
+      subscriptionPlan: 'premium',
       subscriptionExpires: oneMonthFromNow.toISOString(),
     });
     toast({
@@ -63,10 +63,10 @@ export default function PricingPage() {
         t('advancedAdvisories'),
         t('prioritySupport'),
       ],
-      isCurrent: subscriptionPlan === 'freemium',
+      isCurrent: subscriptionPlan === 'premium',
       buttonLabel: t('startFreeTrial'),
       buttonAction: handleStartTrial,
-      buttonDisabled: subscriptionPlan === 'freemium',
+      buttonDisabled: subscriptionPlan === 'premium',
       Icon: Gem,
       isFeatured: true,
     },

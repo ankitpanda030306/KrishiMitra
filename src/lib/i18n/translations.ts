@@ -186,7 +186,7 @@ export const translations = {
   },
   uploadImageToGetStarted: {
     en: 'Upload or capture an image of your crop to get started.',
-    hi: 'शुरू करने के لیے अपनी फसल की एक छवि अपलोड करें या कैप्चर करें।',
+    hi: 'शुरू करने के लिए अपनी फसल की एक छवि अपलोड करें या कैप्चर करें।',
     or: 'ଆରମ୍ଭ କରିବା ପାଇଁ ଆପଣଙ୍କ ଫସଲର ଏକ ପ୍ରତିଛବି ଅପଲୋଡ୍ କରନ୍ତୁ କିମ୍ବା କ୍ୟାପଚର୍ କରନ୍ତୁ |',
   },
   uploadImage: {
@@ -482,7 +482,7 @@ export const translations = {
   byReporting: {
     en: 'By reporting incidents, you help create a proactive defense network for all farmers in your area.',
     hi: 'घटनाओं की रिपोर्ट करके, आप अपने क्षेत्र के सभी किसानों के लिए एक सक्रिय रक्षा नेटवर्क बनाने में मदद करते हैं।',
-    or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେਟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
+    or: 'ଘଟଣାଗୁଡ଼ିକର ରିପୋର୍ଟ କରି, ଆପଣ ଆପଣଙ୍କ ଅଞ୍ଚଳର ସମସ୍ତ କୃଷକଙ୍କ ପାଇଁ ଏକ ସକ୍ରିୟ ପ୍ରତିରକ୍ଷା ନେଟୱାର୍କ ସୃଷ୍ଟି କରିବାରେ ସାହାଯ୍ୟ କରନ୍ତି |',
   },
   aphidOutbreak: {
     en: 'Aphid Outbreak',
@@ -554,7 +554,7 @@ export const translations = {
   },
   weatherFetchError: {
     en: 'Could not fetch weather data.',
-    hi: 'मौसम डेटा प्राप्त نہیں کیا जा सका।',
+    hi: 'मौसम डेटा प्राप्त नहीं किया जा सका।',
     or: 'ପାଣିପାଗ ତଥ୍ୟ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
   },
   locationAccessDenied: {
