@@ -554,7 +554,7 @@ export const translations = {
   },
   weatherFetchError: {
     en: 'Could not fetch weather data.',
-    hi: 'मौसम डेटा प्राप्त नहीं किया जा सका।',
+    hi: 'मौसम डेटा प्राप्त نہیں کیا جا सका।',
     or: 'ପାଣିପାଗ ତଥ୍ୟ ଅଣାଯାଇପାରିଲା ନାହିଁ |',
   },
   locationAccessDenied: {
@@ -771,6 +771,11 @@ export const translations = {
     hi: 'मासिक',
     or: 'ମାସିକ',
   },
+   yearly: {
+    en: 'yearly',
+    hi: 'वार्षिक',
+    or: 'ବାର୍ଷିକ',
+  },
   upgradeToPremium: {
     en: 'Upgrade to Premium',
     hi: 'प्रीमियम में अपग्रेड करें',
@@ -824,6 +829,3 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
-
-    
-    

@@ -84,11 +84,12 @@ service cloud.firestore {
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
-      // On create, subscription must be 'free' and no expiration.
+      // On create, user starts with a 1-month premium trial.
       allow create: if isOwner(userId) 
                     && request.resource.data.id == userId
-                    && request.resource.data.subscriptionPlan == 'free'
-                    && !('subscriptionExpires' in request.resource.data);
+                    && request.resource.data.subscriptionPlan == 'premium'
+                    && request.resource.data.subscriptionExpires is timestamp
+                    && request.resource.data.subscriptionExpires > request.time;
 
       // On update, user cannot change their own subscription status. This must be done server-side.
       allow update: if isOwner(userId) 
@@ -130,5 +131,3 @@ service cloud.firestore {
     }
   }
 }
-
-    
