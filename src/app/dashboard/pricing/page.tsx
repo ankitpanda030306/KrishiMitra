@@ -50,7 +50,7 @@ const staticPlans = [
     },
     {
       planNameKey: 'premium' as TranslationKey,
-      price: '999',
+      price: '599',
       priceSuffixKey: 'monthly' as TranslationKey,
       descriptionKey: 'premiumPlanDescription' as TranslationKey,
       featuresKeys: [
