@@ -20,9 +20,8 @@
  *   To prevent tampering, updating or deleting these reports is disallowed.
  * - Relational Integrity: On document creation, key relational fields (like a
  *   user's own ID) must be correctly set and are immutable thereafter.
- * - No Schema Validation: In this prototyping phase, rules focus solely on
- *   authorization and do not validate the shape or data types of document fields,
- *   allowing for rapid frontend development.
+ * - Subscription Fields Immutable: The `subscriptionPlan` and `subscriptionExpires` fields
+ *   cannot be changed by the user on update, they must be managed server-side (e.g. via a payments webhook).
  *
  * Denormalization for Authorization:
  * This ruleset relies on path-based security and checks on `request.resource.data.userProfileId`
@@ -85,8 +84,17 @@ service cloud.firestore {
     match /users/{userId} {
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
-      allow create: if isOwner(userId) && request.resource.data.id == userId;
-      allow update: if isOwner(userId) && request.resource.data.id == resource.data.id;
+      // On create, subscription must be 'free' and no expiration.
+      allow create: if isOwner(userId) 
+                    && request.resource.data.id == userId
+                    && request.resource.data.subscriptionPlan == 'free'
+                    && !('subscriptionExpires' in request.resource.data);
+
+      // On update, user cannot change their own subscription status. This must be done server-side.
+      allow update: if isOwner(userId) 
+                    && request.resource.data.id == resource.data.id
+                    && request.resource.data.subscriptionPlan == resource.data.subscriptionPlan
+                    && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires;
       allow delete: if isOwner(userId);
     }
     
@@ -122,3 +130,5 @@ service cloud.firestore {
     }
   }
 }
+
+    

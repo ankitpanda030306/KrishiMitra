@@ -21,6 +21,7 @@ import {
   LogOut,
   User,
   Mic,
+  Gem,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/firebase';
@@ -32,6 +33,7 @@ const navItems = [
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
   { href: '/dashboard/pest-patrol', icon: Bug, labelKey: 'pestPatrol' },
+  { href: '/dashboard/pricing', icon: Gem, labelKey: 'pricing' },
 ];
 
 export default function AppSidebar() {
@@ -102,3 +104,5 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
+
+    

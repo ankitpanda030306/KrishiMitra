@@ -18,6 +18,8 @@ interface UserProfile {
   email: string;
   phone: string;
   address: string;
+  subscriptionPlan: 'free' | 'premium';
+  subscriptionExpires?: string;
 }
 
 interface UserContextType extends UserProfile {
@@ -82,6 +84,8 @@ export const UserProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     email: userProfile?.email || firebaseUser?.email || '',
     phone: userProfile?.phone || '',
     address: userProfile?.address || '',
+    subscriptionPlan: userProfile?.subscriptionPlan || 'free',
+    subscriptionExpires: userProfile?.subscriptionExpires,
     setUserDetails,
   };
 
@@ -99,3 +103,5 @@ export const useUser = (): UserContextType => {
   }
   return context;
 };
+
+    

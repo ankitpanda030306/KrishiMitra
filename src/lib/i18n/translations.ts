@@ -172,6 +172,11 @@ export const translations = {
     hi: 'प्रोफ़ाइल',
     or: 'ପ୍ରୋଫାଇଲ୍',
   },
+  pricing: {
+    en: 'Pricing',
+    hi: 'मूल्य निर्धारण',
+    or: 'ମୂଲ୍ୟ ନିର୍ଧାରଣ',
+  },
 
   // Image Analysis Page
   analyzeYourCrop: {
@@ -735,8 +740,90 @@ export const translations = {
     hi: 'विश्लेषण हो रहा है...',
     or: 'ବିଶ୍ଳେଷଣ ଚାଲୁଅଛି...',
   },
+  // Pricing Page
+  pricingDescription: {
+    en: 'Choose the plan that works best for you.',
+    hi: 'वह योजना चुनें जो आपके लिए सबसे अच्छा काम करती है।',
+    or: 'ଆପଣଙ୍କ ପାଇଁ ସର୍ବୋତ୍ତମ କାର୍ଯ୍ୟ କରୁଥିବା ଯୋଜନା ବାଛନ୍ତୁ |',
+  },
+  free: {
+    en: 'Free',
+    hi: 'मुफ़्त',
+    or: 'ମାଗଣା',
+  },
+  premium: {
+    en: 'Premium',
+    hi: 'प्रीमियम',
+    or: 'ପ୍ରିମିୟମ୍',
+  },
+  freePlanDescription: {
+    en: 'Basic features for individual farmers.',
+    hi: 'व्यक्तिगत किसानों के लिए बुनियादी सुविधाएँ।',
+    or: 'ବ୍ୟକ୍ତିଗତ କୃଷକମାନଙ୍କ ପାଇଁ ମୌଳିକ ବୈଶିଷ୍ଟ୍ୟ |',
+  },
+  premiumPlanDescription: {
+    en: 'Advanced features for serious farmers and businesses.',
+    hi: 'गंभीर किसानों और व्यवसायों के लिए उन्नत सुविधाएँ।',
+    or: 'ଗମ୍ଭୀର କୃଷକ ଏବଂ ବ୍ୟବସାୟ ପାଇଁ ଉନ୍ନତ ବୈଶିଷ୍ଟ୍ୟ |',
+  },
+  monthly: {
+    en: 'monthly',
+    hi: 'मासिक',
+    or: 'ମାସିକ',
+  },
+  upgradeToPremium: {
+    en: 'Upgrade to Premium',
+    hi: 'प्रीमियम में अपग्रेड करें',
+    or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
+  },
+  currentPlan: {
+    en: 'Current Plan',
+    hi: 'वर्तमान योजना',
+    or: 'ସାମ୍ପ୍ରତିକ ଯୋଜନା',
+  },
+  whatsIncluded: {
+    en: "What's included",
+    hi: 'क्या शामिल है',
+    or: 'କଣ ଅନ୍ତର୍ଭୁକ୍ତ',
+  },
+  basicImageAnalysis: {
+    en: 'Basic image analysis (5 per day)',
+    hi: 'बुनियादी छवि विश्लेषण (प्रति दिन 5)',
+    or: 'ମୌଳିକ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ (ଦିନକୁ 5)',
+  },
+  voiceAnalysis: {
+    en: 'Voice analysis (2 per day)',
+    hi: 'आवाज विश्लेषण (प्रति दिन 2)',
+    or: 'ଭଏସ୍ ବିଶ୍ଳେଷଣ (ଦିନକୁ 2)',
+  },
+  marketListings: {
+    en: 'Create market listings',
+    hi: 'बाजार लिस्टिंग बनाएं',
+    or: 'ବଜାର ତାଲିକା ସୃଷ୍ଟି କରନ୍ତୁ',
+  },
+  unlimitedImageAnalysis: {
+    en: 'Unlimited image analysis',
+    hi: 'असीमित छवि विश्लेषण',
+    or: 'ଅସୀମିତ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ',
+  },
+  unlimitedVoiceAnalysis: {
+    en: 'Unlimited voice analysis',
+    hi: 'असीमित आवाज विश्लेषण',
+    or: 'ଅସୀମିତ ଭଏସ୍ ବିଶ୍ଳେଷଣ',
+  },
+  advancedAdvisories: {
+    en: 'Advanced location-based advisories',
+    hi: 'उन्नत स्थान-आधारित सलाह',
+    or: 'ଉନ୍ନତ ସ୍ଥାନ-ଆଧାରିତ ପରାମର୍ଶ',
+  },
+  prioritySupport: {
+    en: 'Priority support',
+    hi: 'प्राथमिकता समर्थन',
+    or: 'ପ୍ରାଥମିକତା ସମର୍ଥନ',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;
 
+    
     

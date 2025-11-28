@@ -82,6 +82,7 @@ export function AuthForm() {
                 name: user.displayName || 'New User',
                 email: user.email || '',
                 preferredLanguage: language,
+                subscriptionPlan: 'free',
             };
             const userDocRef = doc(firestore, 'users', user.uid);
             setDocumentNonBlocking(userDocRef, userProfile, { merge: true });
@@ -138,6 +139,7 @@ export function AuthForm() {
             phone: signupPhone,
             address: signupAddress,
             preferredLanguage: language,
+            subscriptionPlan: 'free', // New users start on the free plan
         };
         
         const userDocRef = doc(firestore, 'users', user.uid);
@@ -288,4 +290,5 @@ export function AuthForm() {
   );
 }
 
+    
     

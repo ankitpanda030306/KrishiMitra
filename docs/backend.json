@@ -30,12 +30,23 @@
         "preferredLanguage": {
           "type": "string",
           "description": "User's preferred language for the app (e.g., 'en', 'hi', 'or')."
+        },
+        "subscriptionPlan": {
+          "type": "string",
+          "description": "The user's current subscription plan.",
+          "enum": ["free", "premium"]
+        },
+        "subscriptionExpires": {
+            "type": "string",
+            "description": "The date when the current subscription expires.",
+            "format": "date-time"
         }
       },
       "required": [
         "id",
         "name",
-        "email"
+        "email",
+        "subscriptionPlan"
       ]
     },
     "HarvestListing": {
@@ -201,3 +212,4 @@
     "reasoning": "The Firestore structure is designed to ensure secure and scalable data management for the Krishi Mitra application. It leverages path-based ownership for user profiles and harvest listings, and a globally accessible structure for pest outbreaks.  \n\n**Authorization Independence (CRITICAL):**\n\n*   The structure avoids hierarchical authorization dependencies (`get()`). Access control relies on `request.auth.uid` and path-based ownership. For instance, harvest listings are stored under `/users/{userId}/harvestListings/{harvestListingId}`, ensuring only the authenticated user (farmer) can manage their listings. Pest outbreaks, while globally accessible, do not depend on user-specific data for authorization.\n\n**Clarity of Intent (Debuggability):**\n\n*   The structure makes authorization intent explicit through clear path naming and dedicated collections. User profiles are stored under `/users/{userId}`, making it clear that only the authenticated user can access their own profile data.\n\n**DBAC (No Custom Claims):**\n\n*   Authorization relies solely on `request.auth.uid`, which is the standard practice. There are no custom claims.\n\n**QAPs (Rules are not Filters):**\n\n*   The structure enables secure `list` operations. For example, listing harvest listings under `/users/{userId}/harvestListings` is secure because the rule can simply check if `request.auth.uid == userId`. The PestPatrol outbreak map also supports `list` operations without needing to filter based on user roles.\n\n**Invariants:**\n\n*   The structure supports the integrity of ownership. Each harvest listing has a `userProfileId` field referencing the owner (denormalized). While not used in security rules *directly* in this setup (path-based ownership takes precedence), it can be validated in backend functions to maintain data integrity.\n\n**Structural Segregation (Homogeneous Security Posture):**\n\n*   The structure ensures that all documents within a collection share the same security requirements. User-owned data is segregated under the `/users/{userId}` path, while globally accessible pest outbreak data is stored in the `/pestOutbreaks` collection.\n\nIn summary, this structure promotes secure, scalable, and easily debuggable security rules by focusing on authorization independence and structural segregation."
   }
 }
+    
