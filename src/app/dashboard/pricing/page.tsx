@@ -20,6 +20,7 @@ import type { TranslationKey } from '@/lib/i18n/translations';
 import { useState } from 'react';
 import { Timestamp } from 'firebase/firestore';
 import { useTheme } from 'next-themes';
+import { useRouter } from 'next/navigation';
 
 // Define plans statically outside the component to prevent hydration issues
 const staticPlans = [
@@ -77,6 +78,7 @@ export default function PricingPage() {
   const { t } = useLanguage();
   const { subscriptionPlan, setUserDetails } = useUser();
   const { toast } = useToast();
+  const router = useRouter();
   const rupeeSymbol = 'Rs.';
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
   const { setTheme } = useTheme();
@@ -95,6 +97,7 @@ export default function PricingPage() {
           description: 'You now have access to all freemium features for 30 days.'
       });
       setLoadingPlanId(null);
+      router.push('/dashboard/freemium');
     }, 2000);
   };
   

@@ -1,3 +1,4 @@
+
 "use client";
 
 import Link from 'next/link';
@@ -26,9 +27,11 @@ import {
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/firebase';
 import { signOut } from 'firebase/auth';
+import { useUser } from '@/lib/user';
 
 const navItems = [
-  { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard' },
+  { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'free' },
+  { href: '/dashboard/freemium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
@@ -41,11 +44,14 @@ export default function AppSidebar() {
   const { t } = useLanguage();
   const auth = useAuth();
   const router = useRouter();
+  const { subscriptionPlan } = useUser();
   
   const handleLogout = () => {
     signOut(auth);
     router.push('/');
   }
+
+  const dashboardPath = subscriptionPlan === 'premium' ? '/dashboard/freemium' : '/dashboard';
 
   return (
     <Sidebar>
@@ -59,20 +65,31 @@ export default function AppSidebar() {
       </SidebarHeader>
       <SidebarContent>
         <SidebarMenu>
-          {navItems.map((item) => (
-            <SidebarMenuItem key={item.href}>
-              <SidebarMenuButton
-                asChild
-                isActive={pathname === item.href}
-                tooltip={{ children: t(item.labelKey as any) }}
-              >
-                <Link href={item.href}>
-                  <item.icon />
-                  <span>{t(item.labelKey as any)}</span>
-                </Link>
-              </SidebarMenuButton>
-            </SidebarMenuItem>
-          ))}
+          {navItems.map((item) => {
+            let href = item.href;
+            if (item.labelKey === 'dashboard') {
+              // Skip rendering the non-relevant dashboard link
+              if (item.plan !== (subscriptionPlan === 'premium' ? 'premium' : 'free')) {
+                return null;
+              }
+              href = dashboardPath;
+            }
+
+            return (
+              <SidebarMenuItem key={href}>
+                <SidebarMenuButton
+                  asChild
+                  isActive={pathname === href}
+                  tooltip={{ children: t(item.labelKey as any) }}
+                >
+                  <Link href={href}>
+                    <item.icon />
+                    <span>{t(item.labelKey as any)}</span>
+                  </Link>
+                </SidebarMenuButton>
+              </SidebarMenuItem>
+            );
+          })}
         </SidebarMenu>
       </SidebarContent>
       <SidebarFooter className="border-t">
@@ -104,5 +121,3 @@ export default function AppSidebar() {
     </Sidebar>
   );
 }
-
-    
