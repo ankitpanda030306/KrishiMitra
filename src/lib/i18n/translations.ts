@@ -797,14 +797,14 @@ export const translations = {
     or: 'କଣ ଅନ୍ତର୍ଭୁକ୍ତ',
   },
   basicImageAnalysis: {
-    en: 'Basic image analysis (5 per day)',
-    hi: 'बुनियादी छवि विश्लेषण (प्रति दिन 5)',
-    or: 'ମୌଳିକ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ (ଦିନକୁ 5)',
+    en: 'Basic image analysis (30 per day)',
+    hi: 'बुनियादी छवि विश्लेषण (प्रति दिन 30)',
+    or: 'ମୌଳିକ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ (ଦିନକୁ 30)',
   },
   voiceAnalysis: {
-    en: 'Voice analysis (2 per day)',
-    hi: 'आवाज विश्लेषण (प्रति दिन 2)',
-    or: 'ଭଏସ୍ ବିଶ୍ଳେଷଣ (ଦିନକୁ 2)',
+    en: 'Voice analysis (30 per day)',
+    hi: 'आवाज विश्लेषण (प्रति दिन 30)',
+    or: 'ଭଏସ୍ ବିଶ୍ଳେଷଣ (ଦିନକୁ 30)',
   },
   marketListings: {
     en: 'Create market listings',
