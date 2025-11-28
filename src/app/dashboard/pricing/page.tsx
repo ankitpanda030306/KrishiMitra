@@ -26,12 +26,12 @@ export default function PricingPage() {
   const handleStartTrial = () => {
     const oneMonthFromNow = add(new Date(), { months: 1 });
     setUserDetails({
-      subscriptionPlan: 'premium',
+      subscriptionPlan: 'freemium',
       subscriptionExpires: oneMonthFromNow.toISOString(),
     });
     toast({
         title: 'Free Trial Started!',
-        description: 'You now have access to all premium features for 30 days.'
+        description: 'You now have access to all freemium features for 30 days.'
     })
   };
 
@@ -53,20 +53,20 @@ export default function PricingPage() {
       isFeatured: false,
     },
     {
-      name: t('premium'),
+      name: t('freemium'),
       price: '399',
       priceSuffix: t('monthly'),
-      description: t('premiumPlanDescription'),
+      description: t('freemiumPlanDescription'),
       features: [
         t('unlimitedImageAnalysis'),
         t('unlimitedVoiceAnalysis'),
         t('advancedAdvisories'),
         t('prioritySupport'),
       ],
-      isCurrent: subscriptionPlan === 'premium',
+      isCurrent: subscriptionPlan === 'freemium',
       buttonLabel: t('startFreeTrial'),
       buttonAction: handleStartTrial,
-      buttonDisabled: subscriptionPlan === 'premium',
+      buttonDisabled: subscriptionPlan === 'freemium',
       Icon: Gem,
       isFeatured: true,
     },

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { createContext, useState, useContext, ReactNode, useEffect } from 'react';
@@ -18,7 +19,7 @@ interface UserProfile {
   email: string;
   phone: string;
   address: string;
-  subscriptionPlan: 'free' | 'premium';
+  subscriptionPlan: 'free' | 'freemium';
   subscriptionExpires?: string;
 }
 

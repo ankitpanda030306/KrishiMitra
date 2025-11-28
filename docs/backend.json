@@ -34,7 +34,7 @@
         "subscriptionPlan": {
           "type": "string",
           "description": "The user's current subscription plan.",
-          "enum": ["free", "premium"]
+          "enum": ["free", "freemium"]
         },
         "subscriptionExpires": {
             "type": "string",

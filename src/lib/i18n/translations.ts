@@ -150,7 +150,7 @@ export const translations = {
   marketConnect: {
     en: 'Market Connect',
     hi: 'मार्केट कनेक्ट',
-    or: 'ବଜାର ସଂଯୋଗ',
+    or: 'ବଜାର ସଂଯੋଗ',
   },
   pestPatrol: {
     en: 'PestPatrol',
@@ -186,7 +186,7 @@ export const translations = {
   },
   uploadImageToGetStarted: {
     en: 'Upload or capture an image of your crop to get started.',
-    hi: 'शुरू करने के लिए अपनी फसल की एक छवि अपलोड करें या कैप्चर करें।',
+    hi: 'शुरू करने के لیے अपनी फसल की एक छवि अपलोड करें या कैप्चर करें।',
     or: 'ଆରମ୍ଭ କରିବା ପାଇଁ ଆପଣଙ୍କ ଫସଲର ଏକ ପ୍ରତିଛବି ଅପଲୋଡ୍ କରନ୍ତୁ କିମ୍ବା କ୍ୟାପଚର୍ କରନ୍ତୁ |',
   },
   uploadImage: {
@@ -751,17 +751,17 @@ export const translations = {
     hi: 'मुफ़्त',
     or: 'ମାଗଣା',
   },
-  premium: {
-    en: 'Premium',
-    hi: 'प्रीमियम',
-    or: 'ପ୍ରିମିୟମ୍',
+  freemium: {
+    en: 'Freemium',
+    hi: 'फ्रीमियम',
+    or: 'ଫ୍ରିମିୟମ୍',
   },
   freePlanDescription: {
     en: 'Basic features for individual farmers.',
     hi: 'व्यक्तिगत किसानों के लिए बुनियादी सुविधाएँ।',
     or: 'ବ୍ୟକ୍ତିଗତ କୃଷକମାନଙ୍କ ପାଇଁ ମୌଳିକ ବୈଶିଷ୍ଟ୍ୟ |',
   },
-  premiumPlanDescription: {
+  freemiumPlanDescription: {
     en: 'Advanced features for serious farmers and businesses.',
     hi: 'गंभीर किसानों और व्यवसायों के लिए उन्नत सुविधाएँ।',
     or: 'ଗମ୍ଭୀର କୃଷକ ଏବଂ ବ୍ୟବସାୟ ପାଇଁ ଉନ୍ନତ ବୈଶିଷ୍ଟ୍ୟ |',
@@ -776,10 +776,10 @@ export const translations = {
     hi: 'वार्षिक',
     or: 'ବାର୍ଷିକ',
   },
-  upgradeToPremium: {
-    en: 'Upgrade to Premium',
-    hi: 'प्रीमियम में अपग्रेड करें',
-    or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରੇଡ୍ କରନ୍ତୁ',
+  upgradeToFreemium: {
+    en: 'Upgrade to Freemium',
+    hi: 'फ्रीमियम में अपग्रेड करें',
+    or: 'ଫ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
   },
   startFreeTrial: {
     en: 'Start 1-Month Free Trial',
