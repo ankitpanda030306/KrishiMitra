@@ -12,7 +12,7 @@ import {
 } from '@/components/ui/card';
 import { useUser } from '@/lib/user';
 import { useLanguage } from '@/lib/i18n';
-import { CheckCircle, Gem, Star } from 'lucide-react';
+import { CheckCircle, Gem, Star, Rocket } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { add } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
@@ -48,6 +48,22 @@ const staticPlans = [
       isFeatured: true,
       planId: 'premium',
     },
+    {
+      planNameKey: 'premium' as TranslationKey,
+      price: '999',
+      priceSuffixKey: 'monthly' as TranslationKey,
+      descriptionKey: 'premiumPlanDescription' as TranslationKey,
+      featuresKeys: [
+        'unlimitedImageAnalysis' as TranslationKey,
+        'unlimitedVoiceAnalysis' as TranslationKey,
+        'advancedAdvisories' as TranslationKey,
+        'prioritySupport' as TranslationKey,
+        'droneFacility' as TranslationKey,
+      ],
+      Icon: Rocket,
+      isFeatured: false,
+      planId: 'premium-plus',
+    }
   ];
 
 
@@ -76,11 +92,15 @@ export default function PricingPage() {
       let buttonDisabled = false;
 
       if (p.planId === 'free') {
-          buttonLabel = t('currentPlan');
-          buttonDisabled = true;
+          buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade'; // Assuming downgrade is possible
+          buttonDisabled = isCurrent;
       } else if (p.planId === 'premium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
           buttonAction = isCurrent ? () => {} : handleStartTrial;
+          buttonDisabled = isCurrent;
+      } else if (p.planId === 'premium-plus') {
+          buttonLabel = isCurrent ? t('currentPlan') : t('contactSales');
+          buttonAction = () => { /* Logic for contacting sales */ };
           buttonDisabled = isCurrent;
       }
 
@@ -106,13 +126,13 @@ export default function PricingPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
         {plans.map((plan) => (
           <Card
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg'
+              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg scale-105'
             )}
           >
             <CardHeader className="text-center">
@@ -164,5 +184,3 @@ export default function PricingPage() {
     </div>
   );
 }
-
-    

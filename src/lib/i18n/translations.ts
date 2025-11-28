@@ -756,6 +756,11 @@ export const translations = {
     hi: 'फ्रीमियम',
     or: 'ଫ୍ରିମିୟମ୍',
   },
+  premium: {
+    en: 'Premium',
+    hi: 'प्रीमियम',
+    or: 'ପ୍ରିମିୟମ୍',
+  },
   freePlanDescription: {
     en: 'Basic features for individual farmers.',
     hi: 'व्यक्तिगत किसानों के लिए बुनियादी सुविधाएँ।',
@@ -765,6 +770,11 @@ export const translations = {
     en: 'Advanced features for serious farmers and businesses.',
     hi: 'गंभीर किसानों और व्यवसायों के लिए उन्नत सुविधाएँ।',
     or: 'ଗମ୍ଭୀର କୃଷକ ଏବଂ ବ୍ୟବସାୟ ପାଇଁ ଉନ୍ନତ ବୈଶିଷ୍ଟ୍ୟ |',
+  },
+  premiumPlanDescription: {
+    en: 'All-inclusive features for large-scale operations.',
+    hi: 'बड़े पैमाने पर संचालन के लिए सर्व-समावेशी सुविधाएँ।',
+    or: 'ବୃହତ-ପରିମାଣର କାର୍ଯ୍ୟ ପାଇଁ ସର୍ବ-ସମାବେଶୀ ବୈଶିଷ୍ଟ୍ୟ |',
   },
   monthly: {
     en: 'monthly',
@@ -785,6 +795,11 @@ export const translations = {
     en: 'Start 1-Month Free Trial',
     hi: '1-महीने का निःशुल्क परीक्षण शुरू करें',
     or: '୧-ମାସର ମାଗଣା ପରୀକ୍ଷା ଆରମ୍ଭ କରନ୍ତୁ',
+  },
+  contactSales: {
+    en: 'Contact Sales',
+    hi: 'बिक्री से संपर्क करें',
+    or: 'ବିକ୍ରୟ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତୁ',
   },
   currentPlan: {
     en: 'Current Plan',
@@ -830,6 +845,11 @@ export const translations = {
     en: 'Priority support',
     hi: 'प्राथमिकता समर्थन',
     or: 'ପ୍ରାଥମିକତା ସମର୍ଥନ',
+  },
+  droneFacility: {
+    en: 'Drone facility for crop monitoring',
+    hi: 'फसल निगरानी के लिए ड्रोन सुविधा',
+    or: 'ଫସଲ ପର୍ଯ୍ୟବେକ୍ଷଣ ପାଇଁ ଡ୍ରୋନ୍ ସୁବିଧା',
   },
   yearlyBilling: {
     en: 'Yearly Billing Available',
