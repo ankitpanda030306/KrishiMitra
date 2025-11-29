@@ -1,7 +1,9 @@
+
 "use client";
 
 import { useState } from 'react';
-import { useForm, zodResolver } from '@hookform/resolvers/zod';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { z } from 'zod';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -256,3 +258,5 @@ export default function CropPlannerPage() {
     </div>
   );
 }
+
+    
