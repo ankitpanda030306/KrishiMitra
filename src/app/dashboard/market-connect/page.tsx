@@ -31,22 +31,18 @@ import {
 } from '@/firebase';
 import { collection, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2 } from 'lucide-react';
+import { Loader2, AlertTriangle } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/lib/user';
 import { seedInitialData } from '@/lib/seed';
+import { getMarketRates, GetMarketRatesOutput } from '@/ai/flows/get-market-rates';
 
-const mockRates = [
-    { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
-    { crop: 'Potatoes', premium: '18-22/kg', market: '12-16/kg' },
-    { crop: 'Onions', premium: '25-30/kg', market: '15-20/kg' },
-    { crop: 'Wheat', premium: '28-32/kg', market: '20-24/kg' },
-    { crop: 'Rice (Basmati)', premium: '90-110/kg', market: '60-80/kg' },
-    { crop: 'Mango (Alphonso)', premium: '400-600/dozen', market: '250-350/dozen' },
-];
+type MarketRate = GetMarketRatesOutput['rates'][0];
+
+const cropListForRates = ['Tomatoes', 'Potatoes', 'Onions', 'Wheat', 'Rice (Basmati)', 'Mango (Alphonso)'];
 
 export default function MarketConnectPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const rupeeSymbol = 'Rs.';
   const { firebaseUser, isUserLoading, name: currentUserName } = useUser();
   const firestore = useFirestore();
@@ -58,6 +54,10 @@ export default function MarketConnectPage() {
   const [price, setPrice] = useState('');
   const [notes, setNotes] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  
+  const [marketRates, setMarketRates] = useState<MarketRate[]>([]);
+  const [ratesLoading, setRatesLoading] = useState(true);
+  const [ratesError, setRatesError] = useState<string | null>(null);
 
   // Seed data only once
   useEffect(() => {
@@ -73,6 +73,30 @@ export default function MarketConnectPage() {
     };
     seedData();
   }, [firestore]);
+  
+  // Fetch market rates
+  useEffect(() => {
+      const fetchRates = () => {
+          setRatesLoading(true);
+          setRatesError(null);
+          getMarketRates({ crops: cropListForRates, language })
+            .then(result => {
+                if (result && result.rates) {
+                    setMarketRates(result.rates);
+                } else {
+                    throw new Error("No rates returned");
+                }
+            })
+            .catch(e => {
+                setRatesError('Could not fetch market rates.');
+                console.error("Failed to fetch market rates:", e);
+            })
+            .finally(() => {
+                setRatesLoading(false);
+            });
+      }
+      fetchRates();
+  }, [language]);
 
 
   const harvestListingsQuery = useMemoFirebase(() => {
@@ -321,7 +345,24 @@ export default function MarketConnectPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {mockRates.map((rate, index) => (
+                  {ratesLoading && [...Array(5)].map((_, i) => (
+                    <TableRow key={i}>
+                        <TableCell colSpan={3}>
+                            <Skeleton className="h-5 w-full" />
+                        </TableCell>
+                    </TableRow>
+                  ))}
+                  {ratesError && (
+                     <TableRow>
+                        <TableCell colSpan={3} className="text-center text-destructive">
+                           <div className="flex items-center justify-center gap-2">
+                            <AlertTriangle className="h-4 w-4" />
+                            <span>{ratesError}</span>
+                           </div>
+                        </TableCell>
+                    </TableRow>
+                  )}
+                  {!ratesLoading && !ratesError && marketRates.map((rate, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">{rate.crop}</TableCell>
                       <TableCell>
