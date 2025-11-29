@@ -11,7 +11,7 @@ import { Input } from '@/components/ui/input';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/lib/i18n';
-import { ClipboardList, Loader2, IndianRupee, Trash2, Calendar as CalendarIcon, PlusCircle, TrendingUp, TrendingDown } from 'lucide-react';
+import { ClipboardList, Loader2, IndianRupee, Trash2, Calendar as CalendarIcon, PlusCircle, TrendingUp, TrendingDown, Wand2, AlertTriangle } from 'lucide-react';
 import { useUser } from '@/lib/user';
 import { useFirestore, useCollection, useMemoFirebase, addDocumentNonBlocking, deleteDocumentNonBlocking } from '@/firebase';
 import { collection, query, where, orderBy, doc, Timestamp } from 'firebase/firestore';
@@ -22,6 +22,8 @@ import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
+import { getExpenseReductionAdvice, GetExpenseReductionAdviceOutput } from '@/ai/flows/get-expense-reduction-advice';
+import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 
 const seasonSchema = z.object({
   name: z.string().min(3, "Season name is required."),
@@ -43,12 +45,15 @@ type ExpenseFormValues = z.infer<typeof expenseSchema>;
 const expenseTypes = ["Seeds", "Fertilizer", "Labor", "Pesticides", "Machinery", "Other"];
 
 export default function ExpenseManagerPage() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { firebaseUser } = useUser();
   const firestore = useFirestore();
   const { toast } = useToast();
   
   const [selectedSeasonId, setSelectedSeasonId] = useState<string | null>(null);
+  const [advice, setAdvice] = useState<GetExpenseReductionAdviceOutput | null>(null);
+  const [adviceLoading, setAdviceLoading] = useState(false);
+  const [adviceError, setAdviceError] = useState<string | null>(null);
 
   const seasonForm = useForm<SeasonFormValues>({
     resolver: zodResolver(seasonSchema),
@@ -78,6 +83,11 @@ export default function ExpenseManagerPage() {
     );
   }, [firestore, firebaseUser, selectedSeasonId]);
   const { data: expenses, isLoading: expensesLoading } = useCollection(expensesQuery);
+  
+  const selectedSeason = useMemo(() => {
+    return seasons?.find(s => s.id === selectedSeasonId);
+  }, [seasons, selectedSeasonId]);
+
 
   const onSeasonSubmit = async (data: SeasonFormValues) => {
     if (!firebaseUser) return;
@@ -90,7 +100,7 @@ export default function ExpenseManagerPage() {
       endDate: data.endDate ? Timestamp.fromDate(data.endDate) : null,
       expectedRevenue: data.expectedRevenue || 0,
     }).then(() => {
-      toast({ title: "Season added successfully!" });
+      toast({ title: t('seasonAdded') });
       seasonForm.reset();
     });
   };
@@ -106,8 +116,11 @@ export default function ExpenseManagerPage() {
       date: Timestamp.fromDate(data.date),
       description: data.description || '',
     }).then(() => {
-      toast({ title: "Expense added successfully!" });
+      toast({ title: t('expenseAdded') });
       expenseForm.reset();
+      // Reset advice when a new expense is added
+      setAdvice(null); 
+      setAdviceError(null);
     });
   };
 
@@ -115,19 +128,49 @@ export default function ExpenseManagerPage() {
     if (!firebaseUser) return;
     const expenseDocRef = doc(firestore, `users/${firebaseUser.uid}/expenses/${expenseId}`);
     deleteDocumentNonBlocking(expenseDocRef).then(() => {
-        toast({ title: 'Expense deleted' });
+        toast({ title: t('expenseDeleted') });
     });
   };
 
   const { totalExpenses, netProfit, seasonRevenue } = useMemo(() => {
     const total = expenses?.reduce((sum, exp) => sum + exp.amount, 0) || 0;
-    const revenue = seasons?.find(s => s.id === selectedSeasonId)?.expectedRevenue || 0;
+    const revenue = selectedSeason?.expectedRevenue || 0;
     return {
       totalExpenses: total,
       seasonRevenue: revenue,
       netProfit: revenue - total,
     };
-  }, [expenses, seasons, selectedSeasonId]);
+  }, [expenses, selectedSeason]);
+
+  const handleGetAdvice = async () => {
+      if (!expenses || expenses.length === 0 || !selectedSeason) return;
+
+      setAdviceLoading(true);
+      setAdviceError(null);
+      setAdvice(null);
+      try {
+        const result = await getExpenseReductionAdvice({
+            cropType: selectedSeason.cropType,
+            totalExpenses: totalExpenses,
+            expectedRevenue: seasonRevenue,
+            expenses: expenses.map(e => ({ type: e.type, amount: e.amount })),
+            language: language,
+        });
+        setAdvice(result);
+      } catch (e: any) {
+        setAdviceError("Failed to get AI advice. Please try again.");
+        console.error("Failed to get expense advice:", e);
+      } finally {
+        setAdviceLoading(false);
+      }
+  }
+
+  // Clear advice when season changes
+  useEffect(() => {
+    setAdvice(null);
+    setAdviceError(null);
+  }, [selectedSeasonId]);
+
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-8">
@@ -160,7 +203,7 @@ export default function ExpenseManagerPage() {
         <div className="lg:col-span-2 space-y-8">
           <Card>
             <CardHeader>
-              <Select onValueChange={setSelectedSeasonId} value={selectedSeasonId || undefined}>
+              <Select onValueChange={setSelectedSeasonId} value={selectedSeasonId || ""}>
                 <SelectTrigger className="w-full md:w-1/2">
                   <SelectValue placeholder={t('selectASeason')} />
                 </SelectTrigger>
@@ -190,7 +233,18 @@ export default function ExpenseManagerPage() {
                         <CardContent><div className={cn("text-2xl font-bold", netProfit >= 0 ? 'text-green-600' : 'text-red-600')}>Rs. {netProfit.toLocaleString()}</div></CardContent>
                     </Card>
                 </CardContent>
-                 <CardFooter className="flex flex-col items-start gap-4">
+
+                <CardFooter className="flex flex-col items-start gap-4">
+                    <Card className="w-full">
+                        <CardHeader><CardTitle className="text-lg flex items-center justify-between">{t('aiRecommendations')} <Button size="sm" onClick={handleGetAdvice} disabled={adviceLoading || !expenses || expenses.length === 0}><Wand2 className="mr-2 h-4 w-4" />{adviceLoading ? t('generating') : t('getAdvice')}</Button></CardTitle></CardHeader>
+                        <CardContent>
+                             {adviceLoading && <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="w-4 h-4 animate-spin"/> {t('generatingAdvice')}</div>}
+                             {adviceError && <Alert variant="destructive"><AlertTriangle className="h-4 w-4" /><AlertTitle>{t('error')}</AlertTitle><AlertDescription>{adviceError}</AlertDescription></Alert>}
+                             {advice && <div className="prose prose-sm dark:prose-invert text-card-foreground" dangerouslySetInnerHTML={{ __html: advice.advice.replace(/\n/g, '<br/>') }} />}
+                             {!adviceLoading && !adviceError && !advice && <p className="text-muted-foreground">{t('getAdviceDescription')}</p>}
+                        </CardContent>
+                    </Card>
+
                     <Card className="w-full">
                         <CardHeader><CardTitle className="text-lg flex items-center gap-2"><PlusCircle className="w-5 h-5"/>{t('addExpense')}</CardTitle></CardHeader>
                         <CardContent>

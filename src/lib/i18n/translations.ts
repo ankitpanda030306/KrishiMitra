@@ -950,6 +950,11 @@ export const translations = {
     hi: 'सीजन जोड़ें',
     or: 'ଋତୁ ଯୋଡନ୍ତୁ',
   },
+  seasonAdded: {
+    en: 'Season added successfully!',
+    hi: 'सीजन सफलतापूर्वक जोड़ा गया!',
+    or: 'ଋତୁ ସଫଳତାର ସହିତ ଯୋଡାଗଲା!',
+  },
   seasonName: {
     en: 'Season Name',
     hi: 'सीजन का नाम',
@@ -1019,6 +1024,16 @@ export const translations = {
     en: 'Add Expense',
     hi: 'खर्च जोड़ें',
     or: 'ଖର୍ଚ୍ଚ ଯୋଡନ୍ତୁ',
+  },
+  expenseAdded: {
+    en: 'Expense added successfully!',
+    hi: 'खर्च सफलतापूर्वक जोड़ा गया!',
+    or: 'ଖର୍ଚ୍ଚ ସଫଳତାର ସହିତ ଯୋଡାଗଲା!',
+  },
+  expenseDeleted: {
+    en: 'Expense deleted',
+    hi: 'खर्च हटा दिया गया',
+    or: 'ଖର୍ଚ୍ଚ ଡିଲିଟ୍ ହୋଇଗଲା',
   },
   expenseType: {
     en: 'Expense Type',
@@ -1109,6 +1124,31 @@ export const translations = {
     en: 'Other',
     hi: 'अन्य',
     or: 'ଅନ୍ୟ',
+  },
+  aiRecommendations: {
+    en: 'AI Recommendations',
+    hi: 'एआई सिफारिशें',
+    or: 'AI ସୁପାରିଶ',
+  },
+  getAdvice: {
+    en: 'Get AI Advice',
+    hi: 'एआई सलाह लें',
+    or: 'AI ପରାମର୍ଶ ପାଆନ୍ତୁ',
+  },
+  getAdviceDescription: {
+    en: 'Click "Get AI Advice" to receive recommendations on how to optimize your expenses for this season.',
+    hi: 'इस सीजन के लिए अपने खर्चों को अनुकूलित करने के तरीके पर सिफारिशें प्राप्त करने के लिए "एआई सलाह लें" पर क्लिक करें।',
+    or: 'ଏହି ଋତୁ ପାଇଁ ଆପଣଙ୍କ ଖର୍ଚ୍ଚକୁ କିପରି ଅପ୍ଟିମାଇଜ୍ କରାଯିବ ସେନେଇ ସୁପାରିଶ ପାଇବା ପାଇଁ "AI ପରାମର୍ଶ ପାଆନ୍ତୁ" ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ |',
+  },
+  generating: {
+    en: 'Generating...',
+    hi: 'उत्पन्न हो रहा है...',
+    or: 'ଜେନେରେଟ୍ କରୁଛି...',
+  },
+  generatingAdvice: {
+    en: 'Generating advice...',
+    hi: 'सलाह उत्पन्न हो रही है...',
+    or: 'ପରାମର୍ଶ ଜେନେରେଟ୍ କରୁଛି...',
   }
 };
 
