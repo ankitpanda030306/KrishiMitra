@@ -184,7 +184,7 @@
   .premium-gloss-border {
     @apply relative rounded-lg;
   }
-  .premium-gloss-border::before {
+  .dark .premium-gloss-border::before {
     content: '';
     @apply absolute -top-0.5 -left-0.5 -right-0.5 -bottom-0.5 rounded-[calc(var(--radius)+2px)] bg-[conic-gradient(from_var(--conic-angle),_#ffd700,_#f0e68c,_#ffd700_50%,_#f0e68c,_#ffd700)] animate-spin-slow;
     z-index: -1;
