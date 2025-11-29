@@ -111,7 +111,7 @@ export default function PricingPage() {
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-pop'
+              plan.isFeatured && 'theme-premium border-2'
             )}
           >
             <CardHeader className="text-center">
@@ -119,7 +119,7 @@ export default function PricingPage() {
                 <plan.Icon
                   className={cn(
                     'w-8 h-8',
-                    plan.isFeatured ? 'text-primary' : 'text-muted-foreground'
+                    plan.isFeatured ? 'text-amber-500' : 'text-muted-foreground'
                   )}
                 />
                 <CardTitle className="text-2xl">{plan.name}</CardTitle>
@@ -147,7 +147,7 @@ export default function PricingPage() {
               <Button
                 onClick={plan.buttonAction}
                 disabled={plan.buttonDisabled || plan.isLoading}
-                className="w-full"
+                className={cn("w-full", plan.isFeatured && 'bg-amber-500 hover:bg-amber-600 text-black')}
                 variant={plan.isCurrent ? 'outline' : 'default'}
               >
                 {plan.isLoading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}

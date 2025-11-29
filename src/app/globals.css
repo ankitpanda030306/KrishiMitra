@@ -142,6 +142,17 @@
     --secondary-foreground: 0 100% 95%;
   }
 
+  .theme-premium {
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 10%;
+    --border: 45 90% 50%;
+  }
+
+  .dark.theme-premium {
+    --card: 0 0% 0%;
+    --card-foreground: 0 0% 95%;
+    --border: 45 90% 50%;
+  }
 }
 
 @layer base {
