@@ -84,7 +84,7 @@ service cloud.firestore {
        * @principle Restricts access to a user's own data tree.
        */
       allow get: if isOwner(userId);
-      allow list: if isOwner(userId);
+      
       // On create, user starts with a free plan.
       allow create: if isOwner(userId) 
                     && request.resource.data.id == userId
@@ -108,7 +108,7 @@ service cloud.firestore {
       match /cropSeasons/{cropSeasonId} {
         allow get, write: if isOwner(userId);
       }
-      match /cropSeasons/{collection=**} {
+       match /cropSeasons/{collection=**} {
         allow list: if isOwner(userId);
       }
 
