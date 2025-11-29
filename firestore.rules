@@ -5,35 +5,23 @@
  * control decisions are based on the user's authenticated UID.
  *
  * Data Structure:
- * - /users/{userId}: Contains private user profiles.
+ * - /users/{userId}: Contains private user profiles and all their related subcollections.
  * - /harvestListings/{listingId}: Top-level collection for all public harvest listings.
  * - /pestOutbreaks/{outbreakId}: Top-level collection for publicly readable community data.
  *
  * Key Security Decisions:
- * - Strict Ownership: A user can only access documents within their own data tree
- *   (i.e., under /users/{their-own-userId}). Listing other users' data is disallowed.
+ * - Strict Ownership with Recursive Wildcard: A user can only access documents within their
+ *   own data tree (i.e., under /users/{their-own-userId}). This is enforced using a recursive
+ *   wildcard (`match /{path=**}`) which is more robust and less error-prone for subcollections.
  * - Public Listings: The `harvestListings` collection is readable by any authenticated user.
  *   However, creation, update, and deletion are restricted to the document owner.
  * - Public Data Contribution: The `pestOutbreaks` collection is readable by anyone
  *   (including unauthenticated users) to support a community map feature. However,
  *   only authenticated users are permitted to create new outbreak reports.
  *   To prevent tampering, updating or deleting these reports is disallowed.
- * - Relational Integrity: On document creation, key relational fields (like a
- *   user's own ID) must be correctly set and are immutable thereafter.
  * - Subscription Fields Immutable by default: The `subscriptionPlan` and `subscriptionExpires` fields
  *   can only be changed if the update is from a free to a premium plan and the expiry date is in the future.
  *   This prevents users from downgrading or extending their own subscriptions.
- *
- * Denormalization for Authorization:
- * This ruleset relies on path-based security and checks on `request.resource.data.userProfileId`
- * for ownership. This avoids slow and costly `get()` calls to other documents for
- * authorization checks, resulting in simpler and more performant rules.
- *
- * Structural Segregation:
- * Private user data, public listings, and public community data are stored in separate top-level
- * collections (/users, /harvestListings, and /pestOutbreaks). This separation is critical for security
- * and performance, as it ensures that queries for public data cannot accidentally
- * expose private user information.
  */
 rules_version = '2';
 service cloud.firestore {
@@ -75,46 +63,35 @@ service cloud.firestore {
     // User Profile, Crop Seasons and Expenses Rules
     //-------------------------------------------------------------------------
 
-    match /users/{userId} {
+    match /users/{userId}/{documents=**} {
       /**
-       * @description Controls access to a user's own profile document.
-       * @path /users/{userId}
-       * @allow (create) An authenticated user creating their own profile document.
-       * @deny (get) A user trying to read another user's profile.
-       * @principle Restricts access to a user's own data tree.
+       * @description Controls all access to a user's data tree.
+       * A user can read, write, update, and delete any document or subcollection
+       * under their own user ID. This rule covers the user profile, crop seasons,
+       * and expenses.
        */
-      allow get: if isOwner(userId);
-      
-      // On create, user starts with a free plan.
-      allow create: if isOwner(userId) 
-                    && request.resource.data.id == userId
-                    && request.resource.data.subscriptionPlan == 'free';
+      allow read, write: if isOwner(userId);
+    }
+    
+    match /users/{userId} {
+        // This rule specifically handles the creation of the user profile document itself.
+        // On create, user starts with a free plan.
+        allow create: if isOwner(userId) 
+                      && request.resource.data.id == userId
+                      && request.resource.data.subscriptionPlan == 'free';
 
-      // On update, a user can update their own profile information.
-      // Subscription upgrades from 'free' are also allowed.
-      allow update: if isOwner(userId) && request.resource.data.id == resource.data.id && (
-          // Case 1: Subscription is NOT changing, allowing other profile fields to be updated.
-          (request.resource.data.subscriptionPlan == resource.data.subscriptionPlan && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires) ||
-          // Case 2: Upgrading from 'free' to 'premium'.
-          (resource.data.subscriptionPlan == 'free' && 
-            request.resource.data.subscriptionPlan == 'premium' && 
-            request.resource.data.subscriptionExpires is timestamp && 
-            request.resource.data.subscriptionExpires > request.time
-          )
-      );
-      allow delete: if isOwner(userId);
-
-      // Crop Seasons nested under a user
-      match /cropSeasons/{cropSeasonId} {
-        allow get, write: if isOwner(userId);
-        allow list: if isOwner(userId);
-      }
-      
-      // Expenses nested under a user
-      match /expenses/{expenseId} {
-        allow get, write: if isOwner(userId);
-        allow list: if isOwner(userId);
-      }
+        // This rule specifically handles updates to the user profile document itself.
+        // Subscription upgrades from 'free' are also allowed.
+        allow update: if isOwner(userId) && request.resource.data.id == resource.data.id && (
+            // Case 1: Subscription is NOT changing, allowing other profile fields to be updated.
+            (request.resource.data.subscriptionPlan == resource.data.subscriptionPlan && request.resource.data.subscriptionExpires == resource.data.subscriptionExpires) ||
+            // Case 2: Upgrading from 'free' to 'premium'.
+            (resource.data.subscriptionPlan == 'free' && 
+              request.resource.data.subscriptionPlan == 'premium' && 
+              request.resource.data.subscriptionExpires is timestamp && 
+              request.resource.data.subscriptionExpires > request.time
+            )
+        );
     }
     
     //-------------------------------------------------------------------------

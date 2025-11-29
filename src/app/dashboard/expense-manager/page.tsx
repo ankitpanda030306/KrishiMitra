@@ -61,6 +61,8 @@ export default function ExpenseManagerPage() {
       name: '',
       cropType: '',
       expectedRevenue: 0,
+      startDate: undefined,
+      endDate: undefined,
     }
   });
 
@@ -70,6 +72,7 @@ export default function ExpenseManagerPage() {
       type: '',
       amount: 0,
       description: '',
+      date: undefined,
     }
   });
 
@@ -100,7 +103,7 @@ export default function ExpenseManagerPage() {
 
 
   const onSeasonSubmit = async (data: SeasonFormValues) => {
-    if (!firebaseUser) return;
+    if (!firebaseUser || !firestore) return;
     const seasonsColRef = collection(firestore, `users/${firebaseUser.uid}/cropSeasons`);
     addDocumentNonBlocking(seasonsColRef, {
       userProfileId: firebaseUser.uid,
@@ -111,12 +114,18 @@ export default function ExpenseManagerPage() {
       expectedRevenue: data.expectedRevenue || 0,
     }).then(() => {
       toast({ title: t('seasonAdded') });
-      seasonForm.reset();
+      seasonForm.reset({
+        name: '',
+        cropType: '',
+        expectedRevenue: 0,
+        startDate: undefined,
+        endDate: undefined,
+      });
     });
   };
   
   const onExpenseSubmit = async (data: ExpenseFormValues) => {
-    if (!firebaseUser || !selectedSeasonId) return;
+    if (!firebaseUser || !selectedSeasonId || !firestore) return;
     const expensesColRef = collection(firestore, `users/${firebaseUser.uid}/expenses`);
     addDocumentNonBlocking(expensesColRef, {
       userProfileId: firebaseUser.uid,
@@ -140,7 +149,7 @@ export default function ExpenseManagerPage() {
   };
 
   const deleteExpense = (expenseId: string) => {
-    if (!firebaseUser) return;
+    if (!firebaseUser || !firestore) return;
     const expenseDocRef = doc(firestore, `users/${firebaseUser.uid}/expenses/${expenseId}`);
     deleteDocumentNonBlocking(expenseDocRef).then(() => {
         toast({ title: t('expenseDeleted') });
@@ -265,7 +274,7 @@ export default function ExpenseManagerPage() {
                         <CardContent>
                              <Form {...expenseForm}>
                                 <form onSubmit={expenseForm.handleSubmit(onExpenseSubmit)} className="grid md:grid-cols-2 gap-4 items-start">
-                                    <FormField control={expenseForm.control} name="type" render={({ field }) => (<FormItem><FormLabel>{t('expenseType')}</FormLabel><Select onValueChange={field.onChange} defaultValue={field.value}><FormControl><SelectTrigger><SelectValue placeholder={t('selectType')} /></SelectTrigger></FormControl><SelectContent>{expenseTypes.map(type => (<SelectItem key={type} value={type}>{t(type.toLowerCase() as any)}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
+                                    <FormField control={expenseForm.control} name="type" render={({ field }) => (<FormItem><FormLabel>{t('expenseType')}</FormLabel><Select onValueChange={field.onChange} value={field.value}><FormControl><SelectTrigger><SelectValue placeholder={t('selectType')} /></SelectTrigger></FormControl><SelectContent>{expenseTypes.map(type => (<SelectItem key={type} value={type}>{t(type.toLowerCase() as any)}</SelectItem>))}</SelectContent></Select><FormMessage /></FormItem>)} />
                                     <FormField control={expenseForm.control} name="amount" render={({ field }) => (<FormItem><FormLabel>{t('expenseAmount')}</FormLabel><FormControl><Input type="number" placeholder="e.g., 500" {...field} /></FormControl><FormMessage /></FormItem>)} />
                                     <FormField control={expenseForm.control} name="date" render={({ field }) => (<FormItem className="flex flex-col"><FormLabel>{t('expenseDate')}</FormLabel><Popover><PopoverTrigger asChild><FormControl><Button variant={"outline"} className={cn("pl-3 text-left font-normal", !field.value && "text-muted-foreground")}>{field.value ? format(field.value, "PPP") : <span>Pick a date</span>}<CalendarIcon className="ml-auto h-4 w-4 opacity-50" /></Button></FormControl></PopoverTrigger><PopoverContent className="w-auto p-0" align="start"><Calendar mode="single" selected={field.value} onSelect={field.onChange} /></PopoverContent></Popover><FormMessage /></FormItem>)} />
                                     <FormField control={expenseForm.control} name="description" render={({ field }) => (<FormItem><FormLabel>{t('description')}</FormLabel><FormControl><Input placeholder={t('egBoughtUrea')} {...field} /></FormControl><FormMessage /></FormItem>)} />
