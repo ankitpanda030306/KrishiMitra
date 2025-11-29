@@ -57,10 +57,20 @@ export default function ExpenseManagerPage() {
 
   const seasonForm = useForm<SeasonFormValues>({
     resolver: zodResolver(seasonSchema),
+    defaultValues: {
+      name: '',
+      cropType: '',
+      expectedRevenue: 0,
+    }
   });
 
   const expenseForm = useForm<ExpenseFormValues>({
     resolver: zodResolver(expenseSchema),
+    defaultValues: {
+      type: '',
+      amount: 0,
+      description: '',
+    }
   });
 
   // Fetch Seasons
@@ -117,7 +127,12 @@ export default function ExpenseManagerPage() {
       description: data.description || '',
     }).then(() => {
       toast({ title: t('expenseAdded') });
-      expenseForm.reset();
+      expenseForm.reset({
+        type: '',
+        amount: 0,
+        description: '',
+        date: undefined, // Reset date picker
+      });
       // Reset advice when a new expense is added
       setAdvice(null); 
       setAdviceError(null);
@@ -240,7 +255,7 @@ export default function ExpenseManagerPage() {
                         <CardContent>
                              {adviceLoading && <div className="flex items-center gap-2 text-muted-foreground"><Loader2 className="w-4 h-4 animate-spin"/> {t('generatingAdvice')}</div>}
                              {adviceError && <Alert variant="destructive"><AlertTriangle className="h-4 w-4" /><AlertTitle>{t('error')}</AlertTitle><AlertDescription>{adviceError}</AlertDescription></Alert>}
-                             {advice && <div className="prose prose-sm dark:prose-invert text-card-foreground" dangerouslySetInnerHTML={{ __html: advice.advice.replace(/\n/g, '<br/>') }} />}
+                             {advice && <div className="prose prose-sm dark:prose-invert text-card-foreground" dangerouslySetInnerHTML={{ __html: advice.advice.replace(/\\n/g, '<br/>') }} />}
                              {!adviceLoading && !adviceError && !advice && <p className="text-muted-foreground">{t('getAdviceDescription')}</p>}
                         </CardContent>
                     </Card>
@@ -294,5 +309,3 @@ export default function ExpenseManagerPage() {
     </div>
   );
 }
-
-    
