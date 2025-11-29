@@ -1,3 +1,4 @@
+
 'use client';
 
 import { useEffect, useState } from 'react';
@@ -60,7 +61,7 @@ export default function PestPatrolSummary() {
   }, [language, t]);
 
   return (
-    <Card className="shadow-md h-full flex flex-col">
+    <Card className="h-full flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bug className="text-primary" />

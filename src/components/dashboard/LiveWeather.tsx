@@ -77,7 +77,7 @@ export default function LiveWeather() {
   }, [t, language, apiKey]);
 
   return (
-    <Card className="shadow-md">
+    <Card>
       <CardContent className="p-4">
         {loading && (
           <div className="flex items-center justify-center gap-4 h-24">

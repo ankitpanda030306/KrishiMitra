@@ -69,7 +69,7 @@ export default function LocationAdvisories() {
   ];
 
   return (
-    <Card className="shadow-md">
+    <Card>
       <CardHeader>
         <CardTitle>{t('locationAdvisories')}</CardTitle>
       </CardHeader>

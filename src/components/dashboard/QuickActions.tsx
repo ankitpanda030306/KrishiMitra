@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -15,7 +16,7 @@ export default function QuickActions() {
     'w-full transition-transform transform active:scale-95';
 
   return (
-    <Card className="shadow-md">
+    <Card>
       <CardHeader>
         <CardTitle>{t('quickActions')}</CardTitle>
       </CardHeader>
