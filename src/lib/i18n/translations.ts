@@ -286,9 +286,9 @@ export const translations = {
     or: 'ପ୍ରତିଛବି ଅପଲୋଡ୍ କରନ୍ତୁ',
   },
   analysisResults: {
-    en: 'Analysis Results',
-    hi: 'विश्लेषण परिणाम',
-    or: 'ବିଶ୍ଳେଷଣ ଫଳାଫଳ',
+    en: 'Analyze & Estimate Yield',
+    hi: 'विश्लेषण और उपज का अनुमान',
+    or: 'ବିଶ୍ଳେଷଣ ଏବଂ ଉତ୍ପାଦନ ଆକଳନ',
   },
   sortingRecommendations: {
     en: 'Recommend Sorting',
@@ -930,7 +930,3 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
-
-    
-
-    

@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useLanguage } from '@/lib/i18n';
-import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2, Camera, Video, Info } from 'lucide-react';
+import { Upload, Microscope, ClipboardList, Package, AlertTriangle, Loader2, Camera, Video, Info, Scale } from 'lucide-react';
 import { PlaceHolderImages } from '@/lib/placeholder-images';
 import { Progress } from '@/components/ui/progress';
 import { Badge } from '@/components/ui/badge';
@@ -18,6 +18,7 @@ import { suggestStorageInstructions, SuggestStorageInstructionsOutput } from '@/
 import { useToast } from '@/hooks/use-toast';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '../ui/tabs';
 import { Alert, AlertDescription, AlertTitle } from '../ui/alert';
+import { Separator } from '../ui/separator';
 
 type Step = 'idle' | 'analyzing' | 'analyzed' | 'sorting' | 'sorted' | 'storing' | 'stored';
 type InputMode = 'upload' | 'camera';
@@ -294,6 +295,14 @@ export default function ImageAnalysis() {
                       ))}
                       {analysisResult.defects.length === 0 && <p className="text-muted-foreground">{t('noDefectsFound')}</p>}
                     </ul>
+                    <Separator />
+                    <div className="flex items-center gap-3 p-3 bg-blue-500/10 rounded-md">
+                        <Scale className="h-5 w-5 text-blue-700 dark:text-blue-400"/>
+                        <p className="text-sm text-blue-800 dark:text-blue-300">
+                            Estimated Yield: <span className="font-bold">{analysisResult.estimatedYield}</span>
+                        </p>
+                    </div>
+
                   </div>
                 </CardContent>
               </Card>
@@ -341,5 +350,3 @@ export default function ImageAnalysis() {
     </Card>
   );
 }
-
-    

@@ -30,6 +30,7 @@ const AnalyzeCropImageForDefectsOutputSchema = z.object({
   confidenceScores: z.array(
     z.number().describe('The confidence score for each defect identified.')
   ).describe('Confidence scores for defects'),
+  estimatedYield: z.string().describe("The estimated yield for the crop in the image, formatted as a string (e.g., '10-12 tons/acre' or '25-30 kg/plant')."),
 });
 export type AnalyzeCropImageForDefectsOutput = z.infer<typeof AnalyzeCropImageForDefectsOutputSchema>;
 
@@ -41,15 +42,16 @@ const prompt = ai.definePrompt({
   name: 'analyzeCropImageForDefectsPrompt',
   input: {schema: AnalyzeCropImageForDefectsInputSchema},
   output: {schema: AnalyzeCropImageForDefectsOutputSchema},
-  prompt: `You are an AI assistant specialized in analyzing images of crops and farm animals for health assessment.
+  prompt: `You are an AI assistant specialized in analyzing images of crops for health assessment and yield estimation.
 
-  First, identify the plant or animal in the image. This is the 'cropType'.
-  Then, analyze the identified subject and identify any potential defects, diseases, or health issues.
-  Provide a list of defects identified and their corresponding confidence scores.
-  {{#if language}}The response for 'cropType' and 'defects' fields must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
+  1.  First, identify the plant in the image. This is the 'cropType'.
+  2.  Then, analyze the identified subject and identify any potential defects, diseases, or health issues. Provide a list of defects and their corresponding confidence scores.
+  3.  Finally, estimate the potential yield for this crop based on its appearance in the image (e.g., density, health, fruit/grain visibility). Provide this as a string like '10-12 tons/acre' or '25-30 kg/plant'.
+
+  {{#if language}}The response for 'cropType', 'defects', and 'estimatedYield' fields must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
   Image: {{media url=photoDataUri}}
-  Format your response as a JSON object with 'cropType', 'defects', and 'confidenceScores' fields.
+  Format your response as a JSON object with 'cropType', 'defects', 'confidenceScores', and 'estimatedYield' fields.
   If no defects are found, return an empty array for 'defects' and 'confidenceScores'.
   `,
 });
