@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -11,14 +12,11 @@ import {
 } from '@/components/ui/card';
 import { useUser } from '@/lib/user';
 import { useLanguage } from '@/lib/i18n';
-import { CheckCircle, Gem, Star, Rocket, Loader2 } from 'lucide-react';
+import { CheckCircle, Star, Rocket, Loader2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { add } from 'date-fns';
 import { useToast } from '@/hooks/use-toast';
 import type { TranslationKey } from '@/lib/i18n/translations';
 import { useState } from 'react';
-import { Timestamp } from 'firebase/firestore';
-import { useRouter } from 'next/navigation';
 
 // Define plans statically outside the component to prevent hydration issues
 const staticPlans = [
@@ -56,28 +54,16 @@ const staticPlans = [
 
 export default function PricingPage() {
   const { t } = useLanguage();
-  const { subscriptionPlan, setUserDetails } = useUser();
+  const { subscriptionPlan } = useUser();
   const { toast } = useToast();
-  const router = useRouter();
   const rupeeSymbol = 'Rs.';
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
   
   const handleUpgradeToPremium = () => {
-    setLoadingPlanId('premium');
-    setTimeout(() => {
-      // For now, we simulate the upgrade without a real payment
-      const oneYearFromNow = add(new Date(), { years: 1 });
-       setUserDetails({
-        subscriptionPlan: 'premium',
-        subscriptionExpires: Timestamp.fromDate(oneYearFromNow),
-      });
-      toast({
-          title: 'Coming Soon!',
-          description: 'Payment processing for the premium plan is not yet available. Welcome to Premium!'
-      });
-      setLoadingPlanId(null);
-      router.push('/dashboard/premium');
-    }, 2000);
+    toast({
+        title: 'Feature Not Available',
+        description: 'This feature will not be activated for now. Sorry for the inconvenience.',
+    });
   };
 
   const plans = staticPlans.map(p => {
@@ -125,7 +111,7 @@ export default function PricingPage() {
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg'
+              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-pop'
             )}
           >
             <CardHeader className="text-center">
