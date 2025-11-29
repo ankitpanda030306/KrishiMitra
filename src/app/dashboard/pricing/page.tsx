@@ -111,7 +111,7 @@ export default function PricingPage() {
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'theme-premium premium-gloss-border border-black'
+              plan.isFeatured && 'theme-premium border-2 border-amber-500'
             )}
           >
             <CardHeader className="text-center">
