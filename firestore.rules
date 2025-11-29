@@ -107,16 +107,12 @@ service cloud.firestore {
       // Crop Seasons nested under a user
       match /cropSeasons/{cropSeasonId} {
         allow get, write: if isOwner(userId);
-      }
-       match /cropSeasons/{collection=**} {
         allow list: if isOwner(userId);
       }
-
+      
       // Expenses nested under a user
       match /expenses/{expenseId} {
         allow get, write: if isOwner(userId);
-      }
-      match /expenses/{collection=**} {
         allow list: if isOwner(userId);
       }
     }
