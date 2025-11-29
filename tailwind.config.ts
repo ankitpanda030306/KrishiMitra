@@ -72,7 +72,7 @@ export default {
         sm: 'calc(var(--radius) - 4px)',
       },
       boxShadow: {
-        pop: '0 10px 25px -5px hsl(var(--shadow-color) / 0.1), 0 8px 10px -6px hsl(var(--shadow-color) / 0.1)',
+        pop: '0 0 15px hsl(var(--shadow-color) / 0.2)',
       },
       keyframes: {
         'accordion-down': {
