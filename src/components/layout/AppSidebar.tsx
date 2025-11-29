@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -36,7 +35,6 @@ const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'free' },
   { href: '/dashboard/premium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
   { href: '/dashboard/crop-planner', icon: Tractor, labelKey: 'aiCropPlanner' },
-  { href: '/dashboard/expense-manager', icon: ClipboardList, labelKey: 'farmExpenseManager' },
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
