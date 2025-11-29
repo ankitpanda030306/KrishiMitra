@@ -37,6 +37,7 @@
     --sidebar-accent-foreground: 84 15% 20%;
     --sidebar-border: 90 30% 75%;
     --sidebar-ring: 81 52% 58%;
+    --shadow-color: 0 0% 0%;
   }
 
   .dark {
@@ -72,6 +73,7 @@
     --sidebar-accent-foreground: 93 44% 95%;
     --sidebar-border: 90 15% 25%;
     --sidebar-ring: 81 52% 58%;
+    --shadow-color: 0 0% 100%;
   }
 
   .theme-sky-blue {
