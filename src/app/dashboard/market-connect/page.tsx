@@ -31,7 +31,7 @@ import {
 } from '@/firebase';
 import { collection, serverTimestamp, query, orderBy, getDocs } from 'firebase/firestore';
 import { useToast } from '@/hooks/use-toast';
-import { Loader2, AlertTriangle } from 'lucide-react';
+import { Loader2, AlertTriangle, ShoppingCart } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { useUser } from '@/lib/user';
 import { seedInitialData } from '@/lib/seed';
@@ -173,6 +173,13 @@ export default function MarketConnectPage() {
   };
   
   const canSubmit = !isSubmitting && !isUserLoading && !!firebaseUser;
+
+  const handleBuyClick = (crop: string) => {
+    toast({
+        title: 'Feature Coming Soon!',
+        description: `Direct purchasing for ${crop} will be available shortly.`,
+    });
+  }
 
 
   return (
@@ -332,29 +339,31 @@ export default function MarketConnectPage() {
 
           <Card>
             <CardHeader>
-              <CardTitle>{t('marketRates')}</CardTitle>
-              <CardDescription>{t('averageMarketRates')}</CardDescription>
+              <CardTitle>{"Vendor's Market"}</CardTitle>
+              <CardDescription>{"Supplies from trusted vendors."}</CardDescription>
             </CardHeader>
             <CardContent>
               <Table>
                 <TableHeader>
                   <TableRow>
                     <TableHead>{t('crop')}</TableHead>
-                    <TableHead>{t('premiumGrade')}</TableHead>
-                    <TableHead>{t('marketReadyGrade')}</TableHead>
+                    <TableHead>{"Vendor"}</TableHead>
+                    <TableHead>{"Price (Premium)"}</TableHead>
+                    <TableHead>{"Price (Market)"}</TableHead>
+                    <TableHead className="text-right">{"Action"}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {ratesLoading && [...Array(5)].map((_, i) => (
                     <TableRow key={i}>
-                        <TableCell colSpan={3}>
+                        <TableCell colSpan={5}>
                             <Skeleton className="h-5 w-full" />
                         </TableCell>
                     </TableRow>
                   ))}
                   {ratesError && (
                      <TableRow>
-                        <TableCell colSpan={3} className="text-center text-destructive">
+                        <TableCell colSpan={5} className="text-center text-destructive">
                            <div className="flex items-center justify-center gap-2">
                             <AlertTriangle className="h-4 w-4" />
                             <span>{ratesError}</span>
@@ -365,6 +374,7 @@ export default function MarketConnectPage() {
                   {!ratesLoading && !ratesError && marketRates.map((rate, index) => (
                     <TableRow key={index}>
                       <TableCell className="font-medium">{rate.crop}</TableCell>
+                      <TableCell>{rate.vendor} <span className="text-muted-foreground text-xs">({rate.location})</span></TableCell>
                       <TableCell>
                         {rupeeSymbol}
                         {rate.premium}
@@ -372,6 +382,12 @@ export default function MarketConnectPage() {
                       <TableCell>
                         {rupeeSymbol}
                         {rate.market}
+                      </TableCell>
+                      <TableCell className="text-right">
+                          <Button variant="outline" size="sm" onClick={() => handleBuyClick(rate.crop)}>
+                            <ShoppingCart className="mr-2 h-4 w-4" />
+                            Buy Now
+                          </Button>
                       </TableCell>
                     </TableRow>
                   ))}

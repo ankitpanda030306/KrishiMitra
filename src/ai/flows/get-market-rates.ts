@@ -20,6 +20,8 @@ const MarketRateSchema = z.object({
   crop: z.string().describe('The name of the crop.'),
   premium: z.string().describe("The plausible real-time price for premium grade produce, formatted as a string like '30-35/kg' or '400-600/dozen'."),
   market: z.string().describe("The plausible real-time price for market-ready grade produce, formatted as a string like '20-25/kg' or '250-350/dozen'."),
+  vendor: z.string().describe('The name of the vendor supplying the crop.'),
+  location: z.string().describe('The location of the vendor (e.g., city).'),
 });
 
 const GetMarketRatesOutputSchema = z.object({
@@ -44,6 +46,7 @@ const prompt = ai.definePrompt({
   {{/each}}
 
   For each crop, provide a price range for 'premium' and 'market' grades. The format should be a string, like "30-35/kg" or "400-600/dozen".
+  Also include a plausible vendor name and their location (city in India) for each crop.
   
   {{#if language}}The 'crop' field in your response should be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
