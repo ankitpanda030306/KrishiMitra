@@ -147,7 +147,7 @@
     --card-foreground: 0 0% 10%;
   }
 
-  .dark.theme-premium {
+  .dark .theme-premium {
     --card: 0 0% 0%;
     --card-foreground: 0 0% 95%;
   }
