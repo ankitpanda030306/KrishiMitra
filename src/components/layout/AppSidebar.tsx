@@ -11,6 +11,7 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
+  useSidebar,
 } from '@/components/ui/sidebar';
 import {
   LayoutDashboard,
@@ -45,10 +46,18 @@ export default function AppSidebar() {
   const auth = useAuth();
   const router = useRouter();
   const { subscriptionPlan } = useUser();
+  const { isMobile, setOpenMobile } = useSidebar();
   
+  const handleLinkClick = () => {
+    if (isMobile) {
+      setOpenMobile(false);
+    }
+  };
+
   const handleLogout = () => {
     signOut(auth);
     router.push('/');
+    handleLinkClick();
   }
 
   const getDashboardPath = () => {
@@ -88,6 +97,7 @@ export default function AppSidebar() {
                   asChild
                   isActive={pathname === href}
                   tooltip={{ children: t(item.labelKey as any) }}
+                  onClick={handleLinkClick}
                 >
                   <Link href={href}>
                     <item.icon />
@@ -102,7 +112,7 @@ export default function AppSidebar() {
       <SidebarFooter className="border-t">
         <SidebarMenu>
           <SidebarMenuItem>
-             <SidebarMenuButton asChild tooltip={{ children: t('profile') }} isActive={pathname === '/dashboard/profile'}>
+             <SidebarMenuButton asChild tooltip={{ children: t('profile') }} isActive={pathname === '/dashboard/profile'} onClick={handleLinkClick}>
                 <Link href="/dashboard/profile">
                   <User />
                   <span>{t('profile')}</span>
@@ -110,7 +120,7 @@ export default function AppSidebar() {
             </SidebarMenuButton>
           </SidebarMenuItem>
           <SidebarMenuItem>
-            <SidebarMenuButton asChild tooltip={{ children: t('settings') }} isActive={pathname === '/dashboard/settings'}>
+            <SidebarMenuButton asChild tooltip={{ children: t('settings') }} isActive={pathname === '/dashboard/settings'} onClick={handleLinkClick}>
               <Link href="/dashboard/settings">
                 <Settings />
                 <span>{t('settings')}</span>
