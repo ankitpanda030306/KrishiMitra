@@ -12,14 +12,12 @@ export default function DashboardPage() {
       <LiveWeather />
       <ThoughtOfTheDay />
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
-        <div className="space-y-6">
+        <div className="lg:col-span-1 space-y-6">
           <QuickActions />
-        </div>
-        <div className="lg:col-span-2 space-y-6">
-          <LocationAdvisories />
-        </div>
-        <div className="lg:col-span-3">
           <PestPatrolSummary />
+        </div>
+        <div className="lg:col-span-2">
+          <LocationAdvisories />
         </div>
       </div>
     </div>
