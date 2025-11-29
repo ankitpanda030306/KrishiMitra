@@ -12,7 +12,7 @@ import { Label } from '@/components/ui/label';
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { useLanguage } from '@/lib/i18n';
-import { Tractor, Bot, Loader2, AlertTriangle, ChevronsRight, Calendar, Droplets, LineChart, Shield, IndianRupee } from 'lucide-react';
+import { Tractor, Bot, Loader2, AlertTriangle, ChevronsRight, Calendar, Droplets, LineChart, Shield, IndianRupee, Clock, RefreshCw } from 'lucide-react';
 import { generateCropPlan, GenerateCropPlanOutput } from '@/ai/flows/generate-crop-plan';
 import { Separator } from '@/components/ui/separator';
 
@@ -203,10 +203,30 @@ export default function CropPlannerPage() {
                       {plan.fertilizerSchedule.map((item, index) => (
                         <div key={index} className="flex items-start gap-4">
                           <div className="w-8 h-8 rounded-full bg-primary/10 text-primary flex items-center justify-center flex-shrink-0 mt-1">
-                            <Droplets className="w-5 h-5" />
+                            <RefreshCw className="w-5 h-5" />
                           </div>
                           <div>
                             <p className="font-semibold">{item.stage}: <span className="font-normal">{item.fertilizer}</span></p>
+                            <p className="text-sm text-muted-foreground">{item.notes}</p>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+
+                  <Separator />
+
+                  {/* Irrigation Schedule */}
+                  <div>
+                    <h3 className="text-lg font-semibold mb-2">{t('irrigation')}</h3>
+                    <div className="space-y-3">
+                      {plan.irrigationSchedule.map((item, index) => (
+                        <div key={index} className="flex items-start gap-4">
+                          <div className="w-8 h-8 rounded-full bg-blue-500/10 text-blue-600 flex items-center justify-center flex-shrink-0 mt-1">
+                            <Droplets className="w-5 h-5" />
+                          </div>
+                          <div>
+                            <p className="font-semibold">{item.week}: <span className="font-normal">{item.frequency}</span></p>
                             <p className="text-sm text-muted-foreground">{item.notes}</p>
                           </div>
                         </div>
@@ -258,5 +278,3 @@ export default function CropPlannerPage() {
     </div>
   );
 }
-
-    

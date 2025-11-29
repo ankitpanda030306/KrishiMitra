@@ -26,9 +26,14 @@ const GenerateCropPlanOutputSchema = z.object({
     })).describe("A list of recommended crops and their sowing dates."),
     fertilizerSchedule: z.array(z.object({
         stage: z.string().describe("The growth stage of the crop (e.g., 'Pre-sowing', 'Vegetative', 'Flowering')."),
-        fertilizer: z.string().describe("The recommended fertilizer or nutrient mix."),
+        fertilizer: z.string().describe("The recommended fertilizer or nutrient mix (e.g., 'Urea: 50kg/acre')."),
         notes: z.string().describe("Additional notes or instructions for this stage.")
-    })).describe("A schedule for fertilizer application."),
+    })).describe("A schedule for fertilizer application with quantities."),
+    irrigationSchedule: z.array(z.object({
+        week: z.string().describe("The week of the cycle (e.g., 'Week 1-2', 'Week 3-4')."),
+        frequency: z.string().describe("How often to irrigate (e.g., 'Twice a week')."),
+        notes: z.string().describe("Additional notes or weather considerations for irrigation.")
+    })).describe("A weekly schedule for irrigation."),
     financialAnalysis: z.object({
         expectedCost: z.string().describe("The estimated total cost for the entire plan, formatted as a currency string (e.g., 'Rs. 50,000')."),
         expectedProfit: z.string().describe("The estimated potential profit, formatted as a currency string (e.g., 'Rs. 1,20,000')."),
@@ -47,7 +52,7 @@ const prompt = ai.definePrompt({
   name: 'generateCropPlanPrompt',
   input: {schema: GenerateCropPlanInputSchema},
   output: {schema: GenerateCropPlanOutputSchema},
-  prompt: `You are an expert agricultural AI planner. Your task is to create a comprehensive and personalized crop plan based on the farmer's specific inputs.
+  prompt: `You are an expert agricultural AI planner. Your task is to create a comprehensive and personalized crop plan based on the farmer's specific inputs and local weather patterns for a region in India.
 
   Farmer's Details:
   - Land Size: {{{landSize}}} acres
@@ -55,9 +60,10 @@ const prompt = ai.definePrompt({
   - Water Availability: {{{waterAvailability}}}
 
   Based on these details, please provide the following:
-  1.  **Crop Recommendations**: Suggest an optimal combination of 1-2 crops. For each, provide the best sowing date and a reason for the recommendation.
-  2.  **Fertilizer Schedule**: Create a simple schedule for fertilizer application, broken down by growth stage.
-  3.  **Financial Analysis**: Provide an estimated cost, expected profit, and a brief risk analysis.
+  1.  **Crop Recommendations**: Suggest an optimal combination of 1-2 crops suitable for Indian conditions. For each, provide the best sowing date and a reason.
+  2.  **Fertilizer Schedule**: Create a schedule for fertilizer application, broken down by growth stage. Include specific quantities (e.g., 'Urea: 50kg/acre').
+  3.  **Irrigation Schedule**: Provide a simple weekly irrigation schedule for the crop cycle.
+  4.  **Financial Analysis**: Provide an estimated cost, expected profit, and a brief risk analysis.
 
   {{#if language}}The entire response for all fields must be in the specified language: {{{language}}}.{{else}}The response should be in English.{{/if}}
 
