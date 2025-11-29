@@ -1,4 +1,3 @@
-
 export type Language = 'en' | 'hi' | 'or';
 
 export const translations = {
@@ -176,6 +175,98 @@ export const translations = {
     en: 'Pricing',
     hi: 'मूल्य निर्धारण',
     or: 'ମୂଲ୍ୟ ନିର୍ଧାରଣ',
+  },
+  aiCropPlanner: {
+    en: 'AI Crop Planner',
+    hi: 'एआई फसल योजनाकार',
+    or: 'AI ଫସଲ ଯୋଜନାକାରୀ',
+  },
+
+  // Crop Planner Page
+  aiCropPlannerDescription: {
+    en: 'Get a personalized crop plan from our AI based on your farm details.',
+    hi: 'हमारे एआई से अपने खेत के विवरण के आधार पर एक व्यक्तिगत फसल योजना प्राप्त करें।',
+    or: 'ଆମର AIରୁ ଆପଣଙ୍କ ଫାର୍ମ ବିବରଣୀ ଉପରେ ଆଧାର କରି ଏକ ବ୍ୟକ୍ତିଗତ ଫସଲ ଯୋଜନା ପାଆନ୍ତୁ |',
+  },
+  farmDetails: {
+    en: 'Your Farm Details',
+    hi: 'आपके खेत का विवरण',
+    or: 'ଆପଣଙ୍କ ଫାର୍ମ ବିବରଣୀ',
+  },
+  landSizeAcres: {
+    en: 'Land Size (in acres)',
+    hi: 'भूमि का आकार (एकड़ में)',
+    or: 'ଜମିର ଆକାର (ଏକରରେ)',
+  },
+  soilType: {
+    en: 'Soil Type',
+    hi: 'मिट्टी का प्रकार',
+    or: 'ମାଟିର ପ୍ରକାର',
+  },
+  selectSoilType: {
+    en: 'Select soil type',
+    hi: 'मिट्टी का प्रकार चुनें',
+    or: 'ମାଟିର ପ୍ରକାର ଚୟନ କରନ୍ତୁ',
+  },
+  waterAvailability: {
+    en: 'Water Availability',
+    hi: 'पानी की उपलब्धता',
+    or: 'ଜଳର ଉପଲବ୍ଧତା',
+  },
+  selectWaterAvailability: {
+    en: 'Select water availability',
+    hi: 'पानी की उपलब्धता चुनें',
+    or: 'ଜଳର ଉପଲବ୍ଧତା ଚୟନ କରନ୍ତୁ',
+  },
+  generatePlan: {
+    en: 'Generate Plan',
+    hi: 'योजना बनाएं',
+    or: 'ଯୋଜନା ସୃଷ୍ଟି କରନ୍ତୁ',
+  },
+  yourPersonalisedPlan: {
+    en: 'Your Personalized Plan',
+    hi: 'आपकी व्यक्तिगत योजना',
+    or: 'ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ଯୋଜନା',
+  },
+  generatingPlan: {
+    en: 'Our AI is crafting your personalized crop plan... this may take a moment.',
+    hi: 'हमारा एआई आपकी व्यक्तिगत फसल योजना तैयार कर रहा है... इसमें कुछ समय लग सकता है।',
+    or: 'ଆମର AI ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ ଫସଲ ଯୋଜନା ପ୍ରସ୍ତୁତ କରୁଛି... ଏଥିରେ କିଛି ସମୟ ଲାଗିପାରେ |',
+  },
+  fillDetailsToGenerate: {
+    en: 'Fill in your farm details on the left and click "Generate Plan" to get your personalized AI-powered crop plan.',
+    hi: 'बाईं ओर अपने खेत का विवरण भरें और अपनी व्यक्तिगत एआई-संचालित फसल योजना प्राप्त करने के लिए "योजना बनाएं" पर क्लिक करें।',
+    or: 'ଆପଣଙ୍କ ବ୍ୟକ୍ତିଗତ AI-ଚାଳିତ ଫସଲ ଯୋଜନା ପାଇବା ପାଇଁ ବାମ ପଟେ ଆପଣଙ୍କ ଫାର୍ମ ବିବରଣୀ ପୂରଣ କରନ୍ତୁ ଏବଂ "ଯୋଜନା ସୃଷ୍ଟି କରନ୍ତୁ" ଉପରେ କ୍ଲିକ୍ କରନ୍ତୁ |',
+  },
+  cropRecommendations: {
+    en: 'Crop Recommendations',
+    hi: 'फसल सिफारिशें',
+    or: 'ଫସଲ ସୁପାରିଶ',
+  },
+  fertilizerSchedule: {
+    en: 'Fertilizer Schedule',
+    hi: 'उर्वरक अनुसूची',
+    or: 'ସାର ସୂଚୀ',
+  },
+  financialAnalysis: {
+    en: 'Financial Analysis',
+    hi: 'वित्तीय विश्लेषण',
+    or: 'ଆର୍ଥିକ ବିଶ୍ଳେଷଣ',
+  },
+  expectedCost: {
+    en: 'Expected Cost',
+    hi: 'अपेक्षित लागत',
+    or: 'ପ୍ରତ୍ୟାଶିତ ମୂଲ୍ୟ',
+  },
+  expectedProfit: {
+    en: 'Expected Profit',
+    hi: 'अपेक्षित लाभ',
+    or: 'ପ୍ରତ୍ୟାଶିତ ଲାଭ',
+  },
+  riskAnalysis: {
+    en: 'Risk Analysis',
+    hi: 'जोखिम विश्लेषण',
+    or: 'ବିପଦ ବିଶ୍ଳେଷଣ',
   },
 
   // Image Analysis Page
@@ -824,7 +915,7 @@ export const translations = {
   droneFacility: {
     en: 'Drone facility for crop monitoring',
     hi: 'फसल निगरानी के लिए ड्रोन सुविधा',
-    or: 'ଫସଲ ପର୍ଯ୍ୟବେକ୍ଷଣ ପାଇଁ ଡ୍ରୋନ୍ ସୁବିଧା',
+    or: 'ଫସଲ ପର୍ଯ୍ୟବେକ୍ଷଣ ପାଇଁ ଡ୍ରੋନ୍ ସୁବିଧା',
   },
   yearlyBilling: {
     en: 'Yearly Billing Also Available',

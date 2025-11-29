@@ -1,4 +1,3 @@
-
 "use client";
 
 import Link from 'next/link';
@@ -24,6 +23,7 @@ import {
   User,
   Mic,
   Gem,
+  Tractor,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/firebase';
@@ -33,6 +33,7 @@ import { useUser } from '@/lib/user';
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'free' },
   { href: '/dashboard/premium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
+  { href: '/dashboard/crop-planner', icon: Tractor, labelKey: 'aiCropPlanner' },
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },

@@ -8,3 +8,4 @@ import '@/ai/flows/suggest-storage-instructions.ts';
 import '@/ai/flows/provide-location-based-advisories.ts';
 import '@/ai/flows/transliterate-name.ts';
 import '@/ai/flows/get-live-pest-incidents.ts';
+import '@/ai/flows/generate-crop-plan.ts';
