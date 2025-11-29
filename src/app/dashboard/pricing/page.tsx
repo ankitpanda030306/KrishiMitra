@@ -27,28 +27,13 @@ const staticPlans = [
       price: '0',
       descriptionKey: 'freePlanDescription' as TranslationKey,
       featuresKeys: [
-        'basicImageAnalysis' as TranslationKey,
-        'voiceAnalysis' as TranslationKey,
+        'unlimitedImageAnalysis' as TranslationKey,
+        'unlimitedVoiceAnalysis' as TranslationKey,
         'marketListings' as TranslationKey,
       ],
       Icon: Star,
       isFeatured: false,
       planId: 'free',
-    },
-    {
-      planNameKey: 'freemium' as TranslationKey,
-      price: '399',
-      priceSuffixKey: 'monthly' as TranslationKey,
-      descriptionKey: 'freemiumPlanDescription' as TranslationKey,
-      featuresKeys: [
-        'unlimitedImageAnalysis' as TranslationKey,
-        'unlimitedVoiceAnalysis' as TranslationKey,
-        'advancedAdvisories' as TranslationKey,
-        'prioritySupport' as TranslationKey,
-      ],
-      Icon: Gem,
-      isFeatured: true,
-      planId: 'freemium',
     },
     {
       planNameKey: 'premium' as TranslationKey,
@@ -63,7 +48,7 @@ const staticPlans = [
         'droneFacility' as TranslationKey,
       ],
       Icon: Rocket,
-      isFeatured: false,
+      isFeatured: true,
       planId: 'premium',
     }
   ];
@@ -76,23 +61,6 @@ export default function PricingPage() {
   const router = useRouter();
   const rupeeSymbol = 'Rs.';
   const [loadingPlanId, setLoadingPlanId] = useState<string | null>(null);
-
-  const handleStartTrial = () => {
-    setLoadingPlanId('freemium');
-    setTimeout(() => {
-      const oneMonthFromNow = add(new Date(), { months: 1 });
-      setUserDetails({
-        subscriptionPlan: 'freemium',
-        subscriptionExpires: Timestamp.fromDate(oneMonthFromNow),
-      });
-      toast({
-          title: 'Free Trial Started!',
-          description: 'You now have access to all freemium features for 30 days.'
-      });
-      setLoadingPlanId(null);
-      router.push('/dashboard/freemium');
-    }, 2000);
-  };
   
   const handleUpgradeToPremium = () => {
     setLoadingPlanId('premium');
@@ -122,10 +90,6 @@ export default function PricingPage() {
       if (p.planId === 'free') {
           buttonLabel = isCurrent ? t('currentPlan') : 'Downgrade';
           buttonDisabled = isCurrent || subscriptionPlan !== 'free';
-      } else if (p.planId === 'freemium') {
-          buttonLabel = isCurrent ? t('currentPlan') : t('startFreeTrial');
-          buttonAction = isCurrent ? () => {} : handleStartTrial;
-          buttonDisabled = isCurrent || subscriptionPlan !== 'free' || !!loadingPlanId;
       } else if (p.planId === 'premium') {
           buttonLabel = isCurrent ? t('currentPlan') : t('upgradeToPremium');
           buttonAction = isCurrent ? () => {} : handleUpgradeToPremium;
@@ -155,13 +119,13 @@ export default function PricingPage() {
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 max-w-5xl mx-auto items-start">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 max-w-4xl mx-auto items-start">
         {plans.map((plan) => (
           <Card
             key={plan.name}
             className={cn(
               'flex flex-col',
-              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg lg:scale-105'
+              plan.isFeatured && 'border-primary ring-2 ring-primary shadow-lg'
             )}
           >
             <CardHeader className="text-center">
@@ -209,7 +173,6 @@ export default function PricingPage() {
       </div>
       <div className="text-center text-muted-foreground space-y-1">
         <p className="font-bold">{t('yearlyBilling')}</p>
-        <p>{rupeeSymbol}3999/{t('yearly')} for Freemium (Save 15%)</p>
         <p>{rupeeSymbol}4499/{t('yearly')} for Premium (Save ~25%)</p>
         <p>{t('contactForYearly')}</p>
       </div>

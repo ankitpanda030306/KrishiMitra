@@ -751,11 +751,6 @@ export const translations = {
     hi: 'मुफ़्त',
     or: 'ମାଗଣା',
   },
-  freemium: {
-    en: 'Freemium',
-    hi: 'फ्रीमियम',
-    or: 'ଫ୍ରିମିୟମ୍',
-  },
   premium: {
     en: 'Premium',
     hi: 'प्रीमियम',
@@ -765,11 +760,6 @@ export const translations = {
     en: 'Basic features for individual farmers.',
     hi: 'व्यक्तिगत किसानों के लिए बुनियादी सुविधाएँ।',
     or: 'ବ୍ୟକ୍ତିଗତ କୃଷକମାନଙ୍କ ପାଇଁ ମୌଳିକ ବୈଶିଷ୍ଟ୍ୟ |',
-  },
-  freemiumPlanDescription: {
-    en: 'Advanced features for serious farmers and businesses.',
-    hi: 'गंभीर किसानों और व्यवसायों के लिए उन्नत सुविधाएँ।',
-    or: 'ଗମ୍ଭୀର କୃଷକ ଏବଂ ବ୍ୟବସାୟ ପାଇଁ ଉନ୍ନତ ବୈଶିଷ୍ଟ୍ୟ |',
   },
   premiumPlanDescription: {
     en: 'All-inclusive features for large-scale operations.',
@@ -791,11 +781,6 @@ export const translations = {
     hi: 'प्रीमियम में अपग्रेड करें',
     or: 'ପ୍ରିମିୟମକୁ ଅପଗ୍ରେଡ୍ କରନ୍ତୁ',
   },
-  startFreeTrial: {
-    en: 'Start 1-Month Free Trial',
-    hi: '1-महीने का निःशुल्क परीक्षण शुरू करें',
-    or: '୧-ମାସର ମାଗଣା ପରୀକ୍ଷା ଆରମ୍ଭ କରନ୍ତୁ',
-  },
   contactSales: {
     en: 'Contact Sales',
     hi: 'बिक्री से संपर्क करें',
@@ -810,16 +795,6 @@ export const translations = {
     en: "What's included",
     hi: 'क्या शामिल है',
     or: 'କଣ ଅନ୍ତର୍ଭୁକ୍ତ',
-  },
-  basicImageAnalysis: {
-    en: 'Basic image analysis (30 per day)',
-    hi: 'बुनियादी छवि विश्लेषण (प्रति दिन 30)',
-    or: 'ମୌଳିକ ପ୍ରତିଛବି ବିଶ୍ଳେଷଣ (ଦିନକୁ 30)',
-  },
-  voiceAnalysis: {
-    en: 'Voice analysis (30 per day)',
-    hi: 'आवाज विश्लेषण (प्रति दिन 30)',
-    or: 'ଭଏସ୍ ବିଶ୍ଳେଷଣ (ଦିନକୁ 30)',
   },
   marketListings: {
     en: 'Create market listings',

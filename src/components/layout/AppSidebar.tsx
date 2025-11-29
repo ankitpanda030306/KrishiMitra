@@ -31,7 +31,6 @@ import { useUser } from '@/lib/user';
 
 const navItems = [
   { href: '/dashboard', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'free' },
-  { href: '/dashboard/freemium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'freemium'},
   { href: '/dashboard/premium', icon: LayoutDashboard, labelKey: 'dashboard', plan: 'premium'},
   { href: '/dashboard/image-analysis', icon: Scan, labelKey: 'imageAnalysis' },
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
@@ -56,8 +55,6 @@ export default function AppSidebar() {
     switch (subscriptionPlan) {
       case 'premium':
         return '/dashboard/premium';
-      case 'freemium':
-        return '/dashboard/freemium';
       default:
         return '/dashboard';
     }
