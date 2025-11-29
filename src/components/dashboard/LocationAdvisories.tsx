@@ -69,7 +69,7 @@ export default function LocationAdvisories() {
   ];
 
   return (
-    <Card>
+    <Card className="h-full">
       <CardHeader>
         <CardTitle>{t('locationAdvisories')}</CardTitle>
       </CardHeader>

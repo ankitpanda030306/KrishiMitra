@@ -9,7 +9,7 @@ export default function DashboardPage() {
     <div className="container mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
       <WelcomeHeader />
       <LiveWeather />
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 items-start">
         <div className="lg:col-span-2 space-y-6">
           <QuickActions />
           <LocationAdvisories />

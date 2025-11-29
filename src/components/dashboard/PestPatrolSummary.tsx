@@ -61,7 +61,7 @@ export default function PestPatrolSummary() {
   }, [language, t]);
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card className="flex flex-col">
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Bug className="text-primary" />
@@ -69,7 +69,7 @@ export default function PestPatrolSummary() {
         </CardTitle>
         <CardDescription>{t('recentThreats')}</CardDescription>
       </CardHeader>
-      <CardContent className="flex-1">
+      <CardContent className="flex-grow">
         {loading && (
           <ul className="space-y-4">
               {[...Array(3)].map((_, i) => (
