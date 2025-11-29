@@ -37,9 +37,12 @@ import { useUser } from '@/lib/user';
 import { seedInitialData } from '@/lib/seed';
 
 const mockRates = [
-  { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
-  { crop: 'Potatoes', premium: '18-22/kg', market: '12-16/kg' },
-  { crop: 'Onions', premium: '25-30/kg', market: '15-20/kg' },
+    { crop: 'Tomatoes', premium: '30-35/kg', market: '20-25/kg' },
+    { crop: 'Potatoes', premium: '18-22/kg', market: '12-16/kg' },
+    { crop: 'Onions', premium: '25-30/kg', market: '15-20/kg' },
+    { crop: 'Wheat', premium: '28-32/kg', market: '20-24/kg' },
+    { crop: 'Rice (Basmati)', premium: '90-110/kg', market: '60-80/kg' },
+    { crop: 'Mango (Alphonso)', premium: '400-600/dozen', market: '250-350/dozen' },
 ];
 
 export default function MarketConnectPage() {
@@ -340,5 +343,3 @@ export default function MarketConnectPage() {
     </div>
   );
 }
-
-    
