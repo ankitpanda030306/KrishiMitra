@@ -25,6 +25,7 @@ import {
   Gem,
   Tractor,
   ClipboardList,
+  Landmark,
 } from 'lucide-react';
 import { useLanguage } from '@/lib/i18n';
 import { useAuth } from '@/firebase';
@@ -39,6 +40,7 @@ const navItems = [
   { href: '/dashboard/voice-analysis', icon: Mic, labelKey: 'useVoiceInput' },
   { href: '/dashboard/market-connect', icon: Store, labelKey: 'marketConnect' },
   { href: '/dashboard/pest-patrol', icon: Bug, labelKey: 'pestPatrol' },
+  { href: '/dashboard/scheme-finder', icon: Landmark, labelKey: 'schemeFinder' },
   { href: '/dashboard/pricing', icon: Gem, labelKey: 'pricing' },
 ];
 

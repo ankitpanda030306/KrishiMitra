@@ -187,6 +187,11 @@ export const translations = {
     hi: 'खेत के खर्चे',
     or: 'ଫାର୍ମ ଖର୍ଚ୍ଚ',
   },
+  schemeFinder: {
+    en: 'Scheme Finder',
+    hi: 'योजना खोजक',
+    or: 'ଯୋଜନା ଖୋଜକ',
+  },
 
 
   // Crop Planner Page
@@ -933,7 +938,64 @@ export const translations = {
     en: 'Contact us for yearly billing options.',
     hi: 'वार्षिक बिलिंग विकल्पों के लिए हमसे संपर्क करें।',
     or: 'ବାର୍ଷିକ ବିଲିଂ ବିକଳ୍ପ ପାଇଁ ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତु |',
-  }
+  },
+
+  // Scheme Finder
+  schemeFinderDescription: {
+    en: 'Find government schemes you qualify for.',
+    hi: 'जिन सरकारी योजनाओं के लिए आप योग्य हैं, उन्हें खोजें।',
+    or: 'ଆପଣ ଯୋଗ୍ୟ ଥିବା ସରକାରୀ ଯୋଜନାଗୁଡିକ ଖୋଜନ୍ତୁ |',
+  },
+  yourDetails: {
+    en: 'Your Details',
+    hi: 'आपका विवरण',
+    or: 'ଆପଣଙ୍କ ବିବରଣୀ',
+  },
+  location: {
+    en: 'Location (State/District)',
+    hi: 'स्थान (राज्य/जिला)',
+    or: 'ସ୍ଥାନ (ରାଜ୍ୟ/ଜିଲ୍ଲା)',
+  },
+  mainCrops: {
+    en: 'Main Crops (comma-separated)',
+    hi: 'मुख्य फसलें (अल्पविराम से अलग)',
+    or: 'ମୁଖ୍ୟ ଫସଲ (କମା ଦ୍ୱାରା ପୃଥକ)',
+  },
+  findSchemes: {
+    en: 'Find Schemes',
+    hi: 'योजनाएं खोजें',
+    or: 'ଯୋଜନା ଖୋଜନ୍ତୁ',
+  },
+  eligibleSchemes: {
+    en: 'Eligible Schemes',
+    hi: 'योग्य योजनाएं',
+    or: 'ଯୋଗ୍ୟ ଯୋଜନା',
+  },
+  findingSchemes: {
+    en: 'Our AI is finding relevant schemes for you...',
+    hi: 'हमारा एआई आपके लिए प्रासंगिक योजनाएं ढूंढ रहा है...',
+    or: 'ଆମର AI ଆପଣଙ୍କ ପାଇଁ ପ୍ରାସଙ୍ଗିକ ଯୋଜନା ଖୋଜୁଛି...',
+  },
+  fillDetailsToFindSchemes: {
+    en: 'Fill in your details to find relevant government schemes.',
+    hi: 'प्रासंगिक सरकारी योजनाओं को खोजने के लिए अपना विवरण भरें।',
+    or: 'ପ୍ରାସଙ୍ଗିକ ସରକାରୀ ଯୋଜନା ଖୋଜିବା ପାଇଁ ଆପଣଙ୍କ ବିବରଣୀ ପୂରଣ କରନ୍ତୁ |',
+  },
+  noSchemesFound: {
+    en: 'No specific schemes found based on your profile. Try broadening your search.',
+    hi: 'आपकी प्रोफ़ाइल के आधार पर कोई विशिष्ट योजना नहीं मिली। अपनी खोज को व्यापक बनाने का प्रयास करें।',
+    or: 'ଆପଣଙ୍କ ପ୍ରୋଫାଇଲ୍ ଆଧାରରେ କୌଣସି ନିର୍ଦ୍ଦିଷ୍ଟ ଯୋଜନା ମିଳିଲା ନାହିଁ | ଆପଣଙ୍କ ସନ୍ଧାନକୁ ବ୍ୟାପକ କରିବାକୁ ଚେଷ୍ଟା କରନ୍ତୁ |',
+  },
+  eligibility: {
+    en: 'Eligibility',
+    hi: 'पात्रता',
+    or: 'ଯୋଗ୍ୟତା',
+  },
+  applyNow: {
+    en: 'Apply Now',
+    hi: 'अभी आवेदन करें',
+    or: 'ବର୍ତ୍ତମାନ ଆବେଦନ କରନ୍ତୁ',
+  },
 };
 
 export type TranslationKey = keyof typeof translations;
