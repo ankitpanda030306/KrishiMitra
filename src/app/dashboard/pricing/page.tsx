@@ -62,7 +62,7 @@ export default function PricingPage() {
   const handleUpgradeToPremium = () => {
     toast({
         title: 'Feature Not Available',
-        description: 'This feature will not be activated for now. Sorry for the inconvenience.',
+        description: 'This feature will be available very soon. Sorry for the inconvenience.',
     });
   };
 
