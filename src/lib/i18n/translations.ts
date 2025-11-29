@@ -184,9 +184,9 @@ export const translations = {
 
   // Crop Planner Page
   aiCropPlannerDescription: {
-    en: 'Get a personalized crop plan from our AI based on your farm details.',
-    hi: 'हमारे एआई से अपने खेत के विवरण के आधार पर एक व्यक्तिगत फसल योजना प्राप्त करें।',
-    or: 'ଆମର AIରୁ ଆପଣଙ୍କ ଫାର୍ମ ବିବରଣୀ ଉପରେ ଆଧାର କରି ଏକ ବ୍ୟକ୍ତିଗତ ଫସଲ ଯୋଜନା ପାଆନ୍ତୁ |',
+    en: 'Designed mainly for new aged farmers.',
+    hi: 'मुख्य रूप से नए जमाने के किसानों के लिए डिज़ाइन किया गया।',
+    or: 'ମୁଖ୍ୟତଃ ନୂତନ ଯୁଗର କୃଷକମାନଙ୍କ ପାଇଁ ପରିକଳ୍ପିତ |',
   },
   farmDetails: {
     en: 'Your Farm Details',
@@ -930,5 +930,7 @@ export const translations = {
 };
 
 export type TranslationKey = keyof typeof translations;
+
+    
 
     
