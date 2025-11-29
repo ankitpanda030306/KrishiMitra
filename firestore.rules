@@ -72,17 +72,17 @@ service cloud.firestore {
 
 
     //-------------------------------------------------------------------------
-    // User Profile Rules
+    // User Profile, Crop Seasons and Expenses Rules
     //-------------------------------------------------------------------------
 
-    /**
-     * @description Controls access to a user's own profile document.
-     * @path /users/{userId}
-     * @allow (create) An authenticated user creating their own profile document.
-     * @deny (get) A user trying to read another user's profile.
-     * @principle Restricts access to a user's own data tree.
-     */
     match /users/{userId} {
+      /**
+       * @description Controls access to a user's own profile document.
+       * @path /users/{userId}
+       * @allow (create) An authenticated user creating their own profile document.
+       * @deny (get) A user trying to read another user's profile.
+       * @principle Restricts access to a user's own data tree.
+       */
       allow get: if isOwner(userId);
       allow list: if isOwner(userId);
       // On create, user starts with a free plan.
@@ -103,6 +103,16 @@ service cloud.firestore {
           )
       );
       allow delete: if isOwner(userId);
+
+      // Crop Seasons nested under a user
+      match /cropSeasons/{cropSeasonId} {
+        allow read, write: if isOwner(userId);
+      }
+
+      // Expenses nested under a user
+      match /expenses/{expenseId} {
+        allow read, write: if isOwner(userId);
+      }
     }
     
     //-------------------------------------------------------------------------

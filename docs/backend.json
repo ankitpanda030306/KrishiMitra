@@ -149,6 +149,82 @@
         "reportDate",
         "severity"
       ]
+    },
+    "CropSeason": {
+      "title": "CropSeason",
+      "type": "object",
+      "description": "Represents a distinct crop season for expense and profit tracking.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the CropSeason."
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "The ID of the user who owns this season."
+        },
+        "name": {
+          "type": "string",
+          "description": "A descriptive name for the season (e.g., 'Kharif 2024 - Rice')."
+        },
+        "cropType": {
+          "type": "string",
+          "description": "The primary crop for this season."
+        },
+        "startDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The start date of the season."
+        },
+        "endDate": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The end date of the season."
+        },
+        "expectedRevenue": {
+          "type": "number",
+          "description": "The total expected revenue from this crop season."
+        }
+      },
+      "required": ["id", "userProfileId", "name", "cropType", "startDate"]
+    },
+    "Expense": {
+      "title": "Expense",
+      "type": "object",
+      "description": "Represents a single farm expense.",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "Unique identifier for the Expense."
+        },
+        "userProfileId": {
+          "type": "string",
+          "description": "The ID of the user who owns this expense."
+        },
+        "cropSeasonId": {
+          "type": "string",
+          "description": "The ID of the crop season this expense belongs to."
+        },
+        "type": {
+          "type": "string",
+          "description": "The category of the expense.",
+          "enum": ["Seeds", "Fertilizer", "Labor", "Pesticides", "Machinery", "Other"]
+        },
+        "description": {
+          "type": "string",
+          "description": "A brief description of the expense."
+        },
+        "amount": {
+          "type": "number",
+          "description": "The cost of the expense."
+        },
+        "date": {
+          "type": "string",
+          "format": "date-time",
+          "description": "The date the expense was incurred."
+        }
+      },
+      "required": ["id", "userProfileId", "cropSeasonId", "type", "amount", "date"]
     }
   },
   "auth": {
@@ -206,6 +282,30 @@
               "name": "pestOutbreakId",
               "description": "The unique identifier of the pest outbreak."
             }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/cropSeasons/{cropSeasonId}",
+        "definition": {
+          "entityName": "CropSeason",
+          "schema": { "$ref": "#/backend/entities/CropSeason" },
+          "description": "Stores crop seasons for a specific user. Owned and managed by the user.",
+          "params": [
+            { "name": "userId", "description": "The user's unique ID." },
+            { "name": "cropSeasonId", "description": "The unique ID for the crop season." }
+          ]
+        }
+      },
+      {
+        "path": "/users/{userId}/expenses/{expenseId}",
+        "definition": {
+          "entityName": "Expense",
+          "schema": { "$ref": "#/backend/entities/Expense" },
+          "description": "Stores individual expenses for a user, linked to a crop season. Owned and managed by the user.",
+          "params": [
+            { "name": "userId", "description": "The user's unique ID." },
+            { "name": "expenseId", "description": "The unique ID for the expense." }
           ]
         }
       }

@@ -1,3 +1,4 @@
+
 export type Language = 'en' | 'hi' | 'or';
 
 export const translations = {
@@ -181,6 +182,12 @@ export const translations = {
     hi: 'एआई फसल योजनाकार',
     or: 'AI ଫସଲ ଯୋଜନାକାରୀ',
   },
+  farmExpenseManager: {
+    en: 'Farm Expenses',
+    hi: 'खेत के खर्चे',
+    or: 'ଫାର୍ମ ଖର୍ଚ୍ଚ',
+  },
+
 
   // Crop Planner Page
   aiCropPlannerDescription: {
@@ -695,7 +702,7 @@ export const translations = {
   },
   windy: {
     en: 'Windy',
-    hi: 'तूफ़ानी',
+    hi: ' तूफ़ानी',
     or: 'ପବନିଆ',
   },
   // Profile Page
@@ -926,6 +933,182 @@ export const translations = {
     en: 'Contact us for yearly billing options.',
     hi: 'वार्षिक बिलिंग विकल्पों के लिए हमसे संपर्क करें।',
     or: 'ବାର୍ଷିକ ବିଲିଂ ବିକଳ୍ପ ପାଇଁ ଆମ ସହିତ ଯୋଗାଯୋଗ କରନ୍ତु |',
+  },
+  // Expense Manager
+  expenseManagerDescription: {
+    en: 'Track your farm expenses and analyze profitability per season.',
+    hi: 'अपने खेत के खर्चों को ट्रैक करें और प्रति सीजन लाभप्रदता का विश्लेषण करें।',
+    or: 'ଆପଣଙ୍କ ଫାର୍ମ ଖର୍ଚ୍ଚ ଟ୍ରାକ୍ କରନ୍ତୁ ଏବଂ ପ୍ରତି ଋତୁରେ ଲାଭଜନକତାର ବିଶ୍ଳେଷଣ କରନ୍ତୁ |',
+  },
+  manageSeasons: {
+    en: 'Manage Seasons',
+    hi: 'सीजन प्रबंधित करें',
+    or: 'ଋତୁ ପରିଚାଳନା କରନ୍ତୁ',
+  },
+  addSeason: {
+    en: 'Add Season',
+    hi: 'सीजन जोड़ें',
+    or: 'ଋତୁ ଯୋଡନ୍ତୁ',
+  },
+  seasonName: {
+    en: 'Season Name',
+    hi: 'सीजन का नाम',
+    or: 'ଋତୁର ନାମ',
+  },
+  egKharif2024: {
+    en: 'e.g., Kharif 2024 - Rice',
+    hi: 'जैसे, खरीफ 2024 - चावल',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, ଖରିଫ ୨୦୨୪ - ଧାନ',
+  },
+  startDate: {
+    en: 'Start Date',
+    hi: 'प्रारंभ तिथि',
+    or: 'ଆରମ୍ଭ ତାରିଖ',
+  },
+  endDate: {
+    en: 'End Date',
+    hi: 'अंतिम तिथि',
+    or: 'ଶେଷ ତାରିଖ',
+  },
+  expectedRevenue: {
+    en: 'Expected Revenue (Rs.)',
+    hi: 'अपेक्षित राजस्व (रु.)',
+    or: 'ପ୍ରତ୍ୟାଶିତ ରାଜସ୍ୱ (ଟଙ୍କା)',
+  },
+  add: {
+    en: 'Add',
+    hi: 'जोड़ें',
+    or: 'ଯୋଡନ୍ତୁ',
+  },
+  selectASeason: {
+    en: 'Select a season to view details',
+    hi: 'विवरण देखने के लिए एक सीजन चुनें',
+    or: 'ବିବରଣୀ ଦେଖିବା ପାଇଁ ଏକ ଋତୁ ଚୟନ କରନ୍ତୁ',
+  },
+  noSeasonsYet: {
+    en: 'No seasons created yet. Add a season to get started.',
+    hi: 'अभी तक कोई सीजन नहीं बनाया गया है। शुरू करने के लिए एक सीजन जोड़ें।',
+    or: 'ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଋତୁ ସୃଷ୍ଟି ହୋଇନାହିଁ | ଆରମ୍ଭ କରିବା ପାଇଁ ଏକ ଋତୁ ଯୋଡନ୍ତୁ |',
+  },
+  seasonSummary: {
+    en: 'Season Summary',
+    hi: 'सीजन सारांश',
+    or: 'ଋତୁ ସାରାଂଶ',
+  },
+  totalExpenses: {
+    en: 'Total Expenses',
+    hi: 'कुल खर्च',
+    or: 'ମୋଟ ଖର୍ଚ୍ଚ',
+  },
+  netProfitLoss: {
+    en: 'Net Profit/Loss',
+    hi: 'शुद्ध लाभ/हानि',
+    or: 'ଶୁଦ୍ଧ ଲାଭ/କ୍ଷତି',
+  },
+  profit: {
+    en: 'Profit',
+    hi: 'लाभ',
+    or: 'ଲାଭ',
+  },
+  loss: {
+    en: 'Loss',
+    hi: 'हानि',
+    or: 'କ୍ଷତି',
+  },
+  addExpense: {
+    en: 'Add Expense',
+    hi: 'खर्च जोड़ें',
+    or: 'ଖର୍ଚ୍ଚ ଯୋଡନ୍ତୁ',
+  },
+  expenseType: {
+    en: 'Expense Type',
+    hi: 'खर्च का प्रकार',
+    or: 'ଖର୍ଚ୍ଚର ପ୍ରକାର',
+  },
+  selectType: {
+    en: 'Select type',
+    hi: 'प्रकार चुनें',
+    or: 'ପ୍ରକାର ଚୟନ କରନ୍ତୁ',
+  },
+  expenseAmount: {
+    en: 'Amount (Rs.)',
+    hi: 'राशि (रु.)',
+    or: 'ପରିମାଣ (ଟଙ୍କା)',
+  },
+  expenseDate: {
+    en: 'Date of Expense',
+    hi: 'खर्च की तिथि',
+    or: 'ଖର୍ଚ୍ଚର ତାରିଖ',
+  },
+  description: {
+    en: 'Description',
+    hi: 'विवरण',
+    or: 'ବିବରଣୀ',
+  },
+  egBoughtUrea: {
+    en: 'e.g., Bought 2 bags of Urea',
+    hi: 'जैसे, यूरिया के 2 बैग खरीदे',
+    or: 'ଉଦାହରଣ ସ୍ୱରୂପ, 2 ବ୍ୟାଗ୍ ୟୁରିଆ କିଣିଲି',
+  },
+  recentExpenses: {
+    en: 'Recent Expenses',
+    hi: 'हाल के खर्च',
+    or: 'ସାମ୍ପ୍ରତିକ ଖର୍ଚ୍ଚ',
+  },
+  noExpensesYet: {
+    en: 'No expenses logged for this season yet.',
+    hi: 'इस सीजन के लिए अभी तक कोई खर्च लॉग नहीं किया गया है।',
+    or: 'ଏହି ଋତୁ ପାଇଁ ଏପର୍ଯ୍ୟନ୍ତ କୌଣସି ଖର୍ଚ୍ଚ ଲଗ୍ କରାଯାଇ ନାହିଁ |',
+  },
+  date: {
+    en: 'Date',
+    hi: 'तिथि',
+    or: 'ତାରିଖ',
+  },
+  type: {
+    en: 'Type',
+    hi: 'प्रकार',
+    or: 'ପ୍ରକାର',
+  },
+  amount: {
+    en: 'Amount',
+    hi: 'राशि',
+    or: 'ପରିମାଣ',
+  },
+  delete: {
+    en: 'Delete',
+    hi: 'हटाएं',
+    or: 'ଡିଲିଟ୍ କରନ୍ତୁ',
+  },
+  seeds: {
+    en: 'Seeds',
+    hi: 'बीज',
+    or: 'ବୀଜ',
+  },
+  fertilizer: {
+    en: 'Fertilizer',
+    hi: 'उर्वरक',
+    or: 'ସାର',
+  },
+  labor: {
+    en: 'Labor',
+    hi: 'श्रम',
+    or: 'ଶ୍ରମ',
+  },
+  pesticides: {
+    en: 'Pesticides',
+    hi: 'कीटनाशक',
+    or: 'କୀଟନାଶକ',
+  },
+  machinery: {
+    en: 'Machinery',
+    hi: 'मशीनरी',
+    or: 'ଯନ୍ତ୍ରପାତି',
+  },
+  other: {
+    en: 'Other',
+    hi: 'अन्य',
+    or: 'ଅନ୍ୟ',
   }
 };
 
